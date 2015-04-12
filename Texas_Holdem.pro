@@ -14,9 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    src/DeckOfCards.cpp
+    src/DeckOfCards.cpp \
+    src/card.cpp \
+    src/Test.cpp
 
 HEADERS  += mainwindow.h \
-    src/DeckOfCards.h
+    src/DeckOfCards.h \
+    src/card.h \
+    src/Test.h \
+    src/poker_defs.h
 
 FORMS    += mainwindow.ui
+
+CONFIG += console
+
+QMAKE_CXXFLAGS += -std=c++11
