@@ -14,15 +14,25 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    src/DeckOfCards.cpp \
     src/card.cpp \
-    src/Test.cpp
+    src/Test.cpp \
+    src/cards_on_table.cpp \
+    src/pocket_cards.cpp \
+    src/deck_of_cards.cpp \
+    src/evaluator.cpp \
+   # src/player.cpp \
+    src/game.cpp
 
 HEADERS  += mainwindow.h \
-    src/DeckOfCards.h \
     src/card.h \
     src/Test.h \
-    src/poker_defs.h
+    src/poker_defs.h \
+    src/cards_on_table.h \
+    src/pocket_cards.h \
+    src/deck_of_cards.h \
+    src/evaluator.h \
+    #src/player.h \
+    src/game.h
 
 FORMS    += mainwindow.ui
 

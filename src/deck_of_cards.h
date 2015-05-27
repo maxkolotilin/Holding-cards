@@ -7,25 +7,32 @@
  *
  */
 
-#ifndef DECKOFCARDS_H
-#define DECKOFCARDS_H
+#ifndef Deck_of_cards_H
+#define Deck_of_cards_H
 
+#include <vector>
 #include "card.h"
 
-class DeckOfCards {
+using std::vector;
+
+class Deck_of_cards {
+    friend class Test;
 public:
     static const int DECK_SIZE = 52;
 
-    DeckOfCards();
-    ~DeckOfCards();
+    Deck_of_cards();
+    ~Deck_of_cards();
     void shuffle();
     void print_deck() const;      //debug
-    int getNumberOfCardsInDeck() { return cards_in_deck; }
+    int get_cards_in_deck() const
+    {
+        return cards_in_deck;
+    }
     const Card *next_card();
 
 private:
-    const Card* deck[DECK_SIZE];
+    vector<const Card*> deck;
     int cards_in_deck;
 };
 
-#endif  //DECKOFCARDS_H
+#endif  //Deck_of_cards_H

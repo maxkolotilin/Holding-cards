@@ -5,57 +5,52 @@
  *
  * It's a part of Texas Hold'em project
  *
- * Implementation of DeckOfCards.h
+ * Implementation of Deck_of_cards.h
  *
  */
 
 #include <cstdlib>
 #include <ctime>
 
-#include "DeckOfCards.h"
+#include "deck_of_cards.h"
 
-DeckOfCards::DeckOfCards()
+Deck_of_cards::Deck_of_cards()
 {
     cards_in_deck = DECK_SIZE;
+    deck.reserve(52);
     for (int i = 0; i < DECK_SIZE; ++i) {
-        deck[i] = new Card(i / Card::NUMBER_OF_SUIT, i % Card::NUMBER_OF_SUIT);
+        deck.push_back(new Card(i / Card::NUMBER_OF_SUIT,
+                                i % Card::NUMBER_OF_SUIT));
     }
     srand(time(0));
 }
-DeckOfCards::~DeckOfCards()
+
+Deck_of_cards::~Deck_of_cards()
 {
     for (int i = 0; i < DECK_SIZE; ++i) {
         delete deck[i];
     }
 }
 
-void DeckOfCards::shuffle()
+void Deck_of_cards::shuffle()
 {
     for (int i = 0; i < DECK_SIZE; ++i) {
         int j = rand() % DECK_SIZE;
-        const Card* buf = deck[i];
-        deck[i] = deck[j];
-        deck[j] = buf;
+        std::swap(deck[i], deck[j]);
     }
+    cards_in_deck = DECK_SIZE;
+    //std::random_shuffle(deck.begin(), deck.end());
 }
 
-void DeckOfCards::print_deck() const
+void Deck_of_cards::print_deck() const
 {
     for (int i = 0; i < DECK_SIZE; ++i) {
-        output << deck[i]->getFullName() << (((i + 1) % 2) ? '\t' : '\n');
+        output << deck[i]->get_full_name() << (((i + 1) % 2) ? '\t' : '\n');
     }
 }
 
-const Card* DeckOfCards::next_card()
+const Card* Deck_of_cards::next_card()
 {
     //there should be if(cards_in_deck > 0)
-    cards_in_deck--;
-    return deck[cards_in_deck];
+    return deck[--cards_in_deck];
 }
-
-
-
-
-
-
-

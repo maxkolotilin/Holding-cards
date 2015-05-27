@@ -19,36 +19,63 @@ using std::string;
 class Card
 {
 public:
-    typedef enum { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK,
-                   QUEEN, KING} Face_t;
+    typedef enum { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
+                   JACK, QUEEN, KING, ACE } Face_t;
     typedef enum { HEARTS, DIAMONDS, CLUBS, SPADES } Suit_t;
 
     static const int NUMBER_OF_FACE = 13;
     static const int NUMBER_OF_SUIT = 4;
-    const string faces[NUMBER_OF_FACE] = { "Ace", "Deuce", "Three", "Four", "Five",
-                                                  "Six", "Seven", "Eight", "Nine", "Ten",
-                                                  "Jack", "Queen", "King" };
-    const string suits[NUMBER_OF_SUIT] = { "Hearts", "Diamonds", "Clubs", "Spades" };
 
     Card(int face, int suit);
     ~Card();
 
-    void printCard();      //Debug
-    void getValues(Face_t &face, Suit_t &suit) const;
+    void print_card() const;      //Debug
+    void get_values(Face_t &face, Suit_t &suit) const;
 
-    Face_t getFace() const { return face; }
-    Suit_t getSuit() const { return suit; }
-    string getFaceName() const { return faces[face]; }
-    string getSuitName() const { return suits[suit]; }
-    string getFullName() const { return getFaceName() + " of " + getSuitName(); }
+    Face_t get_face() const
+    {
+        return face;
+    }
+    Suit_t get_suit() const
+    {
+        return suit;
+    }
+    string get_face_name() const
+    {
+        return faces[face];
+    }
+    string get_suit_name() const
+    {
+        return suits[suit];
+    }
+    string get_full_name() const
+    {
+        return get_face_name() + " of " + get_suit_name();
+    }
 
-    bool operator <  (const Card &c) const { return getFace() < c.getFace(); }
-    bool operator >  (const Card &c) const { return getFace() > c.getFace(); }
-    bool operator == (const Card &c) const { return getFace() == c.getFace(); }
+    bool operator < (const Card &c) const
+    {
+        return get_face() < c.get_face();
+    }
+    bool operator > (const Card &c) const
+    {
+        return get_face() > c.get_face();
+    }
+    bool operator == (const Card &c) const
+    {
+        return get_face() == c.get_face();
+    }
+
+    //next function is required for std::sort()
+    static bool greater(const Card *c_1, const Card *c_2);
 
     private:
         Face_t face;
         Suit_t suit;
+
+        static const string faces[NUMBER_OF_FACE];
+        static const string suits[NUMBER_OF_SUIT];
+        //see strings in card.cpp
 
     //TODO
         /*Card();

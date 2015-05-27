@@ -11,6 +11,11 @@
 
 #include "card.h"
 
+const string Card::faces[] = { "Deuce", "Three", "Four", "Five",
+                               "Six", "Seven", "Eight", "Nine", "Ten",
+                               "Jack", "Queen", "King", "Ace" };
+const string Card::suits[] = { "Hearts", "Diamonds", "Clubs", "Spades" };
+
 Card::Card(int face, int suit)
 {
     this->face = (Face_t)face;
@@ -20,14 +25,18 @@ Card::Card(int face, int suit)
 Card::~Card()
 {}
 
-void Card::getValues(Face_t &face, Suit_t &suit) const
+void Card::get_values(Face_t &face, Suit_t &suit) const
 {
     face = this->face;
     suit = this->suit;
 }
 
-void Card::printCard()
+void Card::print_card() const
 {
-    output << getFullName().data();
+    output << get_full_name();
 }
 
+bool Card::greater(const Card *c_1, const Card *c_2)
+{
+    return *c_1 > *c_2;
+}

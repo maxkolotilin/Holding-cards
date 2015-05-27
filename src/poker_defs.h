@@ -16,7 +16,7 @@
 #include <QTextStream>
 #include <iostream>
 
-#define output qDebug()  //QTextStream(stdout)         //std::cout
+#define output std::cerr  //QTextStream(stdout)   //std::cout
 
 
 #endif // POKER_DEFS_H
