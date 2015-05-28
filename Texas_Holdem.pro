@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     src/deck_of_cards.cpp \
     src/evaluator.cpp \
    # src/player.cpp \
-    src/game.cpp
+    src/game.cpp \
+    keepers.cpp
 
 HEADERS  += mainwindow.h \
     src/card.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     src/deck_of_cards.h \
     src/evaluator.h \
     #src/player.h \
-    src/game.h
+    src/game.h \
+    keepers.h
 
 FORMS    += mainwindow.ui
 
