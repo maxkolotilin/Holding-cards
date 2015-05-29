@@ -133,7 +133,6 @@ void Evaluator::get_strength(Pocket_cards *pocket, Cards_on_table *community,
 {
     all_cards.clear();
     copyToAllCards(pocket->get_hand());
-    //pocket->get_hand()->at(0) = NULL;
     copyToAllCards(community->get_table_cards());
 
     get_strength(strength);

@@ -52,5 +52,5 @@ void Deck_of_cards::print_deck() const
 const Card* Deck_of_cards::next_card()
 {
     //there should be if(cards_in_deck > 0)
-    return deck[--cards_in_deck];
+    return deck.at(--cards_in_deck);
 }

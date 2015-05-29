@@ -20,7 +20,7 @@ SOURCES += main.cpp\
     src/pocket_cards.cpp \
     src/deck_of_cards.cpp \
     src/evaluator.cpp \
-   # src/player.cpp \
+    src/player.cpp \
     src/game.cpp \
     keepers.cpp
 
@@ -32,7 +32,7 @@ HEADERS  += mainwindow.h \
     src/pocket_cards.h \
     src/deck_of_cards.h \
     src/evaluator.h \
-    #src/player.h \
+    src/player.h \
     src/game.h \
     keepers.h
 

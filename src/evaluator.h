@@ -16,6 +16,8 @@
 #include "src/cards_on_table.h"
 #include "src/pocket_cards.h"
 
+typedef vector<const Card*>::iterator iterator_t;
+
 class Hand_strength
 {
     friend class Evaluator;         //?
@@ -60,7 +62,6 @@ private:
 class Evaluator
 {
 public:
-    typedef vector<const Card*>::iterator iterator_t;
 
     Evaluator(Cards_on_table *cards);
     ~Evaluator();
