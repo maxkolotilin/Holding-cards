@@ -1,12 +1,12 @@
 /*
  * Created by MaximKa on 12.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
  * This file describes card
- *
  */
 
 #ifndef CARD_H
@@ -29,7 +29,7 @@ public:
     Card(int face, int suit);
     ~Card();
 
-    void print_card() const;      //Debug
+    void print_card() const;      // Debug
     void get_values(Face_t &face, Suit_t &suit) const;
 
     Face_t get_face() const
@@ -66,7 +66,7 @@ public:
         return get_face() == c.get_face();
     }
 
-    //next function is required for std::sort()
+    // next function is required for std::sort()
     static bool greater(const Card *c_1, const Card *c_2);
 
     private:
@@ -75,12 +75,7 @@ public:
 
         static const string faces[NUMBER_OF_FACE];
         static const string suits[NUMBER_OF_SUIT];
-        //see strings in card.cpp
-
-    //TODO
-        /*Card();
-          Card(const string str);*/
-    // get_pic();   returns pointer to image of card, smth like that
+        // see strings in card.cpp
 
 };
 

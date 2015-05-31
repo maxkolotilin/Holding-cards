@@ -1,7 +1,8 @@
 /*
  * Created by MaximKa on 21.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
@@ -18,7 +19,8 @@ class Player;
 
 class Pocket_cards
 {
-    friend class Player;
+    //friend class Player;
+
 public:
     Pocket_cards();
     ~Pocket_cards();

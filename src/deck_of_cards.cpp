@@ -1,11 +1,12 @@
 /*
  * Created on 20.03.2015 by MaximKa
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
- * Implementation of Deck_of_cards.h
+ * Implementation for Deck_of_cards.h
  *
  */
 
@@ -18,6 +19,7 @@ Deck_of_cards::Deck_of_cards()
 {
     cards_in_deck = DECK_SIZE;
     deck.reserve(52);
+
     for (int i = 0; i < DECK_SIZE; ++i) {
         deck.push_back(new Card(i / Card::NUMBER_OF_SUIT,
                                 i % Card::NUMBER_OF_SUIT));
@@ -51,6 +53,5 @@ void Deck_of_cards::print_deck() const
 
 const Card* Deck_of_cards::next_card()
 {
-    //there should be if(cards_in_deck > 0)
-    return deck.at(--cards_in_deck);
+    return deck[--cards_in_deck];
 }

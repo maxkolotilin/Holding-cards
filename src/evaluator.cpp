@@ -1,7 +1,8 @@
 /*
  * Created by MaximKa on 12.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
@@ -10,10 +11,8 @@
  */
 
 #include "evaluator.h"
-#include "src/card.h"
 #include <algorithm>
-
-using std::vector;
+// todo < unite
 
 const string Hand_strength::combinations[] = { "High card", "Pair",
                             "Two pairs", "Three of a kind","Straight",
@@ -128,12 +127,12 @@ Evaluator::Evaluator(Cards_on_table *cards)
 
 Evaluator::~Evaluator() {}
 
-void Evaluator::get_strength(Pocket_cards *pocket, Cards_on_table *community,
+void Evaluator::get_strength(Pocket_cards *pocket,
                             Hand_strength *strength)
 {
     all_cards.clear();
     copyToAllCards(pocket->get_hand());
-    copyToAllCards(community->get_table_cards());
+    copyToAllCards(community_cards->get_table_cards());
 
     get_strength(strength);
 }
@@ -176,7 +175,7 @@ void Evaluator::get_strength(Hand_strength *strength)
         strength->clear_comb_cards();
         strength->comb_cards.push_back(all_cards.front());
         strength->clear_kicker();
-        for (iterator_t i = all_cards.begin() + 1;
+        for (card_it i = all_cards.begin() + 1;
              i != all_cards.end() && strength->kicker.size() < 4; ++i) {
             strength->kicker.push_back(*i);
         }
@@ -203,7 +202,7 @@ bool Evaluator::isTwoPair(Hand_strength *strength)
 
             // copy remaining one kicker
             strength->kicker.clear();
-            for (iterator_t i = all_cards.begin();
+            for (card_it i = all_cards.begin();
                  i != all_cards.end(); ++i) {
                 if ((*i)->get_face() != fp->get_face() &&
                     (*i)->get_face() != sp->get_face()) {
@@ -225,7 +224,7 @@ bool Evaluator::isStraight(Hand_strength *strength, const int suit)
     int last_face = -1, count = 0;
     const Card *high;
 
-    for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i)
+    for (card_it i = all_cards.begin(); i != all_cards.end(); ++i)
     {
         // ignore wrong suit when testing for Straight Flush
         if (suit != -1 && (*i)->get_suit() != suit) {
@@ -256,7 +255,7 @@ bool Evaluator::isStraight(Hand_strength *strength, const int suit)
             is_straight = true;
         } else {
             // correct test for Straight Flush "wheel"
-            for (iterator_t i = all_cards.begin();
+            for (card_it i = all_cards.begin();
                  (*i)->get_face() == Card::ACE; ++i) {
                 if ((*i)->get_suit() == suit) {
                     is_straight = true;
@@ -283,7 +282,7 @@ bool Evaluator::isFlush(Hand_strength *strength)
     int suit_counter[4] = {0};
 
     // count same suits
-    for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i) {
+    for (card_it i = all_cards.begin(); i != all_cards.end(); ++i) {
         if (++suit_counter[(*i)->get_suit()] == 5) {
             flush_suit = (*i)->get_suit();
             is_flush = true;
@@ -296,7 +295,7 @@ bool Evaluator::isFlush(Hand_strength *strength)
         // copy all cards with flush suit as rank; max 5 cards
         strength->clear_comb_cards();
         int count = 0;
-        for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i) {
+        for (card_it i = all_cards.begin(); i != all_cards.end(); ++i) {
             if ((*i)->get_suit() == flush_suit) {
                 strength->comb_cards.push_back(*i);
                 if (++count = 5) {
@@ -317,7 +316,7 @@ bool Evaluator::isXOfAKind(const int num, Hand_strength *strength)
     int counter = 0;
 
     // count face of cards, break on n of a kind
-    for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i) {
+    for (card_it i = all_cards.begin(); i != all_cards.end(); ++i) {
         // ignore face which might be in comb-vector at first index
         if (strength->comb_cards.size() &&
             strength->comb_cards.front()->get_face() == (*i)->get_face()) {
@@ -347,7 +346,7 @@ bool Evaluator::isXOfAKind(const int num, Hand_strength *strength)
 
         // copy the kicker; max (5-n) card
         int c = 0;
-        for (iterator_t i = all_cards.begin();
+        for (card_it i = all_cards.begin();
              i != all_cards.end(); ++i) {
             if ((*i)->get_face() != face) {
                 strength->comb_cards.push_back(*i);
@@ -387,35 +386,49 @@ bool Evaluator::isFullHouse(Hand_strength *strength)
     return is_fullhouse;
 }
 
-void Evaluator::get_win_list(vector<Hand_strength> &hands,
-                             vector<vector<Hand_strength>> &winlist)
-//TODO
+void Evaluator::get_win_list(list<Player*> &players,
+                             vector<vector<Player*>> &winlist)
+// For example, winlist may be something like that
+// [
+//      [pl_1(5, 6, 7, 8, 9), pl_2(5, 6, 7, 8, 9)],
+//      [pl_3(5, 5)],
+//      [pl_4(high card)]
+// ]
+// In this case pl_1 and pl_2 won and will divide pot in two
 {
+    vector<Player*> players_on_showdown;
+    for (player_it player = players.begin(); player != players.end();
+         ++player) {
+        if ((*player)->get_last_action().action != Player::FOLD) {
+            players_on_showdown.push_back(*player);
+        }
+    }
+
     winlist.clear();
-    winlist.push_back(hands);
+    winlist.push_back(players_on_showdown);
 
     int index = 0;
-    do
-    {
-        vector<Hand_strength> &tw = winlist[index];
-        vector<Hand_strength> tmp;
+    while (true) {
+        vector<Player*> &current_list = winlist[index];
+        vector<Player*> weaker_players;
 
-        sort(tw.begin(), tw.end(), std::greater<Hand_strength>());
+        // sort players descending
+        sort(current_list.begin(), current_list.end(),
+             Player::greater);
 
-        for (int i = tw.size() - 1; i > 0; --i)
-        {
-            if (tw[i] < tw[0])
-            {
-                tmp.push_back(tw[i]);
-                tw.pop_back();
+        for (int i = current_list.size(); i > 1; --i) {
+            if (*(current_list[i]) < *(current_list[0])) {
+                weaker_players.push_back(current_list[i]);
+                current_list.pop_back();
             }
         }
 
-        if (!tmp.size())
+        if (weaker_players.size() == 0) {
+            // there is no more weaker players, winlist is completed
             break;
+        }
 
-        winlist.push_back(tmp);
+        winlist.push_back(weaker_players);
         index++;
-
-    } while (true);
+    }
 }

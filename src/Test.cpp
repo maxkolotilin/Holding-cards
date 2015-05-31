@@ -1,10 +1,12 @@
 /*
  * Created by MaximKa on 12.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
+ * Some tests
  */
 
 #include "Test.h"
@@ -47,23 +49,11 @@ void Test::check_combinations()
 
     for (int a = 0; a < Deck_of_cards::DECK_SIZE; ++a) {
         for (int b = a + 1; b < Deck_of_cards::DECK_SIZE; ++b) {
-//            if (b == a)
-//                continue;
             for (int c = b + 1; c < Deck_of_cards::DECK_SIZE; ++c) {
-//                if (c == b || c == a)
-//                    continue;
                 for (int d = c + 1; d < Deck_of_cards::DECK_SIZE; ++d) {
-//                    if (d == c || d == b || d == a)
-//                        continue;
                     for (int e = d + 1; e < Deck_of_cards::DECK_SIZE; ++e) {
-//                        if( e == d || e == c || e == b || e ==a)
-//                            continue;
-                        for (int f = e + 1; f < Deck_of_cards::DECK_SIZE; ++f) {
-//                            if (f == e || f == d || f == c || f == b || f == a)
-//                                continue;
+                        for (int f = e + 1; f < Deck_of_cards::DECK_SIZE; ++f) {;
                             for (int g = f + 1; g < Deck_of_cards::DECK_SIZE; ++g) {
-//                                if (g == f || g == e || g == d || g == c || g == b || g == a)
-//                                    continue;
                                 pc.set_card(deck->deck[a]);
                                 pc.set_card(deck->deck[b]);
                                 cot.cards_on_table.push_back(deck->deck[c]);

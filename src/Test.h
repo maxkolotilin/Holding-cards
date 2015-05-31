@@ -1,10 +1,12 @@
 /*
  * Created by MaximKa on 12.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
+ * Some tests
  */
 
 #ifndef TEST_H
@@ -19,11 +21,6 @@
 
 class Test
 {
-    friend class Deck_of_cards;
-    friend class Pocket_cards;
-    friend class Evaluator;
-    friend class Hand_strength;
-    friend class Cards_on_table;
 public:
     Test();
     ~Test();

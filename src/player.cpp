@@ -1,7 +1,8 @@
 /*
  * Created by MaximKa on 26.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
@@ -11,13 +12,15 @@
 
 #include "player.h"
 
-Player::Player(int id) : player_id(id)
+chips_t Player::min_bet;
+
+Player::Player(int id, chips_t stack) : player_id(id)
 {
-    next_action.valid = false;
     last_action = {false, Player::NONE, 0};
     sitout = false;
     hand = new Pocket_cards();
     strength = new Hand_strength();
+    this->stack = stack;
 }
 
 /*virtual*/ Player::~Player()
@@ -29,33 +32,56 @@ Player::Player(int id) : player_id(id)
 chips_t Player::blind(blind_t type)
 {
     if (type == BIG_BLIND) {
-        stack -= *min_bet;
-        return *min_bet;
+        if (stack > min_bet) {
+            stack -= min_bet;
+            return min_bet;
+        }
     } else {
-        stack -= *min_bet / 2;
-        return *min_bet / 2;
+        if (stack > min_bet / 2) {
+            stack -= min_bet / 2;
+            return min_bet / 2;
+        }
     }
+    // all-in
+    chips_t value = stack;
+    stack = 0;
+    return value;
 }
 
-chips_t Player::bet(action_t action)
+bool Player::greater(const Player *pl_1, const Player *pl_2)
+{
+    return *(pl_1->strength) > *(pl_2->strength);
+}
+
+bool Player::operator < (const Player &pl)
+{
+    return *(this->strength) < *(pl.strength);
+}
+
+chips_t Player::stake(action_t action)
 {
     if (action.valid) {
         stack -= action.amount;
         return action.amount;
+    } else {
+        output << "Wrong action\n";
     }
 
     return 0;
 }
 
-HumanPlayer::HumanPlayer(int id) : Player(id)
+HumanPlayer::HumanPlayer(int id, chips_t stack) : Player(id)
 {
-
+    this->stack = stack;
 }
 
 HumanPlayer::~HumanPlayer()
 {
-
+    output << "hello\n";
 }
+
+Player::action_t HumanPlayer::action()
+{}
 
 ComputerPlayer::ComputerPlayer(int id, const chips_t *pot) : Player(id)
 {
@@ -179,7 +205,7 @@ int ComputerPlayer::count_outs(Evaluator &evaluator,
 
     // count same suits for flush-dro
     int suit_counter[4] = {0};
-    for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i) {
+    for (card_it i = all_cards.begin(); i != all_cards.end(); ++i) {
         if (++suit_counter[(*i)->get_suit()] == 4) {
             is_flush_dro = true;
             outs += 9;
@@ -189,7 +215,7 @@ int ComputerPlayer::count_outs(Evaluator &evaluator,
 
     // check two-side straight-dro
     int last_face = -1, count = 0;
-    for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i)
+    for (card_it i = all_cards.begin(); i != all_cards.end(); ++i)
     {
         // ignore cards of same face
         if (last_face == (*i)->get_face()) {
@@ -221,7 +247,7 @@ int ComputerPlayer::count_outs(Evaluator &evaluator,
     // check gutshot
     last_face = -1, count = 0;
     bool hole = false;
-    for (iterator_t i = all_cards.begin(); i != all_cards.end(); ++i)
+    for (card_it i = all_cards.begin(); i != all_cards.end(); ++i)
     {
         // ignore cards of same face
         if (last_face == (*i)->get_face()) {

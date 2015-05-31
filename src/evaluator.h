@@ -1,7 +1,8 @@
 /*
  * Created by MaximKa on 12.04.2015
  *
- * License: none
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
@@ -12,11 +13,15 @@
 #ifndef EVALUATOR_H
 #define EVALUATOR_H
 
-#include "src/deck_of_cards.h"
 #include "src/cards_on_table.h"
 #include "src/pocket_cards.h"
+#include "src/player.h"
+#include <list>
 
-typedef vector<const Card*>::iterator iterator_t;
+using std::list;
+
+typedef vector<const Card*>::iterator card_it;
+typedef list<Player*>::iterator player_it;
 
 class Hand_strength
 {
@@ -53,8 +58,8 @@ public:
 
 private:
     Combinations_t combination;
-    //see strings in Evaluator.cpp
     static const string combinations[NUMBER_OF_COMBINATIONS];
+    // see strings in Evaluator.cpp
     vector<const Card*> comb_cards;
     vector<const Card*> kicker;
 };
@@ -70,8 +75,8 @@ public:
     void get_strength(Pocket_cards *pocket, Cards_on_table *community,
                             Hand_strength *strength);
 
-    void get_win_list(vector<Hand_strength> &hands,
-                      vector<vector<Hand_strength>> &winlist);
+    void get_win_list(list<Player*> &players,
+                      vector<vector<Player*>> &winlist);
 
 
 private:
@@ -80,14 +85,12 @@ private:
     bool isFlush(Hand_strength *strength);
     bool isXOfAKind(const int num, Hand_strength *strength);
     bool isFullHouse(Hand_strength *strength);
+
     void copyToAllCards(const vector<const Card*> *from)
     {
         //std::copy(from->begin(), from->end(), all_cards.end());
         all_cards.insert(all_cards.end(), from->begin(), from->end());
     }
-    //int number_of_cards_in_evaluator;
-    //int number_of_cards_in_hand;
-    //vector<const Card*> current_hand, card_on_table, players_cards;
     Cards_on_table *community_cards;
     vector<const Card*> all_cards;
 };
