@@ -12,18 +12,19 @@
 #include "game.h"
 #include <ctime>
 
-Game::Game()
+Game::Game(Cards_on_table *cards, chips_t min_bet)
 {
     deck = new Deck_of_cards();
-    cards_on_table = new Cards_on_table();
+    cards_on_table = cards;
     evaluator = new Evaluator(cards_on_table);
 
     number_of_played_hands = 0;
     number_of_players = 0;
     current_deal = 0;
+    current_max_bet = 0;
     game_status = BEGIN;
 
-    min_bet = 10;    // this should be customizable!!!
+    this->min_bet = min_bet;
 }
 
 Game::~Game()
@@ -95,6 +96,7 @@ void Game::start_new_deal()
 chips_t Game::start_trading()
 {
     bets = 0;
+    current_max_bet = 0;
 
     player_it start_player;
     if (round == Cards_on_table::PREFLOP) {
@@ -103,6 +105,8 @@ chips_t Game::start_trading()
         bets = (*++blinds)->blind(Player::BIG_BLIND);
 
         start_player = ++blinds;
+
+        current_max_bet = min_bet;
     } else {
         start_player = dealer;
         ++start_player;
@@ -111,12 +115,13 @@ chips_t Game::start_trading()
     int made_decision = 0;
     for (player_it current_player = start_player;
          made_decision < number_of_players; ++made_decision ) {
-        Player::action_t act = (*current_player)->action();
+        Player::action_t act = (*current_player)->action(current_max_bet);
         if (act.valid) {
             bets += act.amount;
             if (act.action == Player::RAISE) {
                 start_player = current_player;
                 made_decision = 0;
+                current_max_bet = act.amount;
             }
             if (act.action == Player::FOLD) {
                 ++number_of_folded;
@@ -138,9 +143,8 @@ chips_t Game::start_trading()
 void Game::winners()
 {
     if (number_of_folded == number_of_players - 1) {
-        for (player_it player = players.begin();
-             (*player)->get_last_action().action == Player::NONE;
-             ++player);
+        player_it player = players.begin();
+        for (; (*player)->get_last_action().action == Player::NONE; ++player);
         (*player)->get_won_bank(pot);
     } else {
         for (player_it player = players.begin(); player != players.end();
@@ -154,8 +158,9 @@ void Game::winners()
         evaluator->get_win_list(players, winlist);
         vector<Player*> winners = winlist.front();
         int number_of_winners = winners.size();
-        for (vector<Player*>::iterator player = winners.begin(); player != winners.end(); ++player) {
-            (*player)->get_won_bank(pot / number_of_winners);
+        for (vector<Player*>::iterator player = winners.begin();
+             player != winners.end(); ++player) {
+            (*player)->get_won_bank(pot / number_of_winners);  // potentional error!
         }
     }
 }
@@ -199,4 +204,10 @@ void Game::reset_players()
     for (player_it player = players.begin(); player != players.end(); ++player) {
         (*player)->reset_player();
     }
+}
+
+void Game::increase_min_bet()
+{
+    min_bet <<= 1;  // *= 2;
+    Player::set_min_bet(min_bet);
 }

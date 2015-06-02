@@ -22,7 +22,11 @@ SOURCES += main.cpp\
     src/evaluator.cpp \
     src/player.cpp \
     src/game.cpp \
-    keepers.cpp
+    keepers.cpp \
+    q_cards_on_table.cpp \
+    q_human_player.cpp \
+    q_pocket_cards.cpp \
+    q_computer_player.cpp
 
 HEADERS  += mainwindow.h \
     src/card.h \
@@ -34,7 +38,11 @@ HEADERS  += mainwindow.h \
     src/evaluator.h \
     src/player.h \
     src/game.h \
-    keepers.h
+    keepers.h \
+    q_cards_on_table.h \
+    q_human_player.h \
+    q_pocket_cards.h \
+    q_computer_player.h
 
 FORMS    += mainwindow.ui
 

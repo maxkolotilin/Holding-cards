@@ -19,6 +19,7 @@
 #include <list>
 
 using std::list;
+class Player;
 
 typedef vector<const Card*>::iterator card_it;
 typedef list<Player*>::iterator player_it;
@@ -28,7 +29,7 @@ class Hand_strength
     friend class Evaluator;         //?
 
 public:
-    typedef enum { HIGH_CARD, PAIR, TWO_PAIRS, TREE_OF_A_KIND, STRAIGHT,
+    typedef enum { NONE, HIGH_CARD, PAIR, TWO_PAIRS, TREE_OF_A_KIND, STRAIGHT,
                    FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH,
                    ROYAL_FLUSH } Combinations_t;
     static const int NUMBER_OF_COMBINATIONS = 10;
@@ -51,6 +52,12 @@ public:
     {
         kicker.clear();
     }
+    void reset()
+    {
+        clear_comb_cards();
+        clear_kicker();
+        combination = NONE;
+    }
 
     bool operator < (const Hand_strength &hs) const;
     bool operator > (const Hand_strength &hs) const;
@@ -72,8 +79,7 @@ public:
     ~Evaluator();
 
     void get_strength(Hand_strength *strength);
-    void get_strength(Pocket_cards *pocket, Cards_on_table *community,
-                            Hand_strength *strength);
+    void get_strength(Pocket_cards *pocket, Hand_strength *strength);
 
     void get_win_list(list<Player*> &players,
                       vector<vector<Player*>> &winlist);

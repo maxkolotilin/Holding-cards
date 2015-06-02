@@ -31,13 +31,19 @@ public:
                    SITOUT } player_action_t;
     typedef enum { SMALL_BLIND, BIG_BLIND } blind_t;
 
+    static const int NUMBER_OF_ACTIONS = 10;
+    static const int NUMBER_OF_BLINDS = 2;
+
     typedef struct {
         bool valid;
         player_action_t action;
         chips_t amount;
     } action_t;
 
-    Player(int id, chips_t stack);
+    const action_t RESET = { true, RESET_ACTION, 0 };
+    const action_t OUT_OF_DEAL = { true, NONE, 0 };
+
+    Player(string name, int id, chips_t stack, Pocket_cards *hand);
     virtual ~Player();
     int get_player_id() const { return player_id; }
     void reset_last_action() { last_action = {false, Player::NONE, 0}; }
@@ -50,16 +56,21 @@ public:
     static void set_min_bet(chips_t bet) { min_bet = bet; }
     void get_won_bank(chips_t bank) { stack += bank; }
     void set_card(const Card* card) { hand->set_card(card); }
+    const string get_name() { return name; }
 
-    virtual action_t action() = 0;
+    virtual action_t action(chips_t max_bet_in_round) = 0;
 
-    chips_t blind(blind_t type);
-    chips_t stake(action_t action);
+    virtual chips_t blind(blind_t type);
+    virtual chips_t stake(action_t action);
+
+    void reset_player();
+    virtual void set_dealer(bool switcher);
 
     // next function is required for std::sort()
     static bool greater(const Player *pl_1, const Player *pl_2);
     bool operator < (const Player &pl);
 protected:
+    const string name;
     const int player_id;
     static chips_t min_bet;
     Pocket_cards* hand;
@@ -67,16 +78,22 @@ protected:
 
     chips_t stack;  // player's bank
     chips_t bets;   // player's bets
+    static chips_t max_bet_in_round;
 
     action_t last_action;
 
     bool sitout;     // is player sitting out?
+    bool is_dealer;
+
+    static const string actions[NUMBER_OF_ACTIONS];
+    static const string blinds[NUMBER_OF_BLINDS];
+    // see strings in player.cpp
 };
 
 class HumanPlayer: public Player
 {
 public:
-    HumanPlayer(int id, chips_t stack);
+    HumanPlayer(string name, int id, chips_t stack, Pocket_cards *hand);
     ~HumanPlayer();
     action_t action();
 protected:
@@ -85,7 +102,8 @@ protected:
 class ComputerPlayer: public Player
 {
 public:
-    ComputerPlayer(int id, const chips_t* pot);
+    ComputerPlayer(string name, int id, chips_t stack, const chips_t* pot,
+                   Pocket_cards *hand);
     ~ComputerPlayer();
 protected:
     int outs;

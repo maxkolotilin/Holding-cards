@@ -2,24 +2,52 @@
 #define KEEPERS_H
 
 #include <QWidget>
+#include <QMessageBox>
+#include <QLabel>
+#include <QObject>
 #include <QVector>
 #include <QPixmap>
 #include <QPainter>
-#include "src/card.h"
+#include "src/evaluator.h"
 
-class ImageKeeper
+class ImageKeeper : public QObject
 {
+    Q_OBJECT
 public:
     enum choice_t { VAR_1 };
 
-    ImageKeeper(choice_t choice = VAR_1);
+    explicit ImageKeeper(bool scale = true, QObject *parent = 0,
+                         choice_t choice = VAR_1);
     ~ImageKeeper();
-    QPixmap* get_card_image(Card card);
+    QPixmap* get_card_image(const Card *card);
+    void scale_cards(int width, int height);
+    QPixmap* get_blank()
+    {
+        return blank;
+    }
+
+    QPixmap* get_card_back()
+    {
+        return back;
+    }
+
 private:
     QVector<QVector<QPixmap*>> cards_img;
     const QString PATH = "res/pic/";
-    const int CARD_HEIGHT = 96;
-    const int CARD_WIDTH = 71;
+    const int DEFAULT_CARD_HEIGHT = 130;
+    const int DEFAULT_CARD_WIDTH = 90;
+    QPixmap *back, *blank;
+
+public slots:
+    void set_faces(vector<const Card*> &cards, QVector<QLabel*> &cards_images);
+    void set_face(const Card *card, QLabel *card_image);
+
+    void clear_cards(QVector<QLabel*> &cards_images);
+
+    void set_backs(QVector<QLabel*> &cards_images);
+    void set_back(QLabel *card_image);
+
+    void turn_cards(vector<const Card*> &cards, QVector<QLabel*> &cards_images);
 };
 
 class SoundKeeper

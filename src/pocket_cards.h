@@ -15,19 +15,18 @@
 
 #include "src/deck_of_cards.h"
 
-class Player;
-
 class Pocket_cards
 {
     //friend class Player;
 
 public:
     Pocket_cards();
-    ~Pocket_cards();
+    virtual ~Pocket_cards();
 
-    void set_card(const Card *c);
+    virtual void set_card(const Card *c);
     const vector<const Card *> *get_hand() const;
-    void clear();
+    virtual void clear();
+    virtual void show_hand() = 0;
 
     //void copyCards(std::vector<Card> *v) const { v->insert(v->end(), cards.begin(), cards.end()); };
 

@@ -22,7 +22,7 @@ Pocket_cards::~Pocket_cards() {}
 void Pocket_cards::set_card(const Card *c)
 {
     if (cards_in_pocket == 2) {    //Is it needed?
-        ;
+        output << "Error in pocket_cards\n";
     } else {
         pocket_cards.push_back(c);
         cards_in_pocket++;

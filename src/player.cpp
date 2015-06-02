@@ -14,19 +14,30 @@
 
 chips_t Player::min_bet;
 
-Player::Player(int id, chips_t stack) : player_id(id)
+string Player::actions[] = { "Fold", "","Check", "Fold", "Call", "Bet", "Raise",
+                             "All-in", "Show", "Sitout" };
+string Player::blinds[] = { "Small blind", "Big_blind" };
+
+Player::Player(std::string name, int id, chips_t stack, Pocket_cards *hand)
+    : player_id(id)
 {
     last_action = {false, Player::NONE, 0};
     sitout = false;
-    hand = new Pocket_cards();
+    this->hand = hand;
     strength = new Hand_strength();
     this->stack = stack;
+    this->name = name;
 }
 
 /*virtual*/ Player::~Player()
 {
     delete hand;
     delete strength;
+}
+
+void Player::set_dealer(bool switcher)
+{
+    is_dealer = switcher;
 }
 
 chips_t Player::blind(blind_t type)
@@ -61,8 +72,12 @@ bool Player::operator < (const Player &pl)
 chips_t Player::stake(action_t action)
 {
     if (action.valid) {
-        stack -= action.amount;
-        return action.amount;
+        if (stack > action.amount) {
+            // all-in
+            last_action = { true, ALL_IN, stack };
+        }
+            stack -= action.amount;
+            return action.amount;
     } else {
         output << "Wrong action\n";
     }
@@ -70,9 +85,11 @@ chips_t Player::stake(action_t action)
     return 0;
 }
 
-HumanPlayer::HumanPlayer(int id, chips_t stack) : Player(id)
+HumanPlayer::HumanPlayer(std::string name, int id, chips_t stack,
+                         Pocket_cards *hand)
+    : Player(name, id, stack, hand)
 {
-    this->stack = stack;
+    //this->stack = stack;
 }
 
 HumanPlayer::~HumanPlayer()
@@ -83,7 +100,9 @@ HumanPlayer::~HumanPlayer()
 Player::action_t HumanPlayer::action()
 {}
 
-ComputerPlayer::ComputerPlayer(int id, const chips_t *pot) : Player(id)
+ComputerPlayer::ComputerPlayer(std::string name, int id, chips_t stack,
+                               const chips_t *pot, Pocket_cards *hand)
+    : Player(name, id, stack, hand)
 {
     all_cards.reserve(6);
     this->pot = pot;
@@ -336,4 +355,12 @@ bool ComputerPlayer::check_pot_odds(chips_t &bet)
     }
 
     return false;
+}
+
+void Player::reset_player()
+{
+    reset_last_action();
+    hand->clear();
+    strength->reset();
+    bets = 0;
 }
