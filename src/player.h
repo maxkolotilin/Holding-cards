@@ -14,6 +14,7 @@
 #define PLAYER_H
 
 #include "src/evaluator.h"
+//#include "src/cards_on_table.h"
 
 typedef unsigned int chips_t;
 class Evaluator;
@@ -63,8 +64,17 @@ public:
     virtual chips_t blind(blind_t type);
     virtual chips_t stake(action_t action);
 
-    void reset_player();
+    virtual void reset_player();
     virtual void set_dealer(bool switcher);
+    virtual void show_hand()
+    {
+        hand->show_hand();
+    }
+
+    string action_to_string(action_t act)
+    {
+        return actions[act.action] + " " + std::to_string(act.amount);
+    }
 
     // next function is required for std::sort()
     static bool greater(const Player *pl_1, const Player *pl_2);
@@ -103,7 +113,8 @@ class ComputerPlayer: public Player
 {
 public:
     ComputerPlayer(string name, int id, chips_t stack, const chips_t* pot,
-                   Pocket_cards *hand);
+                   const Cards_on_table::Round_t *round, Pocket_cards *hand,
+                   Evaluator *evaluator);
     ~ComputerPlayer();
 protected:
     int outs;
@@ -111,6 +122,8 @@ protected:
     bool is_straight_dro;
     bool is_gutshot;
     const chips_t* pot;
+    const Cards_on_table::Round_t *round;
+    Evaluator *evaluator;
     vector<const Card*> all_cards;
     void copyToAllCards(const vector<const Card*> *from)
     {

@@ -26,10 +26,11 @@ public:
     action_t action(chips_t max_bet_in_round);
     chips_t blind(blind_t type);
     chips_t stake(action_t action);
+    void reset_player();
     //void set_dealer(bool switcher);
 
 private:
-    QString action_to_string(action_t act);
+    //QString action_to_string(action_t act);
 
     QLabel *name_label;
     QLabel *stack_label;

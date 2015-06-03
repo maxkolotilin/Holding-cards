@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     q_cards_on_table.cpp \
     q_human_player.cpp \
     q_pocket_cards.cpp \
-    q_computer_player.cpp
+    q_computer_player.cpp \
+    q_game.cpp
 
 HEADERS  += mainwindow.h \
     src/card.h \
@@ -42,7 +43,8 @@ HEADERS  += mainwindow.h \
     q_cards_on_table.h \
     q_human_player.h \
     q_pocket_cards.h \
-    q_computer_player.h
+    q_computer_player.h \
+    q_game.h
 
 FORMS    += mainwindow.ui
 

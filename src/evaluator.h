@@ -84,6 +84,10 @@ public:
     void get_win_list(list<Player*> &players,
                       vector<vector<Player*>> &winlist);
 
+    const Cards_on_table *get_communitu_cards()
+    {
+        return community_cards;
+    }
 
 private:
     bool isTwoPair(Hand_strength *strength);

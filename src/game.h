@@ -33,9 +33,24 @@ public:
     void reset_players();
     void start_new_deal();
     chips_t start_trading();
-    void increase_min_bet();
+    virtual void increase_min_bet();
 
     chips_t get_min_bet() const { return min_bet; }
+    virtual void add_to_bets(chips_t bet) {
+        bets += bet;
+    }
+    virtual void add_to_pot(chips_t bets_in_round)
+    {
+        pot += bets_in_round;
+    }
+    virtual void reset_bets()
+    {
+        bets = 0;
+    }
+    virtual void reset_pot()
+    {
+        pot = 0;
+    }
 
 private:
     gameStatus_t game_status;

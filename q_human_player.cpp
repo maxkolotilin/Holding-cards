@@ -56,10 +56,10 @@ QHumanPlayer::~QHumanPlayer()
     disconnect();
 }
 
-QString QHumanPlayer::action_to_string(action_t act)
-{
-    return QString(actions[act.action] + " " + act.amount);
-}
+//QString QHumanPlayer::action_to_string(action_t act)
+//{
+//    return QString(actions[act.action] + " " + act.amount);
+//}
 
 chips_t QHumanPlayer::stake(action_t action)
 {
@@ -121,4 +121,12 @@ void QHumanPlayer::calculate_bet_size(int percent)
 {
     emit send_bet_size(max_bet_in_round + (stack - max_bet_in_round) *
                        percent / 100);          // potentional error
+}
+
+void QHumanPlayer::reset_player()
+{
+    Player::reset_player();
+
+    emit update_stack();
+    emit update_action();
 }

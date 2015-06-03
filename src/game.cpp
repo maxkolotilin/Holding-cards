@@ -63,26 +63,26 @@ void Game::set_random_dealer()
 void Game::start_new_deal()
 {
     ++number_of_played_hands;
-    pot = 0;
+    reset_pot();
     number_of_folded = 0;
 
     deal_cards();
 
     round = cards_on_table->set_preflop();
-    pot += start_trading();
+    add_to_pot(start_trading());
 
     // if 2 or more players - continue deal
     if (number_of_folded != number_of_players - 1) {
         round = cards_on_table->set_flop(deck);
-        pot += start_trading();
+        add_to_pot(start_trading());
 
         if (number_of_folded != number_of_players - 1) {
             round = cards_on_table->set_turn(deck);
-            pot += start_trading();
+            add_to_pot(start_trading());
 
             if (number_of_folded != number_of_players - 1) {
                 round = cards_on_table->set_river(deck);
-                pot += start_trading();
+                add_to_pot(start_trading());
             }
         }
     }
@@ -95,15 +95,14 @@ void Game::start_new_deal()
 
 chips_t Game::start_trading()
 {
-    bets = 0;
+    reset_bets();
     current_max_bet = 0;
 
     player_it start_player;
     if (round == Cards_on_table::PREFLOP) {
         player_it blinds = dealer;
-        bets = (*++blinds)->blind(Player::SMALL_BLIND);
-        bets = (*++blinds)->blind(Player::BIG_BLIND);
-
+        add_to_bets((*++blinds)->blind(Player::SMALL_BLIND));
+        add_to_bets((*++blinds)->blind(Player::BIG_BLIND));
         start_player = ++blinds;
 
         current_max_bet = min_bet;
@@ -117,7 +116,7 @@ chips_t Game::start_trading()
          made_decision < number_of_players; ++made_decision ) {
         Player::action_t act = (*current_player)->action(current_max_bet);
         if (act.valid) {
-            bets += act.amount;
+            add_to_bets(act.amount);
             if (act.action == Player::RAISE) {
                 start_player = current_player;
                 made_decision = 0;
@@ -178,6 +177,10 @@ void Game::game_logic()
             }
 
             reset_players();
+
+            if (number_of_played_hands % 10 == 0) {
+                increase_min_bet();
+            }
         }
     } else {
         output << "There is no players for game\n";

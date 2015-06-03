@@ -101,11 +101,15 @@ Player::action_t HumanPlayer::action()
 {}
 
 ComputerPlayer::ComputerPlayer(std::string name, int id, chips_t stack,
-                               const chips_t *pot, Pocket_cards *hand)
+                               const chips_t *pot,
+                               const Cards_on_table::Round_t *round,
+                               Pocket_cards *hand, Evaluator *evaluator)
     : Player(name, id, stack, hand)
 {
     all_cards.reserve(6);
     this->pot = pot;
+    this->round = round;
+    this->evaluator= evaluator;
 }
 
 ComputerPlayer::~ComputerPlayer()
