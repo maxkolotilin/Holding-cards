@@ -14,19 +14,19 @@
 
 chips_t Player::min_bet;
 
-string Player::actions[] = { "Fold", "","Check", "Fold", "Call", "Bet", "Raise",
+const string Player::actions[] = { "Fold", "","Check", "Fold", "Call", "Bet", "Raise",
                              "All-in", "Show", "Sitout" };
-string Player::blinds[] = { "Small blind", "Big_blind" };
+const string Player::blinds[] = { "Small blind", "Big_blind" };
 
 Player::Player(std::string name, int id, chips_t stack, Pocket_cards *hand)
-    : player_id(id)
+    : player_id(id), name(name)
 {
     last_action = {false, Player::NONE, 0};
     sitout = false;
     this->hand = hand;
     strength = new Hand_strength();
     this->stack = stack;
-    this->name = name;
+    reset_last_action();
 }
 
 /*virtual*/ Player::~Player()
@@ -72,7 +72,7 @@ bool Player::operator < (const Player &pl)
 chips_t Player::stake(action_t action)
 {
     if (action.valid) {
-        if (stack > action.amount) {
+        if (stack < action.amount) {
             // all-in
             last_action = { true, ALL_IN, stack };
         }
@@ -97,11 +97,11 @@ HumanPlayer::~HumanPlayer()
     output << "hello\n";
 }
 
-Player::action_t HumanPlayer::action()
-{}
+//Player::action_t HumanPlayer::action()
+//{}
 
 ComputerPlayer::ComputerPlayer(std::string name, int id, chips_t stack,
-                               const chips_t *pot,
+                               const chips_t *pot, const chips_t *total_bets,
                                const Cards_on_table::Round_t *round,
                                Pocket_cards *hand, Evaluator *evaluator)
     : Player(name, id, stack, hand)
@@ -109,7 +109,8 @@ ComputerPlayer::ComputerPlayer(std::string name, int id, chips_t stack,
     all_cards.reserve(6);
     this->pot = pot;
     this->round = round;
-    this->evaluator= evaluator;
+    this->evaluator = evaluator;
+    this->total_bets = total_bets;
 }
 
 ComputerPlayer::~ComputerPlayer()
@@ -213,15 +214,14 @@ void ComputerPlayer::current_combination(Evaluator &evaluator)
     evaluator.get_strength(strength);
 }
 
-int ComputerPlayer::count_outs(Evaluator &evaluator,
-                               Cards_on_table &community_cards)
+int ComputerPlayer::count_outs(Evaluator &evaluator)
 {
     outs = 0;
     is_flush_dro = false;
     is_straight_dro = false;
     is_gutshot = false;
 
-    copyToAllCards(community_cards.get_table_cards());
+    copyToAllCards(evaluator.get_communitu_cards()->get_table_cards());
     copyToAllCards(hand->get_hand());
 
     std::sort(all_cards.begin(), all_cards.end(), Card::greater);
@@ -343,7 +343,7 @@ int ComputerPlayer::count_outs(Evaluator &evaluator,
     return outs;
 }
 
-bool ComputerPlayer::check_pot_odds(chips_t &bet)
+bool ComputerPlayer::check_pot_odds(chips_t bet)
 {
     int combination_odds;
     if (outs <= 3) {
@@ -354,7 +354,7 @@ bool ComputerPlayer::check_pot_odds(chips_t &bet)
         combination_odds = outs * 2 + 1;
     }
 
-    if (bet * 100.0 / (bet + *pot) <= combination_odds) {
+    if (bet * 100.0 / (bet + *pot + *total_bets) <= combination_odds) {
         return true;
     }
 
@@ -367,4 +367,13 @@ void Player::reset_player()
     hand->clear();
     strength->reset();
     bets = 0;
+}
+
+string Player::action_to_string(action_t act)
+{
+    if (last_action.action == NONE) {
+        return "";
+    } else {
+        return actions[act.action] + " " + std::to_string(act.amount);
+    }
 }

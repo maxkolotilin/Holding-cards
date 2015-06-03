@@ -5,7 +5,7 @@
 #include <QLabel>
 #include "src/player.h"
 
-class QComputerPlayer : public QObject, ComputerPlayer
+class QComputerPlayer : public ComputerPlayer
 {
     Q_OBJECT
 public:
@@ -13,6 +13,7 @@ public:
                              QLabel *action_lb, QWidget *bar,
                              string name, int id, chips_t stack,
                              Pocket_cards *hand, const chips_t *pot,
+                             const chips_t *total_bets,
                              const Cards_on_table::Round_t *round,
                              Evaluator *evaluator, QObject *parent = 0);
     ~QComputerPlayer();
@@ -21,6 +22,12 @@ public:
     chips_t blind(blind_t type);
     chips_t stake(action_t action);
     void reset_player();
+    void enable()
+    {
+        bar->show();
+    }
+
+    QWidget *bar;
 
 private:
     //QString action_to_string(action_t act);
@@ -28,11 +35,10 @@ private:
     QLabel *name_label;
     QLabel *stack_label;
     QLabel *action_label;
-    QWidget *bar;
 
 signals:
-    void update_stack(chips_t amount);
-    void update_action(QString &act);
+    void update_stack(int amount);
+    void update_action(QString act);
 
 public slots:
 };

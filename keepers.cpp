@@ -85,9 +85,17 @@ void ImageKeeper::set_back(QLabel *card_image)
     card_image->setPixmap(*back);
 }
 
+void ImageKeeper::turn_cards(vector<const Card *> &cards,
+                             QVector<QLabel *> &cards_images)
+{
+    for (int i = 0; i < cards_images.size(); ++i) {
+        set_face(cards[i], cards_images[i]);
+    }
+}
+
 //------------------------------------------
 
-SoundKeeper::SoundKeeper(choice_t choice)
+SoundKeeper::SoundKeeper()
 {
 
 }

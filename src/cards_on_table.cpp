@@ -49,7 +49,7 @@ Cards_on_table::Round_t Cards_on_table::set_river(Deck_of_cards *deck)
     return RIVER;
 }
 
-const vector<const Card *> *Cards_on_table::get_table_cards()
+const vector<const Card *> *Cards_on_table::get_table_cards() const
 {
     return &cards_on_table;
 }

@@ -7,7 +7,7 @@
 #include "src/pocket_cards.h"
 #include "keepers.h"
 
-class QPocketCards : public QObject, Pocket_cards
+class QPocketCards : public Pocket_cards
 {
     Q_OBJECT
 public:

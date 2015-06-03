@@ -1,4 +1,5 @@
 #include "q_human_player.h"
+#include <QApplication>
 
 QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
                            QPushButton *call, QPushButton *fold,
@@ -6,22 +7,22 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
                            QLabel *bet_size_lb, QSlider *bet_size_slider,
                            QWidget *bar,
                            string name, int id, chips_t stack,
-                           Pocket_cards *hand, QObject *parent = 0)
-    : QObject(parent), HumanPlayer(name, id, stack, hand)
+                           Pocket_cards *hand, QObject *parent /* = 0 */)
+    : HumanPlayer(name, id, stack, hand)
 {
     name_label = name_lb;
-    name_label->setText(name);
+    name_label->setText(QString::fromStdString(name));
     stack_label = stack_lb;
     action_label = action_lb;
     bet_size_label = bet_size_lb;
     this->bar = bar;
-    bar->setEnabled(true);
+    bar->hide();
 
     event_loop = new QEventLoop();
 
-    connect(this, SIGNAL(update_stack(chips_t)),
+    connect(this, SIGNAL(update_stack(int)),
             stack_label, SLOT(setNum(int)));
-    connect(this, SIGNAL(update_action(QString&)),
+    connect(this, SIGNAL(update_action(QString)),
             action_label, SLOT(setText(QString)));
 
     connect(all_in, SIGNAL(clicked()),
@@ -44,13 +45,18 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
 
     connect(bet_size_slider, SIGNAL(sliderMoved(int)),
             this, SLOT(calculate_bet_size(int)));       // check disconnect
-    connect(this, SIGNAL(send_bet_size(chips_t)),
+    connect(this, SIGNAL(send_bet_size(int)),
             bet_size_lb, SLOT(setNum(int)));
+
+    emit update_stack((int)stack);
+    emit update_action(QString::fromStdString(action_to_string(last_action)));
+    name_label->setText(QString::fromStdString(name));
+    QApplication::processEvents();
 }
 
 QHumanPlayer::~QHumanPlayer()
 {
-    bar->setDisabled(true);
+    bar->hide();
     event_loop->disconnect();
     delete event_loop;
     disconnect();
@@ -65,9 +71,9 @@ chips_t QHumanPlayer::stake(action_t action)
 {
     chips_t amount = Player::stake(action);
 
-    emit update_stack(stack);
-    emit update_action(action_to_string(action));
-
+    emit update_stack((int)stack);
+    emit update_action(QString::fromStdString(action_to_string(action)));
+    QApplication::processEvents();
     return amount;
 }
 
@@ -75,11 +81,13 @@ chips_t QHumanPlayer::blind(blind_t type)
 {
     chips_t blind = Player::blind(type);
 
-    emit update_stack(stack);
-    emit update_action(action_to_string(action));
-
+    emit update_stack((int)stack);
+    emit update_action(QString::fromStdString(action_to_string(last_action)));
+    QApplication::processEvents();
     return blind;
 }
+
+chips_t Player::max_bet_in_round;
 
 QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round)
 {
@@ -87,7 +95,7 @@ QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round)
         reset_last_action();
     }
     if (last_action.action != NONE) {
-        this->max_bet_in_round = max_bet_in_round;
+        Player::max_bet_in_round = max_bet_in_round;
 
         event_loop->exec();
 
@@ -114,19 +122,20 @@ void QHumanPlayer::call()
 
 void QHumanPlayer::raise()
 {
-    last_action = { true, RAISE, bet_size_label->text().toInt() };
+    last_action = { true, RAISE, (chips_t)bet_size_label->text().toInt() };
 }
 
 void QHumanPlayer::calculate_bet_size(int percent)
 {
-    emit send_bet_size(max_bet_in_round + (stack - max_bet_in_round) *
-                       percent / 100);          // potentional error
+    emit send_bet_size((int)(max_bet_in_round + (stack - max_bet_in_round) *
+                       percent / 100));          // potentional error
 }
 
 void QHumanPlayer::reset_player()
 {
     Player::reset_player();
 
-    emit update_stack();
-    emit update_action();
+    emit update_stack((int)stack);
+    emit update_action(QString::fromStdString(action_to_string(last_action)));
+    QApplication::processEvents();
 }

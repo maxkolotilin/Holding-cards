@@ -10,7 +10,7 @@
 #include <QEventLoop>
 #include "src/player.h"
 
-class QHumanPlayer : public QObject, HumanPlayer
+class QHumanPlayer : public HumanPlayer
 {
     Q_OBJECT
 public:
@@ -27,7 +27,14 @@ public:
     chips_t blind(blind_t type);
     chips_t stake(action_t action);
     void reset_player();
+    void enable()
+    {
+        bar->show();
+    }
+
     //void set_dealer(bool switcher);
+
+    QWidget *bar;
 
 private:
     //QString action_to_string(action_t act);
@@ -36,14 +43,13 @@ private:
     QLabel *stack_label;
     QLabel *action_label;
     QLabel *bet_size_label;
-    QWidget *bar;
 
     QEventLoop *event_loop;
 
 signals:
-    void update_stack(chips_t amount);
-    void update_action(QString &act);
-    void send_bet_size(chips_t amount);
+    void update_stack(int amount);
+    void update_action(QString act);
+    void send_bet_size(int amount);
 
 public slots:
     void raise();

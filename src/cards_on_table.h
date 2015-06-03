@@ -14,8 +14,9 @@
 #define CARD_ON_TABLE_H
 
 #include "src/deck_of_cards.h"
+#include <QObject>
 
-class Cards_on_table
+class Cards_on_table : public QObject
 {
     friend class Test;          // is required for tests
 
@@ -29,7 +30,7 @@ public:
     virtual Round_t set_flop(Deck_of_cards *deck);
     virtual Round_t set_turn(Deck_of_cards *deck);
     virtual Round_t set_river(Deck_of_cards *deck);
-    const vector<const Card*> *get_table_cards();
+    const vector<const Card*> *get_table_cards() const;
 
 protected:
     //Round_t round;

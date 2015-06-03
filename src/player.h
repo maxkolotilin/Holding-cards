@@ -14,13 +14,14 @@
 #define PLAYER_H
 
 #include "src/evaluator.h"
+#include <QObject>
 //#include "src/cards_on_table.h"
 
 typedef unsigned int chips_t;
 class Evaluator;
 class Hand_strength;
 
-class Player
+class Player: public QObject
 {
 public:
     typedef enum { NONE, RESET_ACTION,
@@ -47,7 +48,7 @@ public:
     Player(string name, int id, chips_t stack, Pocket_cards *hand);
     virtual ~Player();
     int get_player_id() const { return player_id; }
-    void reset_last_action() { last_action = {false, Player::NONE, 0}; }
+    void reset_last_action() { last_action = {false, Player::RESET_ACTION, 0}; }
 
     chips_t get_stack() const { return stack; }
     Pocket_cards* get_hand() const { return hand; }
@@ -66,15 +67,13 @@ public:
 
     virtual void reset_player();
     virtual void set_dealer(bool switcher);
+    virtual void enable() = 0;
     virtual void show_hand()
     {
         hand->show_hand();
     }
 
-    string action_to_string(action_t act)
-    {
-        return actions[act.action] + " " + std::to_string(act.amount);
-    }
+    string action_to_string(action_t act);
 
     // next function is required for std::sort()
     static bool greater(const Player *pl_1, const Player *pl_2);
@@ -113,6 +112,7 @@ class ComputerPlayer: public Player
 {
 public:
     ComputerPlayer(string name, int id, chips_t stack, const chips_t* pot,
+                   const chips_t* total_bets,
                    const Cards_on_table::Round_t *round, Pocket_cards *hand,
                    Evaluator *evaluator);
     ~ComputerPlayer();
@@ -122,6 +122,7 @@ protected:
     bool is_straight_dro;
     bool is_gutshot;
     const chips_t* pot;
+    const chips_t* total_bets;
     const Cards_on_table::Round_t *round;
     Evaluator *evaluator;
     vector<const Card*> all_cards;
@@ -133,9 +134,9 @@ protected:
     bool check_top_21_hands();
     bool check_connectors();
     bool check_suited();
-    int count_outs(Evaluator &evaluator, Cards_on_table &community_cards);
+    int count_outs(Evaluator &evaluator);
     void current_combination(Evaluator &evaluator);
-    bool check_pot_odds(chips_t &bet);
+    bool check_pot_odds(chips_t bet);
 
     //    TODO
     //    add check_position

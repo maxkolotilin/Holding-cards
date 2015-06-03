@@ -1,13 +1,18 @@
 #include "q_game.h"
+#include <QApplication>
 
 QGame::QGame(QLabel *pot, QLabel *bets,
              Cards_on_table *cards, chips_t min_bet, QObject *parent)
-    : QObject(parent), Game(cards, min_bet)
+    : Game(cards, min_bet)
 {
-    connect(this, SIGNAL(update_bets(chips_t)),
+    connect(this, SIGNAL(update_bets(int)),
             bets, SLOT(setNum(int)));
-    connect(this, SIGNAL(update_pot(chips_t)),
+    connect(this, SIGNAL(update_pot(int)),
             pot, SLOT(setNum(int)));
+
+    emit update_bets(this->bets);
+    emit update_pot(this->pot);
+    QApplication::processEvents();
 }
 
 QGame::~QGame()
@@ -24,26 +29,30 @@ void QGame::add_to_bets(chips_t bet)
 {
     Game::add_to_bets(bet);
 
-    emit update_bets(bets);
+    emit update_bets((int)bets);
+    QApplication::processEvents();
 }
 
 void QGame::add_to_pot(chips_t bets_in_round)
 {
     Game::add_to_pot(bets_in_round);
 
-    emit update_pot(pot);
+    emit update_pot((int)pot);
+    QApplication::processEvents();
 }
 
 void QGame::reset_bets()
 {
     Game::reset_bets();
 
-    emit update_bets(bets);
+    emit update_bets((int)bets);
+    QApplication::processEvents();
 }
 
 void QGame::reset_pot()
 {
     Game::reset_pot();
 
-    emit update_pot(pot);
+    emit update_pot((int)pot);
+    QApplication::processEvents();
 }

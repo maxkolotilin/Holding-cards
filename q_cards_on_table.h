@@ -7,7 +7,7 @@
 #include "src/cards_on_table.h"
 #include "keepers.h"
 
-class QCardsOnTable : public QObject, Cards_on_table
+class QCardsOnTable : public Cards_on_table
 {
     Q_OBJECT
 public:

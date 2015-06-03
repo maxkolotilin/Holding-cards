@@ -13,22 +13,24 @@
 #define GAME_H
 
 #include "src/player.h"
+#include <QObject>
 
 typedef unsigned int chips_t;
 
-class Game
+class Game : public QObject
 {
 public:
     typedef enum { BEGIN, CONTINUE, END } gameStatus_t;
 
     Game(Cards_on_table *cards, chips_t min_bet);
-    ~Game();
+    virtual ~Game();
 
     void add_player(Player* pl);
     void search_for_losers();
     void winners();
+    // void showdown();
 
-    void game_logic();
+    void start();
     void deal_cards();
     void reset_players();
     void start_new_deal();
@@ -36,7 +38,8 @@ public:
     virtual void increase_min_bet();
 
     chips_t get_min_bet() const { return min_bet; }
-    virtual void add_to_bets(chips_t bet) {
+    virtual void add_to_bets(chips_t bet)
+    {
         bets += bet;
     }
     virtual void add_to_pot(chips_t bets_in_round)
@@ -52,7 +55,29 @@ public:
         pot = 0;
     }
 
-private:
+    const chips_t *get_pot_ptr()
+    {
+        return &pot;
+    }
+    const chips_t *get_bets_ptr()
+    {
+        return &bets;
+    }
+    const Cards_on_table::Round_t *get_round_ptr()
+    {
+        return &round;
+    }
+    Evaluator *get_evaluator_ptr()
+    {
+        return evaluator;
+    }
+    void set_human_ptr(Player *ptr)
+    {
+        human = ptr;
+    }
+
+protected:
+    Player *human;
     gameStatus_t game_status;
     void set_random_dealer();
     int number_of_players;

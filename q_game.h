@@ -5,7 +5,7 @@
 #include <QLabel>
 #include "src/game.h"
 
-class QGame : public QObject, Game
+class QGame : public Game
 {
     Q_OBJECT
 public:
@@ -20,8 +20,8 @@ public:
     virtual void reset_pot();
 
 signals:
-    void update_bets(chips_t bets);
-    void update_pot(chips_t pot);
+    void update_bets(int bets);
+    void update_pot(int pot);
 
 public slots:
 };

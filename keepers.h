@@ -55,7 +55,7 @@ class SoundKeeper
 public:
     enum choice_t { VAR_1 };
 
-    SoundKeeper(choice_t choice = VAR_1);
+    SoundKeeper();
     ~SoundKeeper();
 private:
     const QString PATH = "res/sound/";

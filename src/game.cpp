@@ -54,7 +54,7 @@ void Game::search_for_losers()
 
 void Game::set_random_dealer()
 {
-    int position = rand() % 10;
+    int position = 2;//rand() % 10;
 
     int i;
     for (i = 0, dealer = players.begin(); i < position; ++i, ++dealer);
@@ -101,14 +101,33 @@ chips_t Game::start_trading()
     player_it start_player;
     if (round == Cards_on_table::PREFLOP) {
         player_it blinds = dealer;
-        add_to_bets((*++blinds)->blind(Player::SMALL_BLIND));
-        add_to_bets((*++blinds)->blind(Player::BIG_BLIND));
-        start_player = ++blinds;
+        ++blinds;
+        // make cycled list
+        if (blinds == players.end()) {
+            blinds = players.begin();
+        }
+        add_to_bets((*blinds)->blind(Player::SMALL_BLIND));
+        ++blinds;
+        // make cycled list
+        if (blinds == players.end()) {
+            blinds = players.begin();
+        }
+        add_to_bets((*blinds)->blind(Player::BIG_BLIND));
+        ++blinds;
+        // make cycled list
+        if (blinds == players.end()) {
+            blinds = players.begin();
+        }
+        start_player = blinds;
 
         current_max_bet = min_bet;
     } else {
         start_player = dealer;
         ++start_player;
+        // make cycled list
+        if (start_player == players.end()) {
+            start_player = players.begin();
+        }
     }
 
     int made_decision = 0;
@@ -149,6 +168,9 @@ void Game::winners()
         for (player_it player = players.begin(); player != players.end();
              ++player) {
             if ((*player)->get_last_action().action != Player::NONE) {
+                if (*player != human) {
+                    (*player)->show_hand();
+                }
                 evaluator->get_strength((*player)->get_hand(),
                                         (*player)->get_strength());
             }
@@ -164,12 +186,13 @@ void Game::winners()
     }
 }
 
-void Game::game_logic()
+void Game::start()
 {
     if (number_of_players > 1) {
         game_status = CONTINUE;
         set_random_dealer();
         while (game_status == CONTINUE) {
+            deck->shuffle();
             start_new_deal();
 
             if (number_of_players == 1) {
@@ -191,6 +214,10 @@ void Game::deal_cards()
 {
     player_it player = dealer;
     ++player;
+    // make cycled list
+    if (player == players.end()) {
+        player = players.begin();
+    }
     // deal 2 cards for each player
     for (int i = 0; i < number_of_players * 2; ++i) {
         (*player)->set_card(deck->next_card());
@@ -200,6 +227,8 @@ void Game::deal_cards()
             player = players.begin();
         }
     }
+
+    human->show_hand();
 }
 
 void Game::reset_players()

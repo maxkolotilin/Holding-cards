@@ -14,8 +14,9 @@
 #define POCKET_CARDS_H
 
 #include "src/deck_of_cards.h"
+#include <QObject>
 
-class Pocket_cards
+class Pocket_cards: public QObject
 {
     //friend class Player;
 
@@ -26,11 +27,11 @@ public:
     virtual void set_card(const Card *c);
     const vector<const Card *> *get_hand() const;
     virtual void clear();
-    virtual void show_hand() = 0;
+    virtual void show_hand() {}
 
     //void copyCards(std::vector<Card> *v) const { v->insert(v->end(), cards.begin(), cards.end()); };
 
-private:
+protected:
     int cards_in_pocket;
     vector<const Card*> pocket_cards;
 };
