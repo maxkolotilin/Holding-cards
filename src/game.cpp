@@ -54,7 +54,7 @@ void Game::search_for_losers()
 
 void Game::set_random_dealer()
 {
-    int position = 2;//rand() % 10;
+    int position = rand() % 10;
 
     int i;
     for (i = 0, dealer = players.begin(); i < position; ++i, ++dealer);
@@ -90,7 +90,7 @@ void Game::start_new_deal()
     winners();
     search_for_losers();
 
-    ++dealer;
+    next_player(dealer);
 }
 
 chips_t Game::start_trading()
@@ -101,33 +101,19 @@ chips_t Game::start_trading()
     player_it start_player;
     if (round == Cards_on_table::PREFLOP) {
         player_it blinds = dealer;
-        ++blinds;
-        // make cycled list
-        if (blinds == players.end()) {
-            blinds = players.begin();
-        }
+
+        next_player(blinds);
         add_to_bets((*blinds)->blind(Player::SMALL_BLIND));
-        ++blinds;
-        // make cycled list
-        if (blinds == players.end()) {
-            blinds = players.begin();
-        }
+        next_player(blinds);
         add_to_bets((*blinds)->blind(Player::BIG_BLIND));
-        ++blinds;
-        // make cycled list
-        if (blinds == players.end()) {
-            blinds = players.begin();
-        }
+
+        next_player(blinds);
         start_player = blinds;
 
         current_max_bet = min_bet;
     } else {
         start_player = dealer;
-        ++start_player;
-        // make cycled list
-        if (start_player == players.end()) {
-            start_player = players.begin();
-        }
+        next_player(start_player);
     }
 
     int made_decision = 0;
@@ -147,12 +133,7 @@ chips_t Game::start_trading()
         } else {
             output << "Wrong action\n";
         }
-        // increment current_player
-        ++current_player;
-        // make cycled list
-        if (current_player == players.end()) {
-            current_player = players.begin();
-        }
+        next_player(current_player);
     }
 
     return bets;
@@ -162,12 +143,14 @@ void Game::winners()
 {
     if (number_of_folded == number_of_players - 1) {
         player_it player = players.begin();
-        for (; (*player)->get_last_action().action == Player::NONE; ++player);
+        for (; (*player)->get_last_action().action == Player::NONE ||
+               (*player)->get_last_action().action == Player::FOLD; ++player);
         (*player)->get_won_bank(pot);
     } else {
         for (player_it player = players.begin(); player != players.end();
              ++player) {
-            if ((*player)->get_last_action().action != Player::NONE) {
+            if (((*player)->get_last_action().action != Player::NONE) !=
+                ((*player)->get_last_action().action != Player::FOLD)) {
                 if (*player != human) {
                     (*player)->show_hand();
                 }
@@ -213,19 +196,11 @@ void Game::start()
 void Game::deal_cards()
 {
     player_it player = dealer;
-    ++player;
-    // make cycled list
-    if (player == players.end()) {
-        player = players.begin();
-    }
+    next_player(player);
     // deal 2 cards for each player
     for (int i = 0; i < number_of_players * 2; ++i) {
         (*player)->set_card(deck->next_card());
-        ++player;
-        // make cycled list
-        if (player == players.end()) {
-            player = players.begin();
-        }
+        next_player(player);
     }
 
     human->show_hand();
@@ -242,4 +217,13 @@ void Game::increase_min_bet()
 {
     min_bet <<= 1;  // *= 2;
     Player::set_min_bet(min_bet);
+}
+
+void Game::next_player(player_it &player)
+{
+    ++player;
+    // make cycled list
+    if (player == players.end()) {
+        player = players.begin();
+    }
 }

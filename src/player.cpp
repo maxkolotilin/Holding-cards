@@ -15,8 +15,8 @@
 chips_t Player::min_bet;
 
 const string Player::actions[] = { "Fold", "","Check", "Fold", "Call", "Bet", "Raise",
-                             "All-in", "Show", "Sitout" };
-const string Player::blinds[] = { "Small blind", "Big_blind" };
+                             "All-in", "Big blind", "Small blind", "Show", "Sitout" };
+const string Player::blinds[] = { "Small blind", "Big blind" };
 
 Player::Player(std::string name, int id, chips_t stack, Pocket_cards *hand)
     : player_id(id), name(name)
@@ -45,12 +45,14 @@ chips_t Player::blind(blind_t type)
     if (type == BIG_BLIND) {
         if (stack > min_bet) {
             stack -= min_bet;
+            last_action = { true, BIG_BLIND_, min_bet };
             return min_bet;
         }
     } else {
         if (stack > min_bet / 2) {
             stack -= min_bet / 2;
-            return min_bet / 2;
+            last_action = { true, SMALL_BLIND_, min_bet / 2 };
+            return last_action.amount;
         }
     }
     // all-in
@@ -373,6 +375,9 @@ string Player::action_to_string(action_t act)
 {
     if (last_action.action == NONE) {
         return "";
+    }
+    if (last_action.action == FOLD) {
+        return actions[act.action];
     } else {
         return actions[act.action] + " " + std::to_string(act.amount);
     }

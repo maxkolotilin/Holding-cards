@@ -24,15 +24,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private slots:
-    void on_pushButton_clicked();
-
 private:
     Ui::MainWindow *ui;
+
     //Test test;
     QVector<Player *> players_pool;
     ImageKeeper *ik;
     QGame *game;
+
+private slots:
+    void on_pushButton_clicked();
 };
 
 #endif // MAINWINDOW_H

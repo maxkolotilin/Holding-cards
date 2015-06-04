@@ -399,7 +399,8 @@ void Evaluator::get_win_list(list<Player*> &players,
     vector<Player*> players_on_showdown;
     for (player_it player = players.begin(); player != players.end();
          ++player) {
-        if ((*player)->get_last_action().action != Player::FOLD) {
+        if (((*player)->get_last_action().action != Player::FOLD) !=
+            ((*player)->get_last_action().action != Player::NONE)) {
             players_on_showdown.push_back(*player);
         }
     }

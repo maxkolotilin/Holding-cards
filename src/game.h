@@ -77,6 +77,7 @@ public:
     }
 
 protected:
+    void next_player(player_it &player);
     Player *human;
     gameStatus_t game_status;
     void set_random_dealer();

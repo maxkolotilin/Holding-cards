@@ -26,14 +26,14 @@ class Player: public QObject
 public:
     typedef enum { NONE, RESET_ACTION,
 
-                   CHECK, FOLD, CALL, BET, RAISE, ALL_IN,
+                   CHECK, FOLD, CALL, BET, RAISE, ALL_IN, BIG_BLIND_, SMALL_BLIND_,
 
                    SHOW,
 
                    SITOUT } player_action_t;
     typedef enum { SMALL_BLIND, BIG_BLIND } blind_t;
 
-    static const int NUMBER_OF_ACTIONS = 10;
+    static const int NUMBER_OF_ACTIONS = 12;
     static const int NUMBER_OF_BLINDS = 2;
 
     typedef struct {

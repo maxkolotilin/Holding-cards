@@ -5,6 +5,8 @@
 #include "QPicture"
 #include "QScreen"
 #include "QTimer"
+#include <QPropertyAnimation>
+#include <QBitmap>
 
 #include "src/game.h"
 
@@ -22,7 +24,13 @@ MainWindow::MainWindow(QWidget *parent) :
     palette.setBrush(QPalette::Background, bkgnd);
     this->setPalette(palette);
 
-    ik = new ImageKeeper();
+    QPixmap bkgnd_1("res/pic/back.bmp");
+    bkgnd_1 = bkgnd_1.scaled(ui->bar_1->size(), Qt::IgnoreAspectRatio);
+    QPalette palette_1;
+    palette_1.setBrush(QPalette::Background, bkgnd_1);
+    ui->bar_1->setPalette(palette_1);
+
+    ik = new ImageKeeper(ui->centralWidget, ui->animated_card);
     game = new QGame(ui->label_pot, ui->label_bets,
                      new QCardsOnTable(ui->flopcard_1, ui->flopcard_2,
                                        ui->flopcard_3, ui->turncard,
@@ -141,6 +149,9 @@ MainWindow::MainWindow(QWidget *parent) :
     game->set_human_ptr(players_pool[5]);
     ui->button_bar->hide();
     ui->deck_bar->hide();
+
+    ui->animated_card->move(ui->deck_label->mapToGlobal(ui->deck_label->pos()));
+    ui->animated_card->hide();
 }
 
 MainWindow::~MainWindow()
@@ -160,12 +171,39 @@ void MainWindow::on_pushButton_clicked()
         game->add_player(player);
     }
     ui->deck_label->setPixmap(*ik->get_card_back());
+    ui->animated_card->show();
 
 //    QEventLoop *loop = new QEventLoop();
 //    QTimer *timer = new QTimer();
 //    connect(timer, SIGNAL(timeout()), loop, SLOT(quit()));
 //    timer->start(1);
 //    loop->exec();
+
+//    ui->animated_card->setPixmap(*ik->get_card_image(new Card(12, 0)));
+//    //ui->animated_card->move(ui->deck_label->pos());
+//    QPropertyAnimation anim(ui->animated_card, "pos");
+//    anim.setDuration(3000);
+//    anim.setStartValue(ui->animated_card->pos());
+//    anim.setEndValue(ui->horizontalLayout->);
+//    anim.setEasingCurve(QEasingCurve::OutCirc);
+//    anim.start();
+//    QApplication::processEvents();
+//    QEventLoop el;
+//    connect(&anim, SIGNAL(finished()), &el, SLOT(quit()));
+//    el.exec();
+    //ui->button_allin->setStyleSheet("qproperty-icon: url(:res/pic/playeraction_blue.png);");
+    QPixmap pm("res/pic/playeraction_blue.png");
+    QPalette palette;
+    palette.setBrush(QPalette::Button, QBrush(pm));
+    ui->button_allin->setFlat(true);
+    ui->button_allin->setAutoFillBackground(true);
+    ui->button_allin->setPalette(palette);
+    ui->button_allin->setMask(pm.mask());
+    ui->button_allin->setFixedSize(pm.size());
+//    QIcon icon(pm);
+//    ui->button_allin->setIcon(icon);
+//    ui->button_allin->setIconSize(ui->button_allin->size());
+
 
     QApplication::processEvents();
 
