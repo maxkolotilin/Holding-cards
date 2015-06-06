@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 12.04.2015
+ * Created by Maxim Kolotilin on 12.04.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
@@ -7,6 +8,7 @@
  * It's a part of Texas Hold'em project
  *
  * This file contains class that evaluates players' hands
+ * and class that stores players' combinations
  *
  */
 
@@ -19,89 +21,109 @@
 #include <list>
 
 using std::list;
+
 class Player;
 
 typedef vector<const Card*>::iterator card_it;
 typedef list<Player*>::iterator player_it;
 
-class Hand_strength
+class HandStrength
 {
-    friend class Evaluator;         //?
+    //friend class Evaluator;
 
 public:
     typedef enum { NONE, HIGH_CARD, PAIR, TWO_PAIRS, TREE_OF_A_KIND, STRAIGHT,
                    FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH,
-                   ROYAL_FLUSH } Combinations_t;
+                   ROYAL_FLUSH } combinations_t;
     static const int NUMBER_OF_COMBINATIONS = 10;
 
-    Hand_strength();
-    ~Hand_strength();
-    Combinations_t get_combination() const
+    HandStrength();
+    ~HandStrength();
+
+    void set_combination(combinations_t comb)
+    {
+        combination = comb;
+    }
+    combinations_t get_combination() const
     {
         return combination;
     }
-    const string get_combination_name(Combinations_t c) const
+    const string get_combination_name(combinations_t comb) const
     {
-        return combinations[c];
+        return combinations[comb];
     }
-    void clear_comb_cards()
+    void clear_combination_cards()
     {
-        comb_cards.clear();
+        combination_cards.clear();
     }
-    void clear_kicker()
+    void clear_kicker_cards()
     {
-        kicker.clear();
+        kicker_cards.clear();
     }
-    void reset()
+    void reset_hand_strength();
+
+    // return pointer to constant vector
+    const vector<const Card*> *get_combination_cards() const
     {
-        clear_comb_cards();
-        clear_kicker();
-        combination = NONE;
+        return &combination_cards;
+    }
+    const vector<const Card*> *get_kicker_cards() const
+    {
+        return &kicker_cards;
     }
 
-    bool operator < (const Hand_strength &hs) const;
-    bool operator > (const Hand_strength &hs) const;
-    bool operator == (const Hand_strength &hs) const;
+    void add_to_combination_cards(const Card *card)
+    {
+        combination_cards.push_back(card);
+    }
+    void add_to_kicker_cards(const Card *card)
+    {
+        kicker_cards.push_back(card);
+    }
+
+    bool operator < (const HandStrength &hs) const;
+    bool operator > (const HandStrength &hs) const;
+    bool operator == (const HandStrength &hs) const;
 
 private:
-    Combinations_t combination;
-    static const string combinations[NUMBER_OF_COMBINATIONS];
+    combinations_t combination;
+    static const string combinations[];
     // see strings in Evaluator.cpp
-    vector<const Card*> comb_cards;
-    vector<const Card*> kicker;
+    vector<const Card*> combination_cards;
+    vector<const Card*> kicker_cards;
 };
 
 class Evaluator
 {
 public:
-
-    Evaluator(Cards_on_table *cards);
+    Evaluator(const CardsOnTable *cards);
     ~Evaluator();
 
-    void get_strength(Hand_strength *strength);
-    void get_strength(Pocket_cards *pocket, Hand_strength *strength);
+    void get_strength(HandStrength *strength);
+    void get_strength(PocketCards *pocket, HandStrength *strength);
+    void get_strength(Player* player);
 
     void get_win_list(list<Player*> &players,
                       vector<vector<Player*>> &winlist);
 
-    const Cards_on_table *get_communitu_cards()
+    const CardsOnTable *get_communitu_cards()
     {
         return community_cards;
     }
 
 private:
-    bool isTwoPair(Hand_strength *strength);
-    bool isStraight(Hand_strength *strength, const int suit = -1);
-    bool isFlush(Hand_strength *strength);
-    bool isXOfAKind(const int num, Hand_strength *strength);
-    bool isFullHouse(Hand_strength *strength);
+    bool is_two_pairs(HandStrength *strength);
+    bool is_straight(HandStrength *strength, const int suit = -1);
+    bool is_flush(HandStrength *strength);
+    bool is_X_of_a_kind(const int X, HandStrength *strength);
+    bool is_full_house(HandStrength *strength);
 
-    void copyToAllCards(const vector<const Card*> *from)
+    void copy_to_all_cards(const vector<const Card*> *from)
     {
-        //std::copy(from->begin(), from->end(), all_cards.end());
         all_cards.insert(all_cards.end(), from->begin(), from->end());
     }
-    Cards_on_table *community_cards;
+
+    const CardsOnTable *community_cards;
     vector<const Card*> all_cards;
 };
 

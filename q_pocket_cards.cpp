@@ -3,7 +3,7 @@
 
 QPocketCards::QPocketCards(QLabel *card_1, QLabel *card_2, ImageKeeper *ik,
                            QObject *parent)
-    : Pocket_cards()
+    : PocketCards()
 {
     hand_images.reserve(2);
     hand_images.push_back(card_1);
@@ -14,7 +14,7 @@ QPocketCards::QPocketCards(QLabel *card_1, QLabel *card_2, ImageKeeper *ik,
     connect(this, SIGNAL(set_cards_faces(vector<const Card*>&,QVector<QLabel*>&)),
             ik, SLOT(set_faces(vector<const Card*>&,QVector<QLabel*>&)));
     connect(this, SIGNAL(set_card_back(QLabel*)),
-            ik, SLOT(set_back(QLabel*)));
+            ik, SLOT(set_back(QLabel*))/*, Qt::DirectConnection*/);
 }
 
 QPocketCards::~QPocketCards()
@@ -24,15 +24,15 @@ QPocketCards::~QPocketCards()
 
 void QPocketCards::set_card(const Card *c)
 {
-    Pocket_cards::set_card(c);
+    PocketCards::set_card(c);
 
     emit set_card_back(hand_images[cards_in_pocket - 1]);
-    QApplication::processEvents();
+    //QApplication::processEvents();
 }
 
-void QPocketCards::clear()
+void QPocketCards::reset_pocket_cards()
 {
-    Pocket_cards::clear();
+    PocketCards::reset_pocket_cards();
 
     emit set_blank_cards(hand_images);
     QApplication::processEvents();

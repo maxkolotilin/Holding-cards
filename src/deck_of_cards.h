@@ -1,12 +1,13 @@
 /*
- * Created on 20.03.2015 by MaximKa
+ * Created on 20.03.2015 by Maxim Kolotilin
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
- * If you think that this file describes deck of card, you are probably right
+ * If you think that this file describes deck of cards, you are probably right
  *
  */
 
@@ -18,24 +19,26 @@
 
 using std::vector;
 
-class Deck_of_cards {
+class DeckOfCards {
     friend class Test;     // is required for tests
+
 public:
     static const int DECK_SIZE = 52;
 
-    Deck_of_cards();
-    ~Deck_of_cards();
+    DeckOfCards();
+    ~DeckOfCards();
+
     void shuffle();
-    void print_deck() const;         // debug
-    int get_cards_in_deck() const
+    const Card *deal_next_card();
+    void print_deck() const;
+    int get_current_deck_size() const
     {
-        return cards_in_deck;
+        return current_deck_size;
     }
-    const Card *next_card();
 
 private:
     vector<const Card*> deck;
-    int cards_in_deck;
+    int current_deck_size;
 };
 
 #endif  //Deck_of_cards_H

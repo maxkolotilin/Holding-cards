@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 21.04.2015
+ * Created by Maxim Kolotilin on 21.04.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
@@ -16,24 +17,27 @@
 #include "src/deck_of_cards.h"
 #include <QObject>
 
-class Cards_on_table : public QObject
+class CardsOnTable : public QObject
 {
     friend class Test;          // is required for tests
 
 public:
-    typedef enum { NONE, PREFLOP, FLOP, TURN, RIVER } Round_t;
+    typedef enum { NONE, PREFLOP, FLOP, TURN, RIVER } round_t;
+    static const int CARDS_ON_TABLE_SIZE = 5;
 
-    Cards_on_table();
-    virtual ~Cards_on_table();
+    CardsOnTable(QObject *parent = 0);
+    virtual ~CardsOnTable();
 
-    virtual Round_t set_preflop();
-    virtual Round_t set_flop(Deck_of_cards *deck);
-    virtual Round_t set_turn(Deck_of_cards *deck);
-    virtual Round_t set_river(Deck_of_cards *deck);
+    virtual round_t set_preflop();
+    virtual round_t set_flop(DeckOfCards *deck);
+    virtual round_t set_turn(DeckOfCards *deck);
+    virtual round_t set_river(DeckOfCards *deck);
+    virtual round_t reset_cards_on_table();
+
+    // return pointer to constant vector
     const vector<const Card*> *get_table_cards() const;
 
 protected:
-    //Round_t round;
     vector<const Card*> cards_on_table;
 };
 

@@ -3,7 +3,7 @@
 
 QCardsOnTable::QCardsOnTable(QLabel *flop_1, QLabel *flop_2, QLabel *flop_3,
                              QLabel *turn, QLabel *river, ImageKeeper *ik,
-                             QObject *parent) : Cards_on_table()
+                             QObject *parent) : CardsOnTable()
 {
     cards_images.reserve(5);
     cards_images.push_back(flop_1);
@@ -29,18 +29,18 @@ QCardsOnTable::~QCardsOnTable()
     disconnect();
 }
 
-QCardsOnTable::Round_t QCardsOnTable::set_preflop()
+QCardsOnTable::round_t QCardsOnTable::set_preflop()
 {
-    Round_t round = Cards_on_table::set_preflop();
+    round_t round = CardsOnTable::set_preflop();
 
     emit clear_cards_on_table(cards_images);
     QApplication::processEvents();
     return round;
 }
 
-QCardsOnTable::Round_t QCardsOnTable::set_flop(Deck_of_cards *deck)
+QCardsOnTable::round_t QCardsOnTable::set_flop(DeckOfCards *deck)
 {
-    Round_t round = Cards_on_table::set_flop(deck);
+    round_t round = CardsOnTable::set_flop(deck);
 
     QVector<QLabel *> flop_cards;
     for (int i = 0; i < 3; ++i) {
@@ -52,9 +52,9 @@ QCardsOnTable::Round_t QCardsOnTable::set_flop(Deck_of_cards *deck)
     return round;
 }
 
-QCardsOnTable::Round_t QCardsOnTable::set_turn(Deck_of_cards *deck)
+QCardsOnTable::round_t QCardsOnTable::set_turn(DeckOfCards *deck)
 {
-    Round_t round = Cards_on_table::set_turn(deck);
+    round_t round = CardsOnTable::set_turn(deck);
 
     emit deal_card_on_table(cards_images[3]);
     emit turn_card_on_table(cards_on_table[3], cards_images[3]);
@@ -62,9 +62,9 @@ QCardsOnTable::Round_t QCardsOnTable::set_turn(Deck_of_cards *deck)
     return round;
 }
 
-QCardsOnTable::Round_t QCardsOnTable::set_river(Deck_of_cards *deck)
+QCardsOnTable::round_t QCardsOnTable::set_river(DeckOfCards *deck)
 {
-    Round_t round = Cards_on_table::set_river(deck);
+    round_t round = CardsOnTable::set_river(deck);
 
     emit deal_card_on_table(cards_images[4]);
     emit turn_card_on_table(cards_on_table[4], cards_images[4]);

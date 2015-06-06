@@ -2,7 +2,7 @@
 #include <QApplication>
 
 QGame::QGame(QLabel *pot, QLabel *bets,
-             Cards_on_table *cards, chips_t min_bet, QObject *parent)
+             CardsOnTable *cards, chips_t min_bet, QObject *parent)
     : Game(cards, min_bet)
 {
     connect(this, SIGNAL(update_bets(int)),

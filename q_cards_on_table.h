@@ -7,7 +7,7 @@
 #include "src/cards_on_table.h"
 #include "keepers.h"
 
-class QCardsOnTable : public Cards_on_table
+class QCardsOnTable : public CardsOnTable
 {
     Q_OBJECT
 public:
@@ -15,10 +15,10 @@ public:
                            QLabel *turn, QLabel *river, ImageKeeper *ik,
                            QObject *parent = 0);
     ~QCardsOnTable();
-    virtual Round_t set_preflop();
-    virtual Round_t set_flop(Deck_of_cards *deck);
-    virtual Round_t set_turn(Deck_of_cards *deck);
-    virtual Round_t set_river(Deck_of_cards *deck);
+    virtual round_t set_preflop();
+    virtual round_t set_flop(DeckOfCards *deck);
+    virtual round_t set_turn(DeckOfCards *deck);
+    virtual round_t set_river(DeckOfCards *deck);
 signals:
     void deal_cards_on_table(QVector<QLabel*> &cards_images);
     void turn_cards_on_table(vector<const Card*> &cards,

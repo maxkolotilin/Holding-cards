@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 21.04.2015
+ * Created by Maxim Kolotilin on 21.04.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
@@ -12,44 +13,52 @@
 
 #include "cards_on_table.h"
 
-Cards_on_table::Cards_on_table()
+CardsOnTable::CardsOnTable(QObject *parent) : QObject(parent)
 {
-    cards_on_table.reserve(5);
-    //round = NONE;
+    cards_on_table.reserve(CARDS_ON_TABLE_SIZE);
 }
 
-Cards_on_table::~Cards_on_table()
+CardsOnTable::~CardsOnTable()
 {
 
 }
 
-Cards_on_table::Round_t Cards_on_table::set_preflop()
+CardsOnTable::round_t CardsOnTable::set_preflop()
 {
-    cards_on_table.clear();
     return PREFLOP;
 }
 
-Cards_on_table::Round_t Cards_on_table::set_flop(Deck_of_cards *deck)
+CardsOnTable::round_t CardsOnTable::set_flop(DeckOfCards *deck)
 {
-    for (int i = 1; i <= 3; ++i) {
-        cards_on_table.push_back(deck->next_card());
+    for (int i = 0; i < 3; ++i) {
+        cards_on_table.push_back(deck->deal_next_card());
     }
+
     return FLOP;
 }
 
-Cards_on_table::Round_t Cards_on_table::set_turn(Deck_of_cards *deck)
+CardsOnTable::round_t CardsOnTable::set_turn(DeckOfCards *deck)
 {
-    cards_on_table.push_back(deck->next_card());
+    cards_on_table.push_back(deck->deal_next_card());
+
     return TURN;
 }
 
-Cards_on_table::Round_t Cards_on_table::set_river(Deck_of_cards *deck)
+CardsOnTable::round_t CardsOnTable::set_river(DeckOfCards *deck)
 {
-    cards_on_table.push_back(deck->next_card());
+    cards_on_table.push_back(deck->deal_next_card());
+
     return RIVER;
 }
 
-const vector<const Card *> *Cards_on_table::get_table_cards() const
+CardsOnTable::round_t CardsOnTable::reset_cards_on_table()
+{
+    cards_on_table.clear();
+
+    return NONE;
+}
+
+const vector<const Card *> *CardsOnTable::get_table_cards() const
 {
     return &cards_on_table;
 }

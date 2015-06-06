@@ -1,22 +1,38 @@
 #include "keepers.h"
 #include <QApplication>
 #include <QMessageBox>
+#include <exception>
 #include <QPainter>
 
 ImageKeeper::ImageKeeper(QWidget *w, QLabel *animated_card, bool scale /* = true */,
                          QObject *parent /* = 0 */, choice_t choice /* = 0 */)
-    : QObject(parent), cards_img(QVector<QVector<QPixmap*>>(Card::NUMBER_OF_FACE,
-                                         QVector<QPixmap*>(Card::NUMBER_OF_SUIT)))
+    : QObject(parent), cards_img(QVector<QVector<QPixmap*>>(Card::NUMBER_OF_FACES,
+                                         QVector<QPixmap*>(Card::NUMBER_OF_SUITS)))
 {
-    for (int face = 0; face < Card::NUMBER_OF_FACE; ++face) {
-        for (int suit = 0; suit < Card::NUMBER_OF_SUIT; ++suit)
-        {
-            cards_img[face][suit] = new QPixmap(PATH + QString::number(face) +
-                                                QString::number(suit) + ".png");
+    try {
+        for (int face = 0; face < Card::NUMBER_OF_FACES; ++face) {
+            for (int suit = 0; suit < Card::NUMBER_OF_SUITS; ++suit) {
+                cards_img[face][suit] = new QPixmap(PATH + QString::number(face) +
+                                                  QString::number(suit) + ".png");
+                if (cards_img[face][suit]->isNull()) {
+                    throw new std::exception();
+                }
+            }
+        }
+        back = new QPixmap(PATH + "toolboxbg.png");
+        if (back->isNull()) {
+            throw new std::exception();
+        }
+        blank = new QPixmap(PATH + "blank.png");
+        if (back->isNull()) {
+            throw new std::exception();
         }
     }
-    back = new QPixmap(PATH + "back.bmp");
-    blank = new QPixmap(PATH + "blank.png");
+    catch(std::exception *e) {
+        QMessageBox::warning(new QWidget(), "Error",
+                             "There is no pictures! Please, move folder \"res\""
+                             " to the folder with executable file.");
+    }
 
     if (scale) {
         scale_cards(DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT);

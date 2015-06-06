@@ -15,14 +15,14 @@
 #include "src/player.h"
 #include <QObject>
 
-typedef unsigned int chips_t;
+//typedef unsigned int chips_t;
 
 class Game : public QObject
 {
 public:
     typedef enum { BEGIN, CONTINUE, END } gameStatus_t;
 
-    Game(Cards_on_table *cards, chips_t min_bet);
+    Game(CardsOnTable *cards, chips_t min_bet);
     virtual ~Game();
 
     void add_player(Player* pl);
@@ -63,7 +63,7 @@ public:
     {
         return &bets;
     }
-    const Cards_on_table::Round_t *get_round_ptr()
+    const CardsOnTable::round_t *get_round_ptr()
     {
         return &round;
     }
@@ -89,12 +89,12 @@ protected:
     chips_t bets;
     chips_t current_max_bet;
     int number_of_played_hands;
-    Deck_of_cards* deck;
+    DeckOfCards* deck;
     list<Player*> players;
     vector<vector<Player*>> winlist;
-    Cards_on_table* cards_on_table;
+    CardsOnTable* cards_on_table;
     Evaluator* evaluator;
-    Cards_on_table::Round_t round;
+    CardsOnTable::round_t round;
 
     player_it dealer;
 };

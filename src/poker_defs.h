@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 12.04.2015
+ * Created by Maxim Kolotilin on 12.04.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt

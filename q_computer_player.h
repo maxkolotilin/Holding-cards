@@ -12,9 +12,9 @@ public:
     explicit QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
                              QLabel *action_lb, QWidget *bar,
                              string name, int id, chips_t stack,
-                             Pocket_cards *hand, const chips_t *pot,
+                             PocketCards *hand, const chips_t *pot,
                              const chips_t *total_bets,
-                             const Cards_on_table::Round_t *round,
+                             const CardsOnTable::round_t *round,
                              Evaluator *evaluator, QObject *parent = 0);
     ~QComputerPlayer();
 

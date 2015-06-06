@@ -7,8 +7,18 @@
 #include "QTimer"
 #include <QPropertyAnimation>
 #include <QBitmap>
+#include <QThread>
+#include <QMetaType>
+#include <vector>
+
+using std::vector;
 
 #include "src/game.h"
+
+
+typedef QVector<QLabel*>* type;
+Q_DECLARE_METATYPE(type)
+
 
 class Game;
 
@@ -205,7 +215,12 @@ void MainWindow::on_pushButton_clicked()
 //    ui->button_allin->setIconSize(ui->button_allin->size());
 
 
+
+    //qRegisterMetaType<QVector<QLabel*> &>();
     QApplication::processEvents();
+    QThread *thread = new QThread();
+    ik->moveToThread(thread);
+    thread->start();
 
     Player::set_min_bet(game->get_min_bet());
     game->start();

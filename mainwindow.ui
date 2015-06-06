@@ -20,7 +20,7 @@
       <x>300</x>
       <y>0</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_8">
@@ -29,12 +29,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_10">
           <property name="minimumSize">
@@ -237,7 +240,7 @@
       <x>20</x>
       <y>340</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_9">
@@ -246,12 +249,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_9">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_8">
           <property name="minimumSize">
@@ -454,7 +460,7 @@
       <x>300</x>
       <y>440</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_10">
@@ -463,12 +469,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_10">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_7">
           <property name="minimumSize">
@@ -671,7 +680,7 @@
       <x>560</x>
       <y>440</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_11">
@@ -680,12 +689,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_11">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_6">
           <property name="minimumSize">
@@ -888,7 +900,7 @@
       <x>820</x>
       <y>440</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_12">
@@ -897,12 +909,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_12">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_12">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_5">
           <property name="minimumSize">
@@ -1105,7 +1120,7 @@
       <x>1090</x>
       <y>350</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_13">
@@ -1114,12 +1129,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_13">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_4">
           <property name="minimumSize">
@@ -1322,7 +1340,7 @@
       <x>1090</x>
       <y>120</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_14">
@@ -1331,12 +1349,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_14">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_3">
           <property name="minimumSize">
@@ -1539,7 +1560,7 @@
       <x>830</x>
       <y>0</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_15">
@@ -1548,12 +1569,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_15">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_15">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_2">
           <property name="minimumSize">
@@ -1756,7 +1780,7 @@
       <x>560</x>
       <y>0</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <property name="palette">
@@ -1813,12 +1837,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_16">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_16">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_1">
           <property name="minimumSize">
@@ -2048,7 +2075,7 @@
       <x>20</x>
       <y>110</y>
       <width>191</width>
-      <height>211</height>
+      <height>220</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_17">
@@ -2057,12 +2084,15 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>212</height>
+       <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_17">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_17">
+        <property name="topMargin">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="card_1_bar_9">
           <property name="minimumSize">
@@ -2395,6 +2425,14 @@
           </disabled>
          </palette>
         </property>
+        <property name="font">
+         <font>
+          <family>URW Bookman L</family>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -2495,6 +2533,14 @@
           <height>40</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>URW Bookman L</family>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="text">
          <string>Raise</string>
         </property>
@@ -2508,8 +2554,16 @@
           <height>40</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>URW Bookman L</family>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="text">
-         <string>Call</string>
+         <string>Call / Check</string>
         </property>
        </widget>
       </item>
@@ -2520,6 +2574,14 @@
           <width>120</width>
           <height>40</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>URW Bookman L</family>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="text">
          <string>Fold</string>
@@ -2959,8 +3021,8 @@
    <widget class="QLabel" name="animated_card">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>-20</x>
+      <y>-10</y>
       <width>90</width>
       <height>130</height>
      </rect>
@@ -2975,6 +3037,256 @@
      <size>
       <width>90</width>
       <height>130</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_9">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>260</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_10">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>150</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_1">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>150</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_2">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>150</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_3">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>270</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_4">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>500</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_5">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>590</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_6">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>590</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_7">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>590</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="puck_bar_8">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>490</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
      </size>
     </property>
     <property name="text">

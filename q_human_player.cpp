@@ -7,7 +7,7 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
                            QLabel *bet_size_lb, QSlider *bet_size_slider,
                            QWidget *bar,
                            string name, int id, chips_t stack,
-                           Pocket_cards *hand, QObject *parent /* = 0 */)
+                           PocketCards *hand, QObject *parent /* = 0 */)
     : HumanPlayer(name, id, stack, hand)
 {
     name_label = name_lb;
@@ -117,7 +117,7 @@ void QHumanPlayer::all_in()
 
 void QHumanPlayer::call()
 {
-    last_action = { true, CALL, max_bet_in_round - bets };
+    last_action = { true, CALL, max_bet_in_round - bets_in_round };
 }
 
 void QHumanPlayer::raise()

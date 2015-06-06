@@ -20,7 +20,7 @@ public:
                           QLabel *bet_size_lb, QSlider *bet_size_slider,
                           QWidget *bar,
                           string name, int id, chips_t stack,
-                          Pocket_cards *hand, QObject *parent = 0);
+                          PocketCards *hand, QObject *parent = 0);
     ~QHumanPlayer();
 
     action_t action(chips_t max_bet_in_round);

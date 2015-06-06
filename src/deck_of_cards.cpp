@@ -1,12 +1,13 @@
 /*
- * Created on 20.03.2015 by MaximKa
+ * Created on 20.03.2015 by Maxim Kolotilin
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  *
  * It's a part of Texas Hold'em project
  *
- * Implementation for Deck_of_cards.h
+ * Implementation for DeckOfCards.h
  *
  */
 
@@ -15,43 +16,45 @@
 
 #include "deck_of_cards.h"
 
-Deck_of_cards::Deck_of_cards()
+DeckOfCards::DeckOfCards()
 {
-    cards_in_deck = DECK_SIZE;
+    current_deck_size = DECK_SIZE;
     deck.reserve(52);
 
     for (int i = 0; i < DECK_SIZE; ++i) {
-        deck.push_back(new Card(i / Card::NUMBER_OF_SUIT,
-                                i % Card::NUMBER_OF_SUIT));
+        deck.push_back(new Card(i / Card::NUMBER_OF_SUITS,
+                                i % Card::NUMBER_OF_SUITS));
     }
     srand(time(0));
 }
 
-Deck_of_cards::~Deck_of_cards()
+DeckOfCards::~DeckOfCards()
 {
     for (int i = 0; i < DECK_SIZE; ++i) {
         delete deck[i];
     }
 }
 
-void Deck_of_cards::shuffle()
+void DeckOfCards::shuffle()
 {
     for (int i = 0; i < DECK_SIZE; ++i) {
         int j = rand() % DECK_SIZE;
         std::swap(deck[i], deck[j]);
     }
-    cards_in_deck = DECK_SIZE;
-    //std::random_shuffle(deck.begin(), deck.end());
+    current_deck_size = DECK_SIZE;
+
+    // std::random_shuffle(deck.begin(), deck.end());
 }
 
-void Deck_of_cards::print_deck() const
+void DeckOfCards::print_deck() const
 {
     for (int i = 0; i < DECK_SIZE; ++i) {
         output << deck[i]->get_full_name() << (((i + 1) % 2) ? '\t' : '\n');
     }
+    // output is defined in poker_defs.h
 }
 
-const Card* Deck_of_cards::next_card()
+const Card* DeckOfCards::deal_next_card()
 {
-    return deck[--cards_in_deck];
+    return deck[--current_deck_size];
 }

@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 12.04.2015
+ * Created by Maxim Kolotilin on 12.04.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
@@ -19,14 +20,16 @@ const string Card::suits[] = { "Hearts", "Diamonds", "Clubs", "Spades" };
 
 Card::Card(int face, int suit)
 {
-    this->face = (Face_t)face;
-    this->suit = (Suit_t)suit;
+    this->face = (face_t)face;
+    this->suit = (suit_t)suit;
 }
 
 Card::~Card()
-{}
+{
 
-void Card::get_values(Face_t &face, Suit_t &suit) const
+}
+
+void Card::get_values(face_t &face, suit_t &suit) const
 {
     face = this->face;
     suit = this->suit;
@@ -35,6 +38,7 @@ void Card::get_values(Face_t &face, Suit_t &suit) const
 void Card::print_card() const
 {
     output << get_full_name();
+    // output is defined in poker_defs.h
 }
 
 bool Card::greater(const Card *c_1, const Card *c_2)

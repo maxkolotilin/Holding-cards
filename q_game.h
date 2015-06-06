@@ -10,7 +10,7 @@ class QGame : public Game
     Q_OBJECT
 public:
     explicit QGame(QLabel *pot, QLabel *bets,
-                   Cards_on_table *cards, chips_t min_bet, QObject *parent = 0);
+                   CardsOnTable *cards, chips_t min_bet, QObject *parent = 0);
     ~QGame();
 
     virtual void increase_min_bet();

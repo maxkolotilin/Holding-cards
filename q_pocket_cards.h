@@ -7,7 +7,7 @@
 #include "src/pocket_cards.h"
 #include "keepers.h"
 
-class QPocketCards : public Pocket_cards
+class QPocketCards : public PocketCards
 {
     Q_OBJECT
 public:
@@ -16,7 +16,7 @@ public:
     ~QPocketCards();
 
     void set_card(const Card *c);
-    void clear();
+    void reset_pocket_cards();
     void show_hand();
 
 private:

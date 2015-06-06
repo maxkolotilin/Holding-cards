@@ -12,9 +12,9 @@
 #include "game.h"
 #include <ctime>
 
-Game::Game(Cards_on_table *cards, chips_t min_bet)
+Game::Game(CardsOnTable *cards, chips_t min_bet)
 {
-    deck = new Deck_of_cards();
+    deck = new DeckOfCards();
     cards_on_table = cards;
     evaluator = new Evaluator(cards_on_table);
 
@@ -99,13 +99,13 @@ chips_t Game::start_trading()
     current_max_bet = 0;
 
     player_it start_player;
-    if (round == Cards_on_table::PREFLOP) {
+    if (round == CardsOnTable::PREFLOP) {
         player_it blinds = dealer;
 
         next_player(blinds);
-        add_to_bets((*blinds)->blind(Player::SMALL_BLIND));
+        add_to_bets((*blinds)->blind(Player::SMALL));
         next_player(blinds);
-        add_to_bets((*blinds)->blind(Player::BIG_BLIND));
+        add_to_bets((*blinds)->blind(Player::BIG));
 
         next_player(blinds);
         start_player = blinds;
@@ -145,7 +145,7 @@ void Game::winners()
         player_it player = players.begin();
         for (; (*player)->get_last_action().action == Player::NONE ||
                (*player)->get_last_action().action == Player::FOLD; ++player);
-        (*player)->get_won_bank(pot);
+        (*player)->add_to_stack(pot);
     } else {
         for (player_it player = players.begin(); player != players.end();
              ++player) {
@@ -164,7 +164,7 @@ void Game::winners()
         int number_of_winners = winners.size();
         for (vector<Player*>::iterator player = winners.begin();
              player != winners.end(); ++player) {
-            (*player)->get_won_bank(pot / number_of_winners);  // potentional error!
+            (*player)->add_to_stack(pot / number_of_winners);  // potentional error!
         }
     }
 }
@@ -199,7 +199,7 @@ void Game::deal_cards()
     next_player(player);
     // deal 2 cards for each player
     for (int i = 0; i < number_of_players * 2; ++i) {
-        (*player)->set_card(deck->next_card());
+        (*player)->set_card(deck->deal_next_card());
         next_player(player);
     }
 

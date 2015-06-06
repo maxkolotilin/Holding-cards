@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 21.04.2015
+ * Created by Maxim Kolotilin on 21.04.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
@@ -16,20 +17,20 @@
 #include "src/deck_of_cards.h"
 #include <QObject>
 
-class Pocket_cards: public QObject
+class PocketCards: public QObject
 {
-    //friend class Player;
-
 public:
-    Pocket_cards();
-    virtual ~Pocket_cards();
+    static const int POCKET_SIZE = 2;
+
+    PocketCards(QObject *parent = 0);
+    virtual ~PocketCards();
 
     virtual void set_card(const Card *c);
-    const vector<const Card *> *get_hand() const;
-    virtual void clear();
-    virtual void show_hand() {}
+    virtual void reset_pocket_cards();
+    virtual void show_hand();
 
-    //void copyCards(std::vector<Card> *v) const { v->insert(v->end(), cards.begin(), cards.end()); };
+    // return pointer to constant vector
+    const vector<const Card *> *get_hand() const;
 
 protected:
     int cards_in_pocket;
