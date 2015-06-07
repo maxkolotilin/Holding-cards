@@ -24,6 +24,9 @@ class CardsOnTable : public QObject
 public:
     typedef enum { NONE, PREFLOP, FLOP, TURN, RIVER } round_t;
     static const int CARDS_ON_TABLE_SIZE = 5;
+    static const int CARDS_ON_FLOP = 3;
+    static const int CARDS_ON_TURN = 4;
+    static const int CARDS_ON_RIVER = 5;
 
     CardsOnTable(QObject *parent = 0);
     virtual ~CardsOnTable();

@@ -1,5 +1,6 @@
 /*
- * Created by MaximKa on 27.05.2015
+ * Created by Maxim Kolotilin on 27.05.2015
+ * e-mail: maxkolmail@gmail.com
  *
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
@@ -15,53 +16,29 @@
 #include "src/player.h"
 #include <QObject>
 
-//typedef unsigned int chips_t;
-
 class Game : public QObject
 {
 public:
     typedef enum { BEGIN, CONTINUE, END } gameStatus_t;
 
-    Game(CardsOnTable *cards, chips_t min_bet);
+    Game(CardsOnTable *cards, chips_t min_bet, int interval, QObject *parent = 0);
     virtual ~Game();
 
     void add_player(Player* pl);
-    void search_for_losers();
-    void winners();
-    // void showdown();
-
     void start();
-    void deal_cards();
-    void reset_players();
-    void start_new_deal();
-    chips_t start_trading();
     virtual void increase_min_bet();
 
-    chips_t get_min_bet() const { return min_bet; }
-    virtual void add_to_bets(chips_t bet)
+    chips_t get_min_bet() const
     {
-        bets += bet;
+        return min_bet;
     }
-    virtual void add_to_pot(chips_t bets_in_round)
-    {
-        pot += bets_in_round;
-    }
-    virtual void reset_bets()
-    {
-        bets = 0;
-    }
-    virtual void reset_pot()
-    {
-        pot = 0;
-    }
-
     const chips_t *get_pot_ptr()
     {
         return &pot;
     }
     const chips_t *get_bets_ptr()
     {
-        return &bets;
+        return &total_bets_in_round;
     }
     const CardsOnTable::round_t *get_round_ptr()
     {
@@ -71,32 +48,66 @@ public:
     {
         return evaluator;
     }
-    void set_human_ptr(Player *ptr)
+    void set_human_ptr(Player *player)
     {
-        human = ptr;
+        human = player;
+    }
+
+    virtual void add_to_bets(chips_t bet)
+    {
+        total_bets_in_round += bet;
+    }
+    virtual void add_to_pot(chips_t bets_in_round)
+    {
+        pot += bets_in_round;
+    }
+    virtual void reset_bets()
+    {
+        total_bets_in_round = 0;
+    }
+    virtual void reset_pot()
+    {
+        pot = 0;
     }
 
 protected:
-    void next_player(player_it &player);
-    Player *human;
-    gameStatus_t game_status;
     void set_random_dealer();
-    int number_of_players;
-    int number_of_folded;
-    int current_deal;
-    chips_t min_bet;
-    chips_t pot;
-    chips_t bets;
-    chips_t current_max_bet;
-    int number_of_played_hands;
-    DeckOfCards* deck;
-    list<Player*> players;
-    vector<vector<Player*>> winlist;
-    CardsOnTable* cards_on_table;
-    Evaluator* evaluator;
+    void set_next_dealer();
+    void next_player(player_it &player);
+    void search_for_losers();
+    void distribute_pot_to_players();
+    void deal_cards();
+    void reset_players();
+
+    virtual void start_new_deal();
+    virtual void end_deal();
+    virtual chips_t start_trading();
+    virtual void winners();
+
+    gameStatus_t game_status;
     CardsOnTable::round_t round;
 
+    Player *human;
     player_it dealer;
+
+    int number_of_players;
+    int number_of_folded;
+    int number_of_played_hands;
+
+    chips_t min_bet;           // current min bet in game
+    int increase_interval;     // interval of increasing of min bet
+    chips_t pot;
+    chips_t total_bets_in_round;
+    chips_t current_max_bet;
+    chips_t size_of_last_raise;  // warning: == new max bet - current max bet!
+
+    DeckOfCards* deck;
+    CardsOnTable* cards_on_table;
+    Evaluator* evaluator;
+
+    list<Player*> players;
+    vector<vector<Player*>> winlist;
+
 };
 
 #endif // GAME_H

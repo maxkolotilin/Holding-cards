@@ -1,11 +1,18 @@
+/*
+ * Created by Maxim Kolotilin on 01.06.2015
+ * e-mail: maxkolmail@gmail.com
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
+ *
+ * It's a part of Texas Hold'em project
+ *
+ * Implementation for keepers.h
+ */
 #include "keepers.h"
-#include <QApplication>
-#include <QMessageBox>
-#include <exception>
-#include <QPainter>
 
-ImageKeeper::ImageKeeper(QWidget *w, QLabel *animated_card, bool scale /* = true */,
-                         QObject *parent /* = 0 */, choice_t choice /* = 0 */)
+ImageKeeper::ImageKeeper(QWidget *main_window, QLabel *animated_card,
+                         bool scale /* = true */, QObject *parent /* = 0 */)
     : QObject(parent), cards_img(QVector<QVector<QPixmap*>>(Card::NUMBER_OF_FACES,
                                          QVector<QPixmap*>(Card::NUMBER_OF_SUITS)))
 {
@@ -46,7 +53,7 @@ ImageKeeper::ImageKeeper(QWidget *w, QLabel *animated_card, bool scale /* = true
     connect(this, SIGNAL(drop_card(QLabel*)),
             this, SLOT(drop_card_animation(QLabel*)));
 
-    this->w = w;
+    this->main_window = main_window;
 }
 
 ImageKeeper::~ImageKeeper()
@@ -73,7 +80,7 @@ QPixmap* ImageKeeper::get_card_image(const Card *card)
 // slots  ========================================================
 
 void ImageKeeper::set_faces(vector<const Card *> &cards,
-                            QVector<QLabel *> &cards_images)
+                            QVector<QLabel *> cards_images)
 {
     // This function inserts images according to cards in cards_images at the
     // same order.
@@ -95,14 +102,14 @@ void ImageKeeper::set_face(const Card *card, QLabel *card_image)
     card_image->setPixmap(*get_card_image(card));
 }
 
-void ImageKeeper::clear_cards(QVector<QLabel *> &cards_images)
+void ImageKeeper::clear_cards(QVector<QLabel *> cards_images)
 {
     foreach (QLabel *element, cards_images) {
         element->setPixmap(*blank);
     }
 }
 
-void ImageKeeper::set_backs(QVector<QLabel *> &cards_images)
+void ImageKeeper::set_backs(QVector<QLabel *> cards_images)
 {
     foreach (QLabel *element, cards_images) {
         emit drop_card(element);
@@ -118,8 +125,8 @@ void ImageKeeper::set_back(QLabel *card_image)
     card_image->setPixmap(*back);
 }
 
-void ImageKeeper::turn_cards(vector<const Card *> &cards,
-                             QVector<QLabel *> &cards_images)
+void ImageKeeper::flip_cards(vector<const Card *> &cards,
+                             QVector<QLabel *> cards_images)
 {
     // uncomplited
 //    QPropertyAnimation anim(animated_card, "yRotation");
@@ -143,7 +150,7 @@ void ImageKeeper::drop_card_animation(QLabel *card)
     const QPoint old_pos = animated_card->pos();
     anim.setStartValue(animated_card->pos());
     //QMessageBox::about(new QWidget(), QString::number(card->pos().ry()), QString::number(card->pos().rx()));
-    anim.setEndValue(card->mapTo(w, QPoint(0, 0)));
+    anim.setEndValue(card->mapTo(main_window, QPoint(0, 0)));
     anim.setEasingCurve(QEasingCurve::OutCirc);
     anim.start();
     connect(&anim, SIGNAL(finished()), event_loop, SLOT(quit()));

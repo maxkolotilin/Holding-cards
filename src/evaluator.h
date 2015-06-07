@@ -36,6 +36,8 @@ public:
                    FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH,
                    ROYAL_FLUSH } combinations_t;
     static const int NUMBER_OF_COMBINATIONS = 10;
+    static const int COMBINATION_CARDS_SIZE = 5;
+    static const int KICKER_CARDS_SIZE = 5;
 
     HandStrength();
     ~HandStrength();
@@ -96,12 +98,19 @@ private:
 class Evaluator
 {
 public:
+    static const int FOUR_OF_A_KIND_SIZE = 4;
+    static const int THREE_OF_A_KIND_SIZE = 3;
+    static const int PAIR_SIZE = 2;
+    static const int FLUSH_SIZE = 5;
+    static const int STRAIGHT_SIZE = 5;
+
     Evaluator(const CardsOnTable *cards);
     ~Evaluator();
 
-    void get_strength(HandStrength *strength);
     void get_strength(PocketCards *pocket, HandStrength *strength);
     void get_strength(Player* player);
+    // warning: next overloaded version DON'T clear all_cards
+    void get_strength(HandStrength *strength);
 
     void get_win_list(list<Player*> &players,
                       vector<vector<Player*>> &winlist);

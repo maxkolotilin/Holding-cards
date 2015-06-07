@@ -16,7 +16,7 @@
 PocketCards::PocketCards(QObject *parent) : QObject(parent)
 {
     cards_in_pocket = 0;
-    pocket_cards.reserve(2);
+    pocket_cards.reserve(POCKET_SIZE);
 }
 
 PocketCards::~PocketCards()

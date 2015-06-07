@@ -34,8 +34,6 @@ public:
         chips_t amount;
     } action_t;
 
-//    static const int NUMBER_OF_ACTIONS = 10;
-//    static const int NUMBER_OF_BLINDS = 2;
     const action_t RESET_ACTION = { false, NONE, 0 };
 
     Player(string name, int id, chips_t stack, PocketCards *hand,
@@ -60,15 +58,11 @@ public:
     }
     chips_t get_bets_in_round() const
     {
-        return bets_in_round;
+        return my_bets_in_round;
     }
     action_t get_last_action() const
     {
         return last_action;
-    }
-    void add_to_stack(chips_t gain)
-    {
-        stack += gain;
     }
     const string get_name()
     {
@@ -86,15 +80,25 @@ public:
     void reset_last_action();
     string action_to_string(action_t act);
 
+    virtual void set_fold();
+    virtual void set_all_in();
+    virtual void set_call(chips_t max_bet_in_round);
+    virtual void set_raise(chips_t max_bet_in_round, chips_t raise_size,
+                           chips_t bet);
+
     virtual action_t action(chips_t max_bet_in_round, chips_t raise_size) = 0;
    // virtual void enable() = 0;
     virtual chips_t blind(blind_t type);
-    virtual chips_t stake(action_t action);
+    virtual chips_t stake(chips_t max_bet_in_round);
     virtual void reset_player();
     virtual void set_dealer(bool switcher);
     virtual void show_hand()
     {
         hand->show_hand();
+    }
+    virtual void add_to_stack(chips_t gain)
+    {
+        stack += gain;
     }
 
     // next function is required for std::sort()
@@ -115,8 +119,8 @@ protected:
     PocketCards* hand;
     HandStrength* strength;
 
-    chips_t stack;           // player's bank
-    chips_t bets_in_round;   // player's bets in current round
+    chips_t stack;              // player's bank
+    chips_t my_bets_in_round;   // player's bets in current round
 
     action_t last_action;
 
@@ -144,6 +148,14 @@ protected:
 class ComputerPlayer: public Player
 {
 public:
+    static const int FLUSH_DRO_OUTS = 9;
+    static const int STRAIGHT_DRO_OUTS = 8;
+    static const int GUTSHOT_OUTS = 4;
+    static const int PAIR_OUTS = 2;
+    static const int TWO_PAIRS_OUTS = 4;
+    static const int THREE_TO_FOUR_OUTS = 1;
+    static const int HIGH_CARD_OUTS = 3;
+
     ComputerPlayer(string name, int id, chips_t stack, const chips_t* pot,
                    const chips_t* total_bets, const CardsOnTable::round_t *round,
                    PocketCards *hand, Evaluator *evaluator, QObject *parent = 0);
@@ -176,8 +188,12 @@ protected:
     bool is_suited();
 
     // flop, turn, river logic
-    int count_outs(Evaluator &evaluator);
-    void current_combination(Evaluator &evaluator);
+    bool check_flush_dro();
+    bool check_straight_dro();
+    bool check_gutshot();
+    bool check_gutshot_helper(card_it begin, card_it end);
+    int count_outs();
+    void current_combination();
     bool check_pot_odds(chips_t bet);
 
     //    TODO
@@ -187,6 +203,12 @@ protected:
     //    add table_image
     //    add discount_chances
     //    add steal_blinds
+    //    add bluff
+    //    add check_raise
+    //    add free_card
+    //    add slowplay
+    //    add continuation_bet
+    //    add floating
 };
 
 

@@ -2,6 +2,16 @@
 #
 # Project created by QtCreator 2015-04-12T16:11:50
 #
+# Author: Maxim Kolotilin
+# e-mail: maxkolmail@gmail.com
+#
+# Distributed under the Boost Software License, Version 1.0,
+# and GNU Lesser General Public License (LGPL) version 3
+# http://www.boost.org/LICENSE_1_0.txt
+# http://doc.qt.io/qt-5/lgpl.html
+#
+# It's a part of Texas Hold'em project
+#
 #-------------------------------------------------
 
 QT       += core gui

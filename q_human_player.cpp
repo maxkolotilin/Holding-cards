@@ -117,7 +117,7 @@ void QHumanPlayer::all_in()
 
 void QHumanPlayer::call()
 {
-    last_action = { true, CALL, max_bet_in_round - bets_in_round };
+    last_action = { true, CALL, max_bet_in_round - my_bets_in_round };
 }
 
 void QHumanPlayer::raise()

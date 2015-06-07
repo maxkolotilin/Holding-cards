@@ -36,8 +36,8 @@ const string HandStrength::combinations[] = { "High card", "Pair",
 
 HandStrength::HandStrength()
 {
-    combination_cards.reserve(CardsOnTable::CARDS_ON_TABLE_SIZE);
-    kicker_cards.reserve(CardsOnTable::CARDS_ON_TABLE_SIZE);
+    combination_cards.reserve(COMBINATION_CARDS_SIZE);
+    kicker_cards.reserve(KICKER_CARDS_SIZE);
 }
 
 HandStrength::~HandStrength()
@@ -76,30 +76,6 @@ bool HandStrength::operator < (const HandStrength &hs) const
 
 bool HandStrength::operator > (const HandStrength &hs) const
 {
-//    if (get_combination() > hs.get_combination()) {
-//        return true;
-//    } else if (get_combination() < hs.get_combination()) {
-//        return false;
-//    }
-
-//    for (int i = 0; i < combination_cards.size(); ++i) {
-//        if (combination_cards[i]->get_face() > hs.combination_cards[i]->get_face()) {
-//            return true;
-//        } else if (combination_cards[i]->get_face() < hs.combination_cards[i]->get_face()) {
-//            return false;
-//        }
-//    }
-
-//    for (int i= 0; i < kicker_cards.size(); ++i) {
-//        if (kicker_cards[i]->get_face() > hs.kicker_cards[i]->get_face()) {
-//            return true;
-//        } else if (kicker_cards[i]->get_face() < hs.kicker_cards[i]->get_face()) {
-//            return false;
-//        }
-//    }
-
-//    return false;
-
     return hs < *this;
 }
 
@@ -178,7 +154,7 @@ void Evaluator::get_strength(HandStrength *strength)
         if (strength->get_combination_cards()->front()->get_face() == Card::ACE) {
             strength->set_combination(HandStrength::ROYAL_FLUSH);
         }
-    } else if (is_X_of_a_kind(4, strength)) {
+    } else if (is_X_of_a_kind(FOUR_OF_A_KIND_SIZE, strength)) {
         strength->set_combination(HandStrength::FOUR_OF_A_KIND);
     } else if (is_full_house(strength)) {
         strength->set_combination(HandStrength::FULL_HOUSE);
@@ -186,21 +162,22 @@ void Evaluator::get_strength(HandStrength *strength)
         strength->set_combination(HandStrength::FLUSH);
     } else if (is_straight(strength)) {
         strength->set_combination(HandStrength:: STRAIGHT);
-    } else if (is_X_of_a_kind(3, strength)) {
+    } else if (is_X_of_a_kind(THREE_OF_A_KIND_SIZE, strength)) {
         strength->set_combination(HandStrength::TREE_OF_A_KIND);
     } else if (is_two_pairs(strength)) {
         strength->set_combination(HandStrength::TWO_PAIRS);
-    } else if (is_X_of_a_kind(2, strength)) {
+    } else if (is_X_of_a_kind(PAIR_SIZE, strength)) {
         strength->set_combination(HandStrength::PAIR);
     } else {
         strength->set_combination(HandStrength::HIGH_CARD);
 
         strength->clear_combination_cards();
         strength->add_to_combination_cards(all_cards.front());
+
         strength->clear_kicker_cards();
         for (card_it card = all_cards.begin() + 1;
-             card != all_cards.end() &&
-             strength->get_kicker_cards()->size() < 4; ++card) {
+             card != all_cards.end() && strength->get_kicker_cards()->size() <
+             HandStrength::KICKER_CARDS_SIZE - 1; ++card) {
             strength->add_to_kicker_cards(*card);
         }
     }
@@ -211,11 +188,11 @@ bool Evaluator::is_two_pairs(HandStrength *strength)
     bool is_twopairs = false;
 
     // contains first Pair
-    if (is_X_of_a_kind(2, strength)) {
+    if (is_X_of_a_kind(PAIR_SIZE, strength)) {
         const Card *fp = strength->get_combination_cards()->front();
         // and contains a second Pair (other than first pair face)
         // use previous rank for "exclude"
-        if (is_X_of_a_kind(2, strength)) {
+        if (is_X_of_a_kind(PAIR_SIZE, strength)) {
             const Card *sp = strength->get_combination_cards()->front();
 
             strength->clear_combination_cards();
@@ -258,7 +235,7 @@ bool Evaluator::is_straight(HandStrength *strength, const int suit /* = -1 */)
             counter = 1;
             high_card = *card;
         } else {
-            if (++counter == 5) {
+            if (++counter == STRAIGHT_SIZE) {
                 is_straight = true;
                 break;
             }
@@ -268,7 +245,7 @@ bool Evaluator::is_straight(HandStrength *strength, const int suit /* = -1 */)
     }
 
     // check "wheel" (A2345)
-    if (counter == 4 && last_face == Card::TWO &&
+    if (counter == STRAIGHT_SIZE - 1 && last_face == Card::TWO &&
         all_cards.front()->get_face() == Card::ACE) {
         if (suit == -1) {
             is_straight = true;
@@ -300,7 +277,7 @@ bool Evaluator::is_flush(HandStrength *strength)
 
     // count same suits
     for (card_it card = all_cards.begin(); card != all_cards.end(); ++card) {
-        if (++suit_counter[(*card)->get_suit()] == 5) {
+        if (++suit_counter[(*card)->get_suit()] == FLUSH_SIZE) {
             flush_suit = (*card)->get_suit();
             is_flush = true;
             break;
@@ -315,7 +292,7 @@ bool Evaluator::is_flush(HandStrength *strength)
         for (card_it card = all_cards.begin(); card != all_cards.end(); ++card) {
             if ((*card)->get_suit() == flush_suit) {
                 strength->add_to_combination_cards(*card);
-                if (++counter = 5) {
+                if (++counter = FLUSH_SIZE) {
                     break;
                 }
             }
@@ -367,7 +344,7 @@ bool Evaluator::is_X_of_a_kind(const int X, HandStrength *strength)
         for (card_it card = all_cards.begin(); card != all_cards.end(); ++card) {
             if ((*card)->get_face() != face) {
                 strength->add_to_kicker_cards(*card);
-                if (++counter == 5 - X) {
+                if (++counter == HandStrength::KICKER_CARDS_SIZE - X) {
                     break;
                 }
             }
@@ -382,13 +359,13 @@ bool Evaluator::is_full_house(HandStrength *strength)
     bool is_fullhouse = false;
 
     // strength contains Three of a Kind
-    if (is_X_of_a_kind(3, strength))
+    if (is_X_of_a_kind(THREE_OF_A_KIND_SIZE, strength))
     {
         const Card *three = strength->get_combination_cards()->front();
 
         // and contains a Pair (other than the Three of a Kind-card)
         // use previous comb card as "exclude"
-        if (is_X_of_a_kind(2, strength))
+        if (is_X_of_a_kind(PAIR_SIZE, strength))
         {
             const Card *deuce = strength->get_combination_cards()->front();
 
@@ -417,8 +394,7 @@ void Evaluator::get_win_list(list<Player*> &players,
     vector<Player*> players_on_showdown;
     for (player_it player = players.begin(); player != players.end();
          ++player) {
-        if (((*player)->get_last_action().action != Player::FOLD) !=
-            ((*player)->get_last_action().action != Player::NONE)) {
+        if ((*player)->is_player_in_game()) {
             players_on_showdown.push_back(*player);
         }
     }
@@ -432,12 +408,12 @@ void Evaluator::get_win_list(list<Player*> &players,
         vector<Player*> weaker_players;
 
         // sort players descending
-        std::sort(current_list.begin(), current_list.end(),
-                  Player::greater);
+        std::sort(current_list.begin(), current_list.end(), Player::greater);
 
-        for (int i = current_list.size(); i > 1; --i) {
-            if (*(current_list[i]) < *(current_list[0])) {
-                weaker_players.push_back(current_list[i]);
+        // compare players with top player
+        for (int player = current_list.size(); player > 1; --player) {
+            if (*(current_list[player]) < *(current_list[0])) {
+                weaker_players.push_back(current_list[player]);
                 current_list.pop_back();
             }
         }
@@ -448,6 +424,6 @@ void Evaluator::get_win_list(list<Player*> &players,
         }
 
         winlist.push_back(weaker_players);
-        index++;
+        ++index;
     }
 }

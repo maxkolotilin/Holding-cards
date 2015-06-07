@@ -19,7 +19,7 @@
 DeckOfCards::DeckOfCards()
 {
     current_deck_size = DECK_SIZE;
-    deck.reserve(52);
+    deck.reserve(DECK_SIZE);
 
     for (int i = 0; i < DECK_SIZE; ++i) {
         deck.push_back(new Card(i / Card::NUMBER_OF_SUITS,

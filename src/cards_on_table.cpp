@@ -30,7 +30,7 @@ CardsOnTable::round_t CardsOnTable::set_preflop()
 
 CardsOnTable::round_t CardsOnTable::set_flop(DeckOfCards *deck)
 {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < CARDS_ON_FLOP; ++i) {
         cards_on_table.push_back(deck->deal_next_card());
     }
 
@@ -39,14 +39,18 @@ CardsOnTable::round_t CardsOnTable::set_flop(DeckOfCards *deck)
 
 CardsOnTable::round_t CardsOnTable::set_turn(DeckOfCards *deck)
 {
-    cards_on_table.push_back(deck->deal_next_card());
+    for (int i = CARDS_ON_FLOP; i < CARDS_ON_TURN; ++i) {
+        cards_on_table.push_back(deck->deal_next_card());
+    }
 
     return TURN;
 }
 
 CardsOnTable::round_t CardsOnTable::set_river(DeckOfCards *deck)
 {
-    cards_on_table.push_back(deck->deal_next_card());
+    for (int i = CARDS_ON_TURN; i < CARDS_ON_RIVER; ++i) {
+        cards_on_table.push_back(deck->deal_next_card());
+    }
 
     return RIVER;
 }
