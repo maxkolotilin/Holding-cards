@@ -23,38 +23,38 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    src/card.cpp \
-    src/Test.cpp \
-    src/cards_on_table.cpp \
-    src/pocket_cards.cpp \
-    src/deck_of_cards.cpp \
-    src/evaluator.cpp \
-    src/player.cpp \
-    src/game.cpp \
-    keepers.cpp \
-    q_cards_on_table.cpp \
-    q_human_player.cpp \
-    q_pocket_cards.cpp \
-    q_computer_player.cpp \
-    q_game.cpp
+        src/mainwindow.cpp \
+    src/core/card.cpp \
+    src/core/Test.cpp \
+    src/core/cards_on_table.cpp \
+    src/core/pocket_cards.cpp \
+    src/core/deck_of_cards.cpp \
+    src/core/evaluator.cpp \
+    src/core/player.cpp \
+    src/core/game.cpp \
+    src/keepers.cpp \
+    src/q_cards_on_table.cpp \
+    src/q_human_player.cpp \
+    src/q_pocket_cards.cpp \
+    src/q_computer_player.cpp \
+    src/q_game.cpp
 
-HEADERS  += mainwindow.h \
-    src/card.h \
-    src/Test.h \
-    src/poker_defs.h \
-    src/cards_on_table.h \
-    src/pocket_cards.h \
-    src/deck_of_cards.h \
-    src/evaluator.h \
-    src/player.h \
-    src/game.h \
-    keepers.h \
-    q_cards_on_table.h \
-    q_human_player.h \
-    q_pocket_cards.h \
-    q_computer_player.h \
-    q_game.h
+HEADERS  += src/mainwindow.h \
+    src/core/card.h \
+    src/core/Test.h \
+    src/core/poker_defs.h \
+    src/core/cards_on_table.h \
+    src/core/pocket_cards.h \
+    src/core/deck_of_cards.h \
+    src/core/evaluator.h \
+    src/core/player.h \
+    src/core/game.h \
+    src/keepers.h \
+    src/q_cards_on_table.h \
+    src/q_human_player.h \
+    src/q_pocket_cards.h \
+    src/q_computer_player.h \
+    src/q_game.h
 
 FORMS    += mainwindow.ui
 
