@@ -90,15 +90,16 @@ void Game::start_new_deal()
         round = cards_on_table->set_flop(deck);
         add_to_pot(start_trading());
 
+        reset_bets();
         if (number_of_folded != number_of_players - 1) {
             round = cards_on_table->set_turn(deck);
             add_to_pot(start_trading());
 
+            reset_bets();
             if (number_of_folded != number_of_players - 1) {
                 round = cards_on_table->set_river(deck);
                 add_to_pot(start_trading());
 
-                // clear bets last time manually
                 reset_bets();
             }
         }
@@ -121,7 +122,6 @@ chips_t Game::start_trading()
     } else {
         // postflop
         next_player(start_player);
-        reset_bets();
         current_max_bet = 0;
         size_of_last_raise = 0;
 
@@ -135,7 +135,9 @@ chips_t Game::start_trading()
     for (player_it current_player = start_player;
          made_decision < number_of_players; ++made_decision ) {
 
-        if ((*current_player)->is_player_in_game()) {
+        if ((*current_player)->is_player_in_game() &&
+            (*current_player)->get_last_action().action != Player::ALL_IN) {
+
             Player::action_t act = (*current_player)->action(current_max_bet,
                                                              size_of_last_raise);
             if (act.valid) {

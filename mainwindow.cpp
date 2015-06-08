@@ -41,16 +41,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->showFullScreen();
+
     ik = new ImageKeeper(ui->centralWidget, ui->animated_card, this);
-    // try
-    ik->load_pictures();
+
+    ik->load_pictures();     // throws exception
     ik->scale_cards();
 
     // set background
-    QPixmap *bkgnd = ik->get_picture(ImageKeeper::TABLE);
-    *bkgnd = bkgnd->scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPixmap bkgnd(*ik->get_picture(ImageKeeper::TABLE));
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
-    palette.setBrush(QPalette::Background, *bkgnd);
+    palette.setBrush(QPalette::Background, bkgnd);
     this->setPalette(palette);
 
     game = new QGame(ui->label_pot, ui->label_bets,
@@ -58,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                        ui->flopcard_3, ui->turncard,
                                        ui->rivercard, ik, this),
                      40, 10,this, this);
+
+    const int PLAYERS_POSITION = 5;
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_1, ui->stack_bar_1,
                                                ui->action_bar_1, ui->puck_bar_1,
@@ -177,24 +181,21 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_round_ptr(),
                                                game->get_evaluator_ptr(), ik, this));
 
-    game->set_human_ptr(players_pool[5]);
+    game->set_human_ptr(players_pool[PLAYERS_POSITION]);
     ui->button_bar->hide();
     ui->deck_bar->hide();
 
     ui->animated_card->move(ui->deck_label->mapToGlobal(ui->deck_label->pos()));
     ui->animated_card->hide();
 
-//    catch(std::exception *e) {
-//        QMessageBox::warning(new QWidget(), "Error",
-//                             "There is no pictures! Please, move folder \"res\""
-//                             " to the folder with executable file.");
-//    }
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete ik;
+    delete game;
 }
 
 

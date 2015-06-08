@@ -44,11 +44,11 @@ public:
     void load_pictures(choice_t choice = VAR_1);   // throws exception
     void scale_cards(int width = DEFAULT_CARD_WIDTH,
                         int height = DEFAULT_CARD_HEIGHT);
-    QPixmap* get_card_image(const Card *card)
+    const QPixmap* get_card_image(const Card *card) const
     {
         return cards_img[card->get_face()][card->get_suit()];
     }
-    QPixmap* get_picture(picture_index_t index)
+    const QPixmap* get_picture(picture_index_t index) const
     {
         return pictures[index];
     }

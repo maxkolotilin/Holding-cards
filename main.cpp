@@ -14,10 +14,18 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    try {
+        QApplication a(argc, argv);
+        MainWindow w;
 
-    w.show();
+        w.show();
 
-    return a.exec();
+        return a.exec();
+    }
+    catch(std::exception *e) {
+        QMessageBox::warning(new QWidget(), "Error",
+                             "There is no pictures! Please, move folder \"res\""
+                             " to the folder with executable file.");
+        return 1;
+    }
 }

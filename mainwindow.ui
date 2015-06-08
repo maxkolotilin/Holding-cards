@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>0</y>
+      <y>20</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -238,7 +238,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>340</y>
+      <y>370</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -458,7 +458,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>440</y>
+      <y>460</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -677,8 +677,8 @@
    <widget class="QWidget" name="bar_6" native="true">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>440</y>
+      <x>580</x>
+      <y>460</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -897,8 +897,8 @@
    <widget class="QWidget" name="bar_5" native="true">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>440</y>
+      <x>870</x>
+      <y>460</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -1117,8 +1117,8 @@
    <widget class="QWidget" name="bar_4" native="true">
     <property name="geometry">
      <rect>
-      <x>1090</x>
-      <y>350</y>
+      <x>1150</x>
+      <y>370</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -1337,8 +1337,8 @@
    <widget class="QWidget" name="bar_3" native="true">
     <property name="geometry">
      <rect>
-      <x>1090</x>
-      <y>120</y>
+      <x>1150</x>
+      <y>140</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -1557,8 +1557,8 @@
    <widget class="QWidget" name="bar_2" native="true">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>0</y>
+      <x>870</x>
+      <y>20</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -1777,8 +1777,8 @@
    <widget class="QWidget" name="bar_1" native="true">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>0</y>
+      <x>580</x>
+      <y>20</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -2073,7 +2073,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>110</y>
+      <y>140</y>
       <width>191</width>
       <height>220</height>
      </rect>
@@ -2289,29 +2289,11 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>150</y>
-      <width>351</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>100</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="button_bar" native="true">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>650</y>
+      <x>220</x>
+      <y>670</y>
       <width>901</width>
       <height>81</height>
      </rect>
@@ -2594,8 +2576,8 @@
    <widget class="QWidget" name="deck_bar" native="true">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>220</y>
+      <x>290</x>
+      <y>250</y>
       <width>781</width>
       <height>201</height>
      </rect>
@@ -3021,8 +3003,8 @@
    <widget class="QLabel" name="animated_card">
     <property name="geometry">
      <rect>
-      <x>-20</x>
-      <y>-10</y>
+      <x>-10</x>
+      <y>-30</y>
       <width>90</width>
       <height>130</height>
      </rect>
@@ -3047,7 +3029,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>260</y>
+      <y>290</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3072,7 +3054,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>150</y>
+      <y>170</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3096,8 +3078,8 @@
    <widget class="QLabel" name="puck_bar_1">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>150</y>
+      <x>770</x>
+      <y>170</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3121,8 +3103,8 @@
    <widget class="QLabel" name="puck_bar_2">
     <property name="geometry">
      <rect>
-      <x>1020</x>
-      <y>150</y>
+      <x>1060</x>
+      <y>170</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3146,8 +3128,8 @@
    <widget class="QLabel" name="puck_bar_3">
     <property name="geometry">
      <rect>
-      <x>1050</x>
-      <y>270</y>
+      <x>1110</x>
+      <y>290</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3171,8 +3153,8 @@
    <widget class="QLabel" name="puck_bar_4">
     <property name="geometry">
      <rect>
-      <x>1050</x>
-      <y>500</y>
+      <x>1110</x>
+      <y>520</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3196,8 +3178,8 @@
    <widget class="QLabel" name="puck_bar_5">
     <property name="geometry">
      <rect>
-      <x>780</x>
-      <y>590</y>
+      <x>830</x>
+      <y>610</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3221,8 +3203,8 @@
    <widget class="QLabel" name="puck_bar_6">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>590</y>
+      <x>540</x>
+      <y>610</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3247,7 +3229,7 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>590</y>
+      <y>610</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3272,7 +3254,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>490</y>
+      <y>520</y>
       <width>40</width>
       <height>42</height>
      </rect>
@@ -3291,6 +3273,24 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>170</y>
+      <width>351</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>100</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Start</string>
     </property>
    </widget>
   </widget>

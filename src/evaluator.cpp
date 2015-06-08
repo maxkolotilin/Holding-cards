@@ -52,6 +52,7 @@ bool HandStrength::operator < (const HandStrength &hs) const
     } else if (get_combination() > hs.get_combination()) {
         return false;
     }
+    // combinations are equal, compare cards
     // compare combination cards
     for (size_t i = 0; i < combination_cards.size(); ++i) {
         if (combination_cards[i]->get_face() <
