@@ -79,6 +79,7 @@ void Game::start_new_deal()
     ++number_of_played_hands;
     number_of_folded = 0;
 
+    bet_blinds();
     deal_cards();
 
     round = cards_on_table->set_preflop();
@@ -96,6 +97,9 @@ void Game::start_new_deal()
             if (number_of_folded != number_of_players - 1) {
                 round = cards_on_table->set_river(deck);
                 add_to_pot(start_trading());
+
+                // clear bets last time manually
+                reset_bets();
             }
         }
     }
@@ -105,30 +109,25 @@ void Game::start_new_deal()
 
 chips_t Game::start_trading()
 {
-    reset_bets();
-    current_max_bet = 0;
-    size_of_last_raise = 0;
-
     // preparing
-    player_it start_player;
+    player_it start_player = dealer;
     if (round == CardsOnTable::PREFLOP) {
-        // make blinds
-        player_it blind = dealer;
+        // blinds are made, skip players on blinds
+        const int PLAYER_AFTER_BLINDS = 3;
 
-        next_player(blind);
-        add_to_bets((*blind)->blind(Player::SMALL));
-        next_player(blind);
-        add_to_bets((*blind)->blind(Player::BIG));
-
-        next_player(blind);
-        start_player = blind;
-
-        current_max_bet = min_bet;
-        size_of_last_raise = min_bet;
+        for (int i = 0; i < PLAYER_AFTER_BLINDS; ++i) {
+            next_player(start_player);
+        }
     } else {
         // postflop
-        start_player = dealer;
         next_player(start_player);
+        reset_bets();
+        current_max_bet = 0;
+        size_of_last_raise = 0;
+
+        for (player_it player = players.begin(); player != players.end(); ++player) {
+            (*player)->reset_my_bets_in_round();
+        }
     }
 
     // start betting round
@@ -145,8 +144,9 @@ chips_t Game::start_trading()
                     start_player = current_player;
                     // reset betting round
                     made_decision = 0;
-                    size_of_last_raise = act.amount - current_max_bet;
-                    current_max_bet = act.amount;
+                    size_of_last_raise = (*current_player)->get_bets_in_round() -
+                                         current_max_bet;
+                    current_max_bet += size_of_last_raise;
                 }
                 if (act.action == Player::FOLD) {
                     ++number_of_folded;
@@ -169,13 +169,14 @@ void Game::winners()
         player_it player = players.begin();
         for (; !(*player)->is_player_in_game(); ++player);
 
+        winlist.clear();
         vector<Player*> player_vector(1, *player);
         winlist.push_back(player_vector);
     } else {
     // showdown
         for (player_it player = players.begin(); player != players.end(); ++player) {
             // show cards
-            if (!(*player)->is_player_in_game()) {
+            if ((*player)->is_player_in_game()) {
                 if (*player != human) {
                     (*player)->show_hand();
                 }
@@ -200,7 +201,10 @@ void Game::start()
     if (number_of_players > 1) {
         game_status = CONTINUE;
         set_random_dealer();
+        Player::set_min_bet(min_bet);
         while (game_status == CONTINUE) {
+            reset_pot();
+            reset_bets();
             deck->shuffle();
             start_new_deal();
 
@@ -233,6 +237,19 @@ void Game::deal_cards()
     }
 
     human->show_hand();
+}
+
+void Game::bet_blinds()
+{
+    player_it blind = dealer;
+
+    next_player(blind);
+    add_to_bets((*blind)->blind(Player::SMALL));
+    next_player(blind);
+    add_to_bets((*blind)->blind(Player::BIG));
+
+    current_max_bet = min_bet;
+    size_of_last_raise = min_bet;
 }
 
 void Game::reset_players()

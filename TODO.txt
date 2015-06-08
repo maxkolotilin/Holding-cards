@@ -1,0 +1,21 @@
+1) Add focusing while player in action
+2) Add sounds
+3) Add winner labels
+4) Add edit field for raise size
+5) Add "Press any button to continue"
+--------------------------------
+run game in other thread
+--------------------------------
+AI:
+    //    add check_position
+    //    add check_relative_position
+    //    add preflop_raisers
+    //    add table_image
+    //    add discount_chances
+    //    add steal_blinds
+    //    add bluff
+    //    add check_raise
+    //    add free_card
+    //    add slowplay
+    //    add continuation_bet
+    //    add floating

@@ -18,6 +18,7 @@
 #include <QObject>
 
 typedef int chips_t;
+typedef vector<const Card*>::iterator card_it;
 
 class Evaluator;
 class HandStrength;
@@ -60,6 +61,10 @@ public:
     {
         return my_bets_in_round;
     }
+    void reset_my_bets_in_round()
+    {
+        my_bets_in_round = 0;
+    }
     action_t get_last_action() const
     {
         return last_action;
@@ -87,7 +92,7 @@ public:
                            chips_t bet);
 
     virtual action_t action(chips_t max_bet_in_round, chips_t raise_size) = 0;
-   // virtual void enable() = 0;
+    virtual void enable() = 0;
     virtual chips_t blind(blind_t type);
     virtual chips_t stake(chips_t max_bet_in_round);
     virtual void reset_player();
@@ -103,9 +108,9 @@ public:
 
     // next function is required for std::sort()
     static bool greater(const Player *pl_1, const Player *pl_2);
-    bool operator < (const Player &pl);
-    bool operator > (const Player &pl);
-    bool operator == (const Player &pl);
+    bool operator < (const Player &pl) const;
+    bool operator > (const Player &pl) const;
+    bool operator == (const Player &pl) const;
 
     static void set_min_bet(chips_t bet)
     {

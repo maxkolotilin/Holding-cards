@@ -132,7 +132,7 @@ void Evaluator::get_strength(PocketCards *pocket, HandStrength *strength)
 
 void Evaluator::get_strength(Player *player)
 {
-    get_strength(strength->get_hand(), strength->get_strength());
+    get_strength(player->get_hand(), player->get_strength());
 }
 
 void Evaluator::get_strength(HandStrength *strength)
@@ -411,7 +411,7 @@ void Evaluator::get_win_list(list<Player*> &players,
         std::sort(current_list.begin(), current_list.end(), Player::greater);
 
         // compare players with top player
-        for (int player = current_list.size(); player > 1; --player) {
+        for (int player = current_list.size() - 1; player > 0; --player) {
             if (*(current_list[player]) < *(current_list[0])) {
                 weaker_players.push_back(current_list[player]);
                 current_list.pop_back();

@@ -80,6 +80,7 @@ protected:
     void reset_players();
 
     virtual void start_new_deal();
+    virtual void bet_blinds();
     virtual void end_deal();
     virtual chips_t start_trading();
     virtual void winners();

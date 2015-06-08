@@ -23,6 +23,7 @@
 #include "q_game.h"
 #include "q_human_player.h"
 
+class QGame;
 
 namespace Ui {
 class MainWindow;
@@ -36,6 +37,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 private:
     Ui::MainWindow *ui;
 
@@ -44,8 +46,16 @@ private:
     ImageKeeper *ik;
     QGame *game;
 
+signals:
+    void any_button_pushed();
+
 private slots:
     void on_pushButton_clicked();
+
+    void keyPressEvent(QKeyEvent *pe)
+    {
+        emit any_button_pushed();
+    }
 };
 
 #endif // MAINWINDOW_H

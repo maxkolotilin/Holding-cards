@@ -3049,19 +3049,19 @@
       <x>210</x>
       <y>260</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3074,19 +3074,19 @@
       <x>490</x>
       <y>150</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3099,19 +3099,19 @@
       <x>750</x>
       <y>150</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3124,19 +3124,19 @@
       <x>1020</x>
       <y>150</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3149,19 +3149,19 @@
       <x>1050</x>
       <y>270</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3174,19 +3174,19 @@
       <x>1050</x>
       <y>500</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3199,19 +3199,19 @@
       <x>780</x>
       <y>590</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3224,19 +3224,19 @@
       <x>520</x>
       <y>590</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3249,19 +3249,19 @@
       <x>260</x>
       <y>590</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">
@@ -3274,19 +3274,19 @@
       <x>210</x>
       <y>490</y>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>40</width>
-      <height>40</height>
+      <height>42</height>
      </size>
     </property>
     <property name="text">

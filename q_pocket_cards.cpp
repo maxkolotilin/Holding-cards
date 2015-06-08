@@ -34,10 +34,10 @@ QPocketCards::~QPocketCards()
 
 void QPocketCards::set_card(const Card *card)
 {
-    PocketCards::set_card(card);
-
-    emit set_card_back(hand_images.back());
+    emit set_card_back(hand_images[cards_in_pocket]);
     QApplication::processEvents();
+
+    PocketCards::set_card(card);
 }
 
 void QPocketCards::reset_pocket_cards()

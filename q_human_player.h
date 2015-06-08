@@ -1,3 +1,17 @@
+/*
+ * Created by Maxim Kolotilin on 02.06.2015
+ * e-mail: maxkolmail@gmail.com
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
+ *
+ * It's a part of Texas Hold'em project
+ *
+ * This file contains class inherited from HumanPlayer
+ * Add interaction with GUI
+ *
+ */
+
 #ifndef QHUMANPLAYER_H
 #define QHUMANPLAYER_H
 
@@ -8,7 +22,9 @@
 #include <QLabel>
 #include <QVector>
 #include <QEventLoop>
+#include <QApplication>
 #include "src/player.h"
+#include "keepers.h"
 
 class QHumanPlayer : public HumanPlayer
 {
@@ -17,39 +33,45 @@ public:
     explicit QHumanPlayer(QPushButton *all_in, QPushButton *raise,
                           QPushButton *call, QPushButton *fold,
                           QLabel *name_lb, QLabel *stack_lb, QLabel *action_lb,
-                          QLabel *bet_size_lb, QSlider *bet_size_slider,
-                          QWidget *bar,
+                          QLabel *puck_lb, QLabel *bet_size_lb,
+                          QSlider *bet_size_slider, QWidget *bar,
                           string name, int id, chips_t stack,
-                          PocketCards *hand, QObject *parent = 0);
+                          PocketCards *hand, ImageKeeper *ik,
+                          QObject *parent = 0);
     ~QHumanPlayer();
 
-    action_t action(chips_t max_bet_in_round);
+    action_t action(chips_t max_bet_in_round, chips_t raise_size);
     chips_t blind(blind_t type);
-    chips_t stake(action_t action);
+    chips_t stake(chips_t max_bet_in_round);
     void reset_player();
+    void set_dealer(bool switcher);
     void enable()
     {
         bar->show();
     }
 
-    //void set_dealer(bool switcher);
-
-    QWidget *bar;
-
 private:
-    //QString action_to_string(action_t act);
+    QWidget *bar;
 
     QLabel *name_label;
     QLabel *stack_label;
     QLabel *action_label;
     QLabel *bet_size_label;
+    QLabel *puck_label;
 
     QEventLoop *event_loop;
+
+    chips_t max_bet_in_round;
+    chips_t raise_size;
 
 signals:
     void update_stack(int amount);
     void update_action(QString act);
     void send_bet_size(int amount);
+
+    void set_dealer_puck(QLabel *puck);
+    void set_blind_puck(QLabel *puck, Player::blind_t blind);
+    void clear_puck(QLabel *puck);
 
 public slots:
     void raise();

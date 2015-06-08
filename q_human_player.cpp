@@ -1,20 +1,34 @@
+/*
+ * Created by Maxim Kolotilin on 02.06.2015
+ * e-mail: maxkolmail@gmail.com
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ * http://www.boost.org/LICENSE_1_0.txt
+ *
+ * It's a part of Texas Hold'em project
+ *
+ * Implementation for q_human_player.h
+ *
+ */
+
 #include "q_human_player.h"
-#include <QApplication>
 
 QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
                            QPushButton *call, QPushButton *fold,
                            QLabel *name_lb, QLabel *stack_lb, QLabel *action_lb,
-                           QLabel *bet_size_lb, QSlider *bet_size_slider,
-                           QWidget *bar,
+                           QLabel *puck_lb, QLabel *bet_size_lb,
+                           QSlider *bet_size_slider, QWidget *bar,
                            string name, int id, chips_t stack,
-                           PocketCards *hand, QObject *parent /* = 0 */)
-    : HumanPlayer(name, id, stack, hand)
+                           PocketCards *hand, ImageKeeper *ik,
+                           QObject *parent /* = 0 */)
+    : HumanPlayer(name, id, stack, hand, parent)
 {
     name_label = name_lb;
     name_label->setText(QString::fromStdString(name));
     stack_label = stack_lb;
     action_label = action_lb;
     bet_size_label = bet_size_lb;
+    puck_label = puck_lb;
     this->bar = bar;
     bar->hide();
 
@@ -44,9 +58,16 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
             this, SLOT(fold()));
 
     connect(bet_size_slider, SIGNAL(sliderMoved(int)),
-            this, SLOT(calculate_bet_size(int)));       // check disconnect
+            this, SLOT(calculate_bet_size(int)));
     connect(this, SIGNAL(send_bet_size(int)),
             bet_size_lb, SLOT(setNum(int)));
+
+    connect(this, SIGNAL(set_blind_puck(QLabel*, Player::blind_t)),
+            ik, SLOT(set_blind_puck(QLabel*, Player::blind_t)));
+    connect(this, SIGNAL(set_dealer_puck(QLabel*)),
+            ik, SLOT(set_dealer_puck(QLabel*)));
+    connect(this, SIGNAL(clear_puck(QLabel*)),
+            ik, SLOT(clear_puck(QLabel*)));
 
     emit update_stack((int)stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
@@ -56,10 +77,10 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
 
 QHumanPlayer::~QHumanPlayer()
 {
+    disconnect();
     bar->hide();
     event_loop->disconnect();
     delete event_loop;
-    disconnect();
 }
 
 //QString QHumanPlayer::action_to_string(action_t act)
@@ -67,12 +88,12 @@ QHumanPlayer::~QHumanPlayer()
 //    return QString(actions[act.action] + " " + act.amount);
 //}
 
-chips_t QHumanPlayer::stake(action_t action)
+chips_t QHumanPlayer::stake(chips_t max_bet_in_round)
 {
-    chips_t amount = Player::stake(action);
+    chips_t amount = Player::stake(max_bet_in_round);
 
     emit update_stack((int)stack);
-    emit update_action(QString::fromStdString(action_to_string(action)));
+    emit update_action(QString::fromStdString(action_to_string(last_action)));
     QApplication::processEvents();
     return amount;
 }
@@ -83,23 +104,23 @@ chips_t QHumanPlayer::blind(blind_t type)
 
     emit update_stack((int)stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
+    emit set_blind_puck(puck_label, type);
     QApplication::processEvents();
     return blind;
 }
 
-chips_t Player::max_bet_in_round;
-
-QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round)
+QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round,
+                                            chips_t raise_size)
 {
-    if (last_action.action == FOLD) {
-        reset_last_action();
-    }
-    if (last_action.action != NONE) {
-        Player::max_bet_in_round = max_bet_in_round;
+    if (is_in_game) {
+        this->max_bet_in_round = max_bet_in_round;
+        this->raise_size = raise_size;
+
+        calculate_bet_size(0);
 
         event_loop->exec();
 
-        stake(last_action);
+        stake(max_bet_in_round);
     }
 
     return last_action;
@@ -107,35 +128,59 @@ QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round)
 
 void QHumanPlayer::fold()
 {
-    last_action = { true, FOLD, 0 };
+    set_fold();
+
+    bar->setDisabled(true);
 }
 
 void QHumanPlayer::all_in()
 {
-    last_action = { true, ALL_IN, stack };
+    set_all_in();
 }
 
 void QHumanPlayer::call()
 {
-    last_action = { true, CALL, max_bet_in_round - my_bets_in_round };
+    set_call(max_bet_in_round);
 }
 
 void QHumanPlayer::raise()
 {
-    last_action = { true, RAISE, (chips_t)bet_size_label->text().toInt() };
+    set_raise(max_bet_in_round, raise_size, (chips_t)bet_size_label->text().toInt());
 }
 
-void QHumanPlayer::calculate_bet_size(int percent)
+void QHumanPlayer::calculate_bet_size(int percent)  // 0 - 100
 {
-    emit send_bet_size((int)(max_bet_in_round + (stack - max_bet_in_round) *
-                       percent / 100));          // potentional error
+    const double FROM_PERCENTS = 100.0;
+
+    // (call + min raise) + (remaining part of stack)
+    // remaining part of stack is a multiple of min_bet
+    chips_t min_raise = max_bet_in_round - my_bets_in_round + raise_size;
+    emit send_bet_size(min_raise + ((int)((stack - min_raise) * percent /
+                                     FROM_PERCENTS) / min_bet) * min_bet);
 }
 
 void QHumanPlayer::reset_player()
 {
     Player::reset_player();
+    max_bet_in_round = 0;
+    raise_size = 0;
 
-    emit update_stack((int)stack);
+    bar->setEnabled(true);
+
+    emit update_stack(stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
+    emit clear_puck(puck_label);
+    QApplication::processEvents();
+}
+
+void QHumanPlayer::set_dealer(bool switcher)
+{
+    Player::set_dealer(switcher);
+
+    if (is_dealer) {
+        emit set_dealer_puck(puck_label);
+    } else {
+        emit clear_puck(puck_label);
+    }
     QApplication::processEvents();
 }

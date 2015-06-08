@@ -31,40 +31,35 @@ class ImageKeeper : public QObject
     Q_OBJECT
 public:
     // choice of deck, not implemented yet
-    enum choice_t { VAR_1, VAR_2 };
+    typedef enum { VAR_1, VAR_2 } choice_t;
+    typedef enum { BACK, BLANK, TABLE, BAR_BACKGROUND, DEALER_PUCK, BIG_BLIND_PUCK,
+                   SMALL_BLIND_PUCK, WINNER } picture_index_t;
+    static const int NUMBER_OF_PICTURES = 8;
+    static const int ANIMATION_DURATION = 333;    // in ms
 
     explicit ImageKeeper(QWidget *main_window, QLabel *animated_card,
-                         bool scale = true, QObject *parent = 0);
+                         QObject *parent = 0);
     ~ImageKeeper();
 
-    void load_pictures();
-
-    void scale_cards(int width, int height);
-    QPixmap* get_card_image(const Card *card);
-    QPixmap* get_blank()
+    void load_pictures(choice_t choice = VAR_1);   // throws exception
+    void scale_cards(int width = DEFAULT_CARD_WIDTH,
+                        int height = DEFAULT_CARD_HEIGHT);
+    QPixmap* get_card_image(const Card *card)
     {
-        return blank;
+        return cards_img[card->get_face()][card->get_suit()];
     }
-    QPixmap* get_card_back()
+    QPixmap* get_picture(picture_index_t index)
     {
-        return back;
+        return pictures[index];
     }
 
 private:
-    QVector<QVector<QPixmap*>> cards_img;
-    QPixmap *back;
-    QPixmap *blank;
-    QPixmap *table;
-    QPixmap *bar_background;
-    QPixmap *dealer_puck;
-    QPixmap *big_blind_puck;
-    QPixmap *small_blind_puck;
-
+    QVector<QVector<QPixmap *>> cards_img;  // [face][suit]
+    QVector<QPixmap *> pictures;
 
     const QString PATH = "res/pic/";
-    const int DEFAULT_CARD_HEIGHT = 130;
-    const int DEFAULT_CARD_WIDTH = 90;
-
+    static const int DEFAULT_CARD_HEIGHT = 130;
+    static const int DEFAULT_CARD_WIDTH = 90;
 
     QEventLoop *event_loop;
     QLabel *animated_card;
@@ -72,19 +67,24 @@ private:
     QWidget *main_window;
 
 signals:
-    void drop_card(QLabel *card);
+    void deal_card(QLabel *card);
 
 public slots:
-    void drop_card_animation(QLabel *card);
-    void set_faces(vector<const Card*> &cards, QVector<QLabel*> cards_images);
-    void set_face(const Card *card, QLabel *card_image);
-
-    void clear_cards(QVector<QLabel*> cards_images);
+//    void set_faces(vector<const Card*> &cards, QVector<QLabel*> cards_images);
+//    void set_face(const Card *card, QLabel *card_image);
 
     void set_backs(QVector<QLabel*> cards_images);
     void set_back(QLabel *card_image);
 
     void flip_cards(vector<const Card*> &cards, QVector<QLabel*> cards_images);
+    void flip_card(const Card *card, QLabel *card_image);
+
+    void clear_cards(QVector<QLabel*> cards_images);
+    void deal_card_animation(QLabel *card);
+
+    void set_dealer_puck(QLabel *puck);
+    void set_blind_puck(QLabel *puck, Player::blind_t blind);
+    void clear_puck(QLabel *puck);
 };
 
 class SoundKeeper
