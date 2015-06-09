@@ -78,9 +78,12 @@ void QGame::reset_pot()
     QApplication::processEvents();
 }
 
-void QGame::winners()
+void QGame::distribute_pot_to_players()
 {
-    Game::winners();
+    for (vector<Player *>::iterator winner = winlist.front().begin();
+         winner != winlist.front().end(); ++ winner) {
+        (*winner)->set_winner();
+    }
 
     help_label->show();
     QEventLoop loop;
@@ -88,4 +91,6 @@ void QGame::winners()
             &loop, SLOT(quit()));
     loop.exec();
     help_label->hide();
+
+    Game::distribute_pot_to_players();
 }

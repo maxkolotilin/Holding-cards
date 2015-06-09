@@ -22,8 +22,7 @@ QComputerPlayer::QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
                                  Evaluator *evaluator, ImageKeeper *ik,
                                  SoundKeeper *sk, QObject *parent)
     : ComputerPlayer(name, id, stack, pot, total_bets,round, hand, evaluator,
-                     parent),
-      bar_background(*ik->get_picture(ImageKeeper::BAR_BACKGROUND))
+                     parent)
 {
     name_label = name_lb;
     stack_label = stack_lb;
@@ -32,8 +31,11 @@ QComputerPlayer::QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
     this->bar = bar;
     this->bar->hide();
 
-    bar_background = bar_background.scaled(this->bar->size(),
-                                           Qt::IgnoreAspectRatio);
+    QPalette focus_palette;
+    focus_palette.setBrush(QPalette::Background,
+                           ik->get_picture(ImageKeeper::BAR_BACKGROUND)->
+                           scaled(this->bar->size(), Qt::IgnoreAspectRatio));
+    this->bar->setPalette(focus_palette);
 
     sound_keeper = sk;
 
@@ -47,6 +49,9 @@ QComputerPlayer::QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
             ik, SLOT(set_dealer_puck(QLabel*)));
     connect(this, SIGNAL(clear_puck(QLabel*)),
             ik, SLOT(clear_puck(QLabel*)));
+
+    connect(this, SIGNAL(i_am_winner(QLabel*)),
+            ik, SLOT(set_winner_image(QLabel*)));
 
     emit update_stack((int)stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
@@ -83,19 +88,20 @@ chips_t QComputerPlayer::blind(blind_t type)
     return blind;
 }
 
+const int QComputerPlayer::DELAY;
+
 QComputerPlayer::action_t QComputerPlayer::action(chips_t max_bet_in_round,
                                                   chips_t raise_size)
 {
     // focus on current bar
-    const QPalette old_palette = bar->palette();
-    QPalette focus_palette;
-    focus_palette.setBrush(QPalette::Background, bar_background);
-    bar->setPalette(focus_palette);
+    bar->setAutoFillBackground(true);
+    QApplication::processEvents();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1300));
+    std::this_thread::sleep_for(std::chrono::milliseconds(DELAY));
 
     // unfocus
-    bar->setPalette(old_palette);
+    bar->setAutoFillBackground(false);
+    QApplication::processEvents();
 
     return ComputerPlayer::action(max_bet_in_round, raise_size);
 }
@@ -152,7 +158,11 @@ void QComputerPlayer::set_call(chips_t max_bet_in_round)
 {
     Player::set_call(max_bet_in_round);
 
-    sound_keeper->play_call_sound();
+    if (max_bet_in_round != 0) {
+        sound_keeper->play_call_sound();
+    } else {
+        sound_keeper->play_check_sound();
+    }
 }
 
 void QComputerPlayer::set_raise(chips_t max_bet_in_round,
@@ -160,5 +170,17 @@ void QComputerPlayer::set_raise(chips_t max_bet_in_round,
 {
     Player::set_raise(max_bet_in_round, raise_size, bet);
 
-    sound_keeper->play_raise_sound();
+    if (max_bet_in_round == 0 && last_action.amount == 0) {
+        // Player made wrong action. It is check.
+        // Method stake() will correct it
+        sound_keeper->play_check_sound();
+    } else {
+        sound_keeper->play_raise_sound();
+    }
+}
+
+void QComputerPlayer::set_winner()
+{
+    emit i_am_winner(action_label);
+    QApplication::processEvents();
 }

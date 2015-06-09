@@ -14,6 +14,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QKeyEvent>
+#include <QMouseEvent>
 // #include <src/core/Test.h>
 #include "keepers.h"
 #include "src/core/card.h"
@@ -55,6 +57,25 @@ private slots:
 
     void keyPressEvent(QKeyEvent *pe)
     {
+        if (pe->key() == Qt::Key_Escape) {
+            int answer = QMessageBox::warning(this, "Quit",
+                                              "Are you sure?", QMessageBox::Yes,
+                                              QMessageBox::No);
+            if (answer == QMessageBox::Yes) {
+                // kill program
+                exit(0);
+            } else {
+                this->showFullScreen();
+            }
+        } else {
+            emit any_button_pushed();
+        }
+    }
+
+    void mousePressEvent(QMouseEvent *me)
+    {
+        me->type();   // dummy
+
         emit any_button_pushed();
     }
 };

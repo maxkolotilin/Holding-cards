@@ -17,11 +17,7 @@ QCardsOnTable::QCardsOnTable(QLabel *flop_1, QLabel *flop_2, QLabel *flop_3,
                              QObject *parent) : CardsOnTable(parent)
 {
     cards_images.reserve(CARDS_ON_TABLE_SIZE);
-    cards_images.push_back(flop_1);
-    cards_images.push_back(flop_2);
-    cards_images.push_back(flop_3);
-    cards_images.push_back(turn);
-    cards_images.push_back(river);
+    cards_images << flop_1 << flop_2 << flop_3 << turn << river;
 
     connect(this, SIGNAL(clear_cards_on_table(QVector<QLabel*>)),
             ik, SLOT(clear_cards(QVector<QLabel*>)));
@@ -54,7 +50,7 @@ QCardsOnTable::round_t QCardsOnTable::set_flop(DeckOfCards *deck)
 
     QVector<QLabel *> flop_cards;
     for (int i = 0; i < CARDS_ON_FLOP; ++i) {
-        flop_cards.push_back(cards_images[i]);
+        flop_cards << cards_images[i];
     }
     emit deal_cards_on_table(flop_cards);
     emit flip_cards_on_table(cards_on_table, flop_cards);

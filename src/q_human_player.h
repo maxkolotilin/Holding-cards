@@ -36,7 +36,8 @@ public:
                           QPushButton *call, QPushButton *fold,
                           QLabel *name_lb, QLabel *stack_lb, QLabel *action_lb,
                           QLabel *puck_lb, QLabel *bet_size_lb,
-                          QSlider *bet_size_slider, QWidget *bar,
+                          QSlider *bet_size_slider,
+                          QWidget *bar, QWidget *button_bar,
                           string name, int id, chips_t stack,
                           PocketCards *hand, ImageKeeper *ik,
                           SoundKeeper *sk, QObject *parent = 0);
@@ -48,6 +49,7 @@ public:
     void reset_player();
     void reset_last_action();
     void set_dealer(bool switcher);
+    void set_winner();
     void enable()
     {
         bar->show();
@@ -55,14 +57,17 @@ public:
 
 private:
     QWidget *bar;
+    QWidget *button_bar;
+
+    QSlider *bet_slider;
+
+    SoundKeeper *sound_keeper;
 
     QLabel *name_label;
     QLabel *stack_label;
     QLabel *action_label;
     QLabel *bet_size_label;
     QLabel *puck_label;
-
-    QPixmap bar_background;
 
     QEventLoop *event_loop;
 
@@ -77,6 +82,8 @@ signals:
     void set_dealer_puck(QLabel *puck);
     void set_blind_puck(QLabel *puck, Player::blind_t blind);
     void clear_puck(QLabel *puck);
+
+    void i_am_winner(QLabel *message);
 
 public slots:
     void raise();

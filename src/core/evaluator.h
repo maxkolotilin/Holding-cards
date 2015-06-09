@@ -107,10 +107,10 @@ public:
     Evaluator(const CardsOnTable *cards);
     ~Evaluator();
 
-    void check_strength(PocketCards *pocket, HandStrength *strength);
-    void check_strength(Player* player);
+    void determine_strength(PocketCards *pocket, HandStrength *strength);
+    void determine_strength(Player* player);
     // warning: next overloaded version DON'T clear all_cards
-    void check_strength(HandStrength *strength);
+    void determine_strength(HandStrength *strength);
 
     void get_win_list(list<Player*> &players,
                       vector<vector<Player*>> &winlist);

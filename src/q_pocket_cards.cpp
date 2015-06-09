@@ -16,8 +16,7 @@ QPocketCards::QPocketCards(QLabel *card_1, QLabel *card_2, ImageKeeper *ik,
                            QObject *parent) : PocketCards(parent)
 {
     hand_images.reserve(POCKET_SIZE);
-    hand_images.push_back(card_1);
-    hand_images.push_back(card_2);
+    hand_images << card_1 << card_2;
 
     connect(this, SIGNAL(set_blank_cards(QVector<QLabel*>)),
             ik, SLOT(clear_cards(QVector<QLabel*>)));

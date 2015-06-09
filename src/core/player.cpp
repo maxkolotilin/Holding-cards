@@ -17,7 +17,7 @@
 
 chips_t Player::min_bet;
 
-const string Player::actions[] = { "","Check", "Fold", "Call", "Bet", "Raise",
+const string Player::actions[] = { " ","Check", "Fold", "Call", "Bet", "Raise",
                                    "All-in", "Big blind", "Small blind", "Show" };
 const string Player::blinds[] = { "Small blind", "Big blind" };
 
@@ -108,7 +108,7 @@ chips_t Player::stake(chips_t max_bet_in_round)
             last_action = { true, ALL_IN, stack };
         }
         // if action is check
-        if (last_action.action == CALL && last_action.amount == 0) {
+        if (max_bet_in_round == 0 && last_action.amount == 0) {
             last_action.action = CHECK;
         }
         // if action is bet
@@ -288,7 +288,7 @@ bool ComputerPlayer::is_suited()
 
 void ComputerPlayer::current_combination()
 {
-    evaluator->check_strength(this);
+    evaluator->determine_strength(this);
 }
 
 int ComputerPlayer::count_outs()
@@ -533,7 +533,7 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
 
             if(is_hand_in_top_10()) {
                 if ((double)(max_bet_in_round + 2 * raise_size) / stack <
-                    MAX_LIMIT_ON_PREFLOP) {
+                        MAX_LIMIT_ON_PREFLOP) {
                     set_raise(max_bet_in_round, raise_size,
                               max_bet_in_round + 2 * raise_size - my_bets_in_round);
                 } else if ((double)(max_bet_in_round + raise_size) / stack <
@@ -546,7 +546,7 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
 
             } else if(is_hand_in_top_21()) {
                 if ((double)(max_bet_in_round + raise_size) / stack <
-                    MID_LIMIT_ON_PREFLOP) {
+                        MID_LIMIT_ON_PREFLOP) {
                     set_raise(max_bet_in_round, raise_size,
                               max_bet_in_round + raise_size - my_bets_in_round);
                 } else {
@@ -566,35 +566,44 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
 
         } else {   // Postflop
 
-            current_combination();
-            count_outs();
-            // if we have strong hand...
-            if (strength->get_combination() > HandStrength::FLUSH) {
-                if (max_bet_in_round == 0) {
-                    // make bet
-                    set_raise(max_bet_in_round, raise_size,
-                              3 * min_bet);
-                } else if ((double)(max_bet_in_round + 3 * raise_size) / stack <
-                    MAX_LIMIT_ON_POSTFLOP) {
-                    set_raise(max_bet_in_round, raise_size,
-                              max_bet_in_round + 3 * raise_size - my_bets_in_round);
-                } else if ((double)(max_bet_in_round + raise_size) / stack <
-                           MAX_LIMIT_ON_POSTFLOP) {
-                    set_raise(max_bet_in_round, raise_size,
-                              max_bet_in_round + raise_size - my_bets_in_round);
-                } else {
-                    set_call(max_bet_in_round);
-                }
+            if (*round != CardsOnTable::CARDS_ON_RIVER) {
+                current_combination();
+                count_outs();
+                // if we have strong hand...
+                if (strength->get_combination() > HandStrength::FLUSH) {
+                    if (max_bet_in_round == 0) {
+                        // make bet
+                        set_raise(max_bet_in_round, raise_size,
+                                  3 * min_bet);
+                    } else if ((double)(max_bet_in_round + 3 * raise_size) / stack <
+                               MAX_LIMIT_ON_POSTFLOP) {
+                        set_raise(max_bet_in_round, raise_size,
+                                  max_bet_in_round + 3 * raise_size - my_bets_in_round);
+                    } else if ((double)(max_bet_in_round + raise_size) / stack <
+                               MAX_LIMIT_ON_POSTFLOP) {
+                        set_raise(max_bet_in_round, raise_size,
+                                  max_bet_in_round + raise_size - my_bets_in_round);
+                    } else {
+                        set_call(max_bet_in_round);
+                    }
 
-            } else if (strength->get_combination() > HandStrength::PAIR) {
-                if (max_bet_in_round == 0) {
-                    // make bet
-                    set_raise(max_bet_in_round, raise_size,
-                              min_bet);
-                } else if ((double)(max_bet_in_round + raise_size) / stack <
-                    MIN_LIMIT_ON_POSTFLOP) {
-                    set_raise(max_bet_in_round, raise_size,
-                              max_bet_in_round + raise_size - my_bets_in_round);
+                } else if (strength->get_combination() > HandStrength::PAIR) {
+                    if (max_bet_in_round == 0) {
+                        // make bet
+                        set_raise(max_bet_in_round, raise_size,
+                                  min_bet);
+                    } else if ((double)(max_bet_in_round + raise_size) / stack <
+                               MIN_LIMIT_ON_POSTFLOP) {
+                        set_raise(max_bet_in_round, raise_size,
+                                  max_bet_in_round + raise_size - my_bets_in_round);
+                    } else {
+                        if (check_pot_odds(max_bet_in_round - my_bets_in_round)) {
+                            set_call(max_bet_in_round);
+                        } else {
+                            set_fold();
+                        }
+                    }
+
                 } else {
                     if (check_pot_odds(max_bet_in_round - my_bets_in_round)) {
                         set_call(max_bet_in_round);
@@ -602,12 +611,46 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
                         set_fold();
                     }
                 }
+            } else {    // river
+                current_combination();
 
-            } else {
-                if (check_pot_odds(max_bet_in_round - my_bets_in_round)) {
-                    set_call(max_bet_in_round);
-                } else {
-                    set_fold();
+                // if we have strong hand...
+                if (strength->get_combination() > HandStrength::FLUSH) {
+                    if (max_bet_in_round == 0) {
+                        // make bet
+                        set_raise(max_bet_in_round, raise_size,
+                                  3 * min_bet);
+                    } else if ((double)(max_bet_in_round + 3 * raise_size) / stack <
+                               MAX_LIMIT_ON_POSTFLOP) {
+                        set_raise(max_bet_in_round, raise_size,
+                                  max_bet_in_round + 3 * raise_size - my_bets_in_round);
+                    } else if ((double)(max_bet_in_round + raise_size) / stack <
+                               MAX_LIMIT_ON_POSTFLOP) {
+                        set_raise(max_bet_in_round, raise_size,
+                                  max_bet_in_round + raise_size - my_bets_in_round);
+                    } else {
+                        set_call(max_bet_in_round);
+                    }
+
+                    if (strength->get_combination() > HandStrength::TWO_PAIRS) {
+                        if (max_bet_in_round == 0) {
+                            // make bet
+                            set_raise(max_bet_in_round, raise_size,
+                                      min_bet);
+                        } else if ((double)(max_bet_in_round + raise_size) / stack <
+                                   MIN_LIMIT_ON_POSTFLOP) {
+                            set_raise(max_bet_in_round, raise_size,
+                                      max_bet_in_round + raise_size - my_bets_in_round);
+                        } else {
+                            if (check_pot_odds(max_bet_in_round - my_bets_in_round)) {
+                                set_call(max_bet_in_round);
+                            } else {
+                                set_fold();
+                            }
+                        }
+                    } else {
+                        set_fold();
+                    }
                 }
             }
 
