@@ -14,7 +14,7 @@
 #ifndef POCKET_CARDS_H
 #define POCKET_CARDS_H
 
-#include "src/deck_of_cards.h"
+#include "src/core/deck_of_cards.h"
 #include <QObject>
 
 class PocketCards: public QObject

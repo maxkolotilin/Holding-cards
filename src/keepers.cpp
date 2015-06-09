@@ -12,9 +12,8 @@
 #include "keepers.h"
 
 ImageKeeper::ImageKeeper(QWidget *main_window, QLabel *animated_card,
-                         QObject *parent /* = 0 */)
-    : QObject(parent)//, cards_img(QVector<QVector<QPixmap*>>(Card::NUMBER_OF_FACES,
-                     //                    QVector<QPixmap*>(Card::NUMBER_OF_SUITS)))
+                         SoundKeeper *sk, QObject *parent /* = 0 */)
+    : QObject(parent)
 {
     cards_img.reserve(Card::NUMBER_OF_FACES);
     for (int face = 0; face < Card::NUMBER_OF_FACES; ++face) {
@@ -33,6 +32,8 @@ ImageKeeper::ImageKeeper(QWidget *main_window, QLabel *animated_card,
 
     this->animated_card = animated_card;
     this->main_window = main_window;
+
+    sound_keeper = sk;
 
     event_loop = new QEventLoop();
 }
@@ -82,36 +83,11 @@ void ImageKeeper::scale_cards(int width, int height)
     }
     *pictures[BACK] = pictures[BACK]->scaled(width, height, Qt::IgnoreAspectRatio);
     *pictures[BLANK] = pictures[BLANK]->scaled(width, height, Qt::IgnoreAspectRatio);
-//    *pictures[TABLE] = pictures[TABLE]->scaled(main_window->size(),
-//                                               Qt::IgnoreAspectRatio);
 
     animated_card->setPixmap(*pictures[BACK]);
 }
 
 // slots  ========================================================
-
-//void ImageKeeper::set_faces(vector<const Card *> &cards,
-//                            QVector<QLabel *> cards_images)
-//{
-//    // This slot inserts images according to cards in cards_images at the
-//    // same order.
-
-//    if (cards.size() == (unsigned)cards_images.size()) {
-//        card_it card = cards.begin();
-//        foreach (QLabel *element, cards_images) {
-//            element->setPixmap(*get_card_image(*card));
-//            ++card;
-//        }
-//    } else {
-//        QMessageBox::warning(new QWidget(), "Error",
-//                             "Error in slot of ImageKeeper: lenght mismatch.");
-//    }
-//}
-
-//void ImageKeeper::set_face(const Card *card, QLabel *card_image)
-//{
-//    card_image->setPixmap(*get_card_image(card));
-//}
 
 void ImageKeeper::clear_cards(QVector<QLabel *> cards_images)
 {
@@ -123,8 +99,6 @@ void ImageKeeper::clear_cards(QVector<QLabel *> cards_images)
 void ImageKeeper::set_backs(QVector<QLabel *> cards_images)
 {
     foreach (QLabel *element, cards_images) {
-//        emit deal_card(element);
-//        QApplication::processEvents();
         deal_card_animation(element);
 
         element->setPixmap(*pictures[BACK]);
@@ -133,8 +107,6 @@ void ImageKeeper::set_backs(QVector<QLabel *> cards_images)
 
 void ImageKeeper::set_back(QLabel *card_image)
 {
-//    emit deal_card(card_image);
-//    QApplication::processEvents();
     deal_card_animation(card_image);
 
     card_image->setPixmap(*pictures[BACK]);
@@ -181,6 +153,7 @@ void ImageKeeper::deal_card_animation(QLabel *card)
 
     connect(&anim, SIGNAL(finished()), event_loop, SLOT(quit()));
     anim.start();
+    //sound_keeper->play_deal_card_sound();
     event_loop->exec();
     anim.disconnect();
 
@@ -209,12 +182,61 @@ void ImageKeeper::clear_puck(QLabel *puck)
 
 //------------------------------------------
 
-SoundKeeper::SoundKeeper()
+SoundKeeper::SoundKeeper(QObject *parent) : QObject(parent)
 {
-
+    all_in_sound = new QSound(PATH + "allin.wav");
+    call_sound = new QSound(PATH + "call.wav");
+    raise_sound = new QSound(PATH + "raise.wav");
+    fold_sound = new QSound(PATH + "fold.wav");
+    increase_bet_sound = new QSound(PATH + "blinds_raises_level1.wav");
+    activate_human_sound = new QSound(PATH + "youturn.wav");
+    deal_card_sound = new QSound(PATH + "dealtwocards.wav");
 }
 
 SoundKeeper::~SoundKeeper()
 {
+    delete all_in_sound;
+    delete call_sound;
+    delete raise_sound;
+    delete fold_sound;
+    delete increase_bet_sound;
+    delete activate_human_sound;
+    delete deal_card_sound;
 
+    disconnect();
+}
+
+void SoundKeeper::play_raise_sound()
+{
+    raise_sound->play();
+}
+
+void SoundKeeper::play_increase_bet_sound()
+{
+    increase_bet_sound->play();
+}
+
+void SoundKeeper::play_fold_sound()
+{
+    fold_sound->play();
+}
+
+void SoundKeeper::play_deal_card_sound()
+{
+    deal_card_sound->play();
+}
+
+void SoundKeeper::play_call_sound()
+{
+    call_sound->play();
+}
+
+void SoundKeeper::play_all_in_sound()
+{
+    all_in_sound->play();
+}
+
+void SoundKeeper::play_activate_human_sound()
+{
+    activate_human_sound->play();
 }

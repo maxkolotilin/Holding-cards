@@ -18,7 +18,7 @@
 #include <QLabel>
 #include <QVector>
 #include <QApplication>
-#include "src/pocket_cards.h"
+#include "src/core/pocket_cards.h"
 #include "keepers.h"
 
 class QPocketCards : public PocketCards

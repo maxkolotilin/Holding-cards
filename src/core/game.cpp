@@ -127,6 +127,7 @@ chips_t Game::start_trading()
 
         for (player_it player = players.begin(); player != players.end(); ++player) {
             (*player)->reset_my_bets_in_round();
+            (*player)->reset_last_action();
         }
     }
 
@@ -182,7 +183,7 @@ void Game::winners()
                 if (*player != human) {
                     (*player)->show_hand();
                 }
-                evaluator->get_strength(*player);
+                evaluator->check_strength(*player);
             }
         }
         evaluator->get_win_list(players, winlist);

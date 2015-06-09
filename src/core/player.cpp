@@ -288,7 +288,7 @@ bool ComputerPlayer::is_suited()
 
 void ComputerPlayer::current_combination()
 {
-    evaluator->get_strength(this);
+    evaluator->check_strength(this);
 }
 
 int ComputerPlayer::count_outs()

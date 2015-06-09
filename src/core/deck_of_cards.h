@@ -15,7 +15,7 @@
 #define Deck_of_cards_H
 
 #include <vector>
-#include "card.h"
+#include "src/core/card.h"
 
 using std::vector;
 

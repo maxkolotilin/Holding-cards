@@ -19,9 +19,10 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
                            QLabel *puck_lb, QLabel *bet_size_lb,
                            QSlider *bet_size_slider, QWidget *bar,
                            string name, int id, chips_t stack,
-                           PocketCards *hand, ImageKeeper *ik,
+                           PocketCards *hand, ImageKeeper *ik, SoundKeeper *sk,
                            QObject *parent /* = 0 */)
-    : HumanPlayer(name, id, stack, hand, parent)
+    : HumanPlayer(name, id, stack, hand, parent),
+      bar_background(*ik->get_picture(ImageKeeper::BAR_BACKGROUND))
 {
     name_label = name_lb;
     name_label->setText(QString::fromStdString(name));
@@ -30,7 +31,10 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
     bet_size_label = bet_size_lb;
     puck_label = puck_lb;
     this->bar = bar;
-    bar->hide();
+    this->bar->hide();
+
+    bar_background = bar_background.scaled(this->bar->size(),
+                                           Qt::IgnoreAspectRatio);
 
     event_loop = new QEventLoop();
 
@@ -56,6 +60,15 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
             this, SLOT(call()));
     connect(fold, SIGNAL(clicked()),
             this, SLOT(fold()));
+
+    connect(all_in, SIGNAL(clicked()),
+            sk, SLOT(play_all_in_sound()));
+    connect(raise, SIGNAL(clicked()),
+            sk, SLOT(play_raise_sound()));
+    connect(call, SIGNAL(clicked()),
+            sk, SLOT(play_call_sound()));
+    connect(fold, SIGNAL(clicked()),
+            sk, SLOT(play_fold_sound()));
 
     connect(bet_size_slider, SIGNAL(sliderMoved(int)),
             this, SLOT(calculate_bet_size(int)));
@@ -83,11 +96,6 @@ QHumanPlayer::~QHumanPlayer()
     delete event_loop;
 }
 
-//QString QHumanPlayer::action_to_string(action_t act)
-//{
-//    return QString(actions[act.action] + " " + act.amount);
-//}
-
 chips_t QHumanPlayer::stake(chips_t max_bet_in_round)
 {
     chips_t amount = Player::stake(max_bet_in_round);
@@ -113,6 +121,12 @@ QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round,
                                             chips_t raise_size)
 {
     if (is_in_game) {
+        // focus on current bar
+        const QPalette old_palette = bar->palette();
+        QPalette focus_palette;
+        focus_palette.setBrush(QPalette::Background, bar_background);
+        bar->setPalette(focus_palette);
+
         this->max_bet_in_round = max_bet_in_round;
         this->raise_size = raise_size;
 
@@ -121,6 +135,9 @@ QHumanPlayer::action_t QHumanPlayer::action(chips_t max_bet_in_round,
         event_loop->exec();
 
         stake(max_bet_in_round);
+
+        // unfocus
+        bar->setPalette(old_palette);
     }
 
     return last_action;
@@ -170,6 +187,14 @@ void QHumanPlayer::reset_player()
     emit update_stack(stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
     emit clear_puck(puck_label);
+    QApplication::processEvents();
+}
+
+void QHumanPlayer::reset_last_action()
+{
+    Player::reset_last_action();
+
+    emit update_action(QString::fromStdString(action_to_string(last_action)));
     QApplication::processEvents();
 }
 

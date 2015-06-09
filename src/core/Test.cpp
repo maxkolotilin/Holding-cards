@@ -41,6 +41,19 @@ void Test::check_card_functions()
 
 void Test::check_combinations()
 {
+//    correct output
+//    0 : 23294460
+//    1 : 58627800
+//    2 : 31433400
+//    3 : 6461620
+//    4 : 6180020
+//    5 : 4047644
+//    6 : 3473184
+//    7 : 224848
+//    8 : 37260
+//    9 : 4324
+//    133784560
+
     PocketCards pc;
     CardsOnTable cot;
     Evaluator evaluator(&cot);
@@ -62,7 +75,7 @@ void Test::check_combinations()
                                 cot.cards_on_table.push_back(deck->deck[e]);
                                 cot.cards_on_table.push_back(deck->deck[f]);
                                 cot.cards_on_table.push_back(deck->deck[g]);
-                                evaluator.get_strength(&pc, &hs);
+                                evaluator.check_strength(&pc, &hs);
                                 ++results[hs.get_combination()];
                                 pc.reset_pocket_cards();
                                 cot.set_preflop();

@@ -15,7 +15,7 @@
 
 QGame::QGame(QLabel *pot, QLabel *bets, CardsOnTable *cards,
              chips_t min_bet, int interval, MainWindow *main_window,
-             QObject *parent)
+             QLabel *help_lb, SoundKeeper *sk, QObject *parent)
     : Game(cards, min_bet, interval, parent)
 {
     connect(this, SIGNAL(update_bets(int)),
@@ -24,7 +24,11 @@ QGame::QGame(QLabel *pot, QLabel *bets, CardsOnTable *cards,
             pot, SLOT(setNum(int)));
 
     window = main_window;
+    help_label = help_lb;
 
+    sound_keeper = sk;
+
+    help_label->hide();
     emit update_bets(this->total_bets_in_round);
     emit update_pot(this->pot);
     QApplication::processEvents();
@@ -38,7 +42,8 @@ QGame::~QGame()
 void QGame::increase_min_bet()
 {
     Game::increase_min_bet();
-    // play sound
+
+    sound_keeper->play_increase_bet_sound();
 }
 
 void QGame::add_to_bets(chips_t bet)
@@ -77,8 +82,10 @@ void QGame::winners()
 {
     Game::winners();
 
+    help_label->show();
     QEventLoop loop;
     connect(window, SIGNAL(any_button_pushed()),
             &loop, SLOT(quit()));
     loop.exec();
+    help_label->hide();
 }

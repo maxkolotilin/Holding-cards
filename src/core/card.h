@@ -14,7 +14,7 @@
 #define CARD_H
 
 #include <string>
-#include "src/poker_defs.h"
+#include "src/core/poker_defs.h"
 using std::string;
 
 class Card

@@ -14,9 +14,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <src/Test.h>
+// #include <src/core/Test.h>
 #include "keepers.h"
-#include "src/card.h"
+#include "src/core/card.h"
 #include "q_cards_on_table.h"
 #include "q_pocket_cards.h"
 #include "q_computer_player.h"
@@ -44,6 +44,7 @@ private:
     //Test test;
     QVector<Player *> players_pool;
     ImageKeeper *ik;
+    SoundKeeper *sk;
     QGame *game;
 
 signals:

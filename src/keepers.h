@@ -19,12 +19,15 @@
 #include <QObject>
 #include <QVector>
 #include <QPixmap>
+#include <QSound>
 #include <QPainter>
 #include <QEventLoop>
 #include <QPropertyAnimation>
 #include <QApplication>
 #include <exception>
-#include "src/evaluator.h"
+#include "src/core/evaluator.h"
+
+class SoundKeeper;
 
 class ImageKeeper : public QObject
 {
@@ -38,7 +41,7 @@ public:
     static const int ANIMATION_DURATION = 333;    // in ms
 
     explicit ImageKeeper(QWidget *main_window, QLabel *animated_card,
-                         QObject *parent = 0);
+                         SoundKeeper *sk, QObject *parent = 0);
     ~ImageKeeper();
 
     void load_pictures(choice_t choice = VAR_1);   // throws exception
@@ -66,13 +69,12 @@ private:
 
     QWidget *main_window;
 
+    SoundKeeper *sound_keeper;
+
 signals:
     void deal_card(QLabel *card);
 
 public slots:
-//    void set_faces(vector<const Card*> &cards, QVector<QLabel*> cards_images);
-//    void set_face(const Card *card, QLabel *card_image);
-
     void set_backs(QVector<QLabel*> cards_images);
     void set_back(QLabel *card_image);
 
@@ -87,15 +89,33 @@ public slots:
     void clear_puck(QLabel *puck);
 };
 
-class SoundKeeper
+class SoundKeeper : public QObject
 {
+    Q_OBJECT
 public:
     enum choice_t { VAR_1 };
 
-    SoundKeeper();
+    SoundKeeper(QObject *parent = 0);
     ~SoundKeeper();
 private:
     const QString PATH = "res/sound/";
+
+    QSound *all_in_sound;
+    QSound *call_sound;
+    QSound *raise_sound;
+    QSound *fold_sound;
+    QSound *increase_bet_sound;
+    QSound *activate_human_sound;
+    QSound *deal_card_sound;
+
+public slots:
+    void play_all_in_sound();
+    void play_call_sound();
+    void play_raise_sound();
+    void play_fold_sound();
+    void play_increase_bet_sound();
+    void play_activate_human_sound();
+    void play_deal_card_sound();
 
 };
 

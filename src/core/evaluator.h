@@ -15,9 +15,9 @@
 #ifndef EVALUATOR_H
 #define EVALUATOR_H
 
-#include "src/cards_on_table.h"
-#include "src/pocket_cards.h"
-#include "src/player.h"
+#include "src/core/cards_on_table.h"
+#include "src/core/pocket_cards.h"
+#include "src/core/player.h"
 #include <list>
 
 using std::list;
@@ -29,7 +29,6 @@ typedef list<Player*>::iterator player_it;
 
 class HandStrength
 {
-    //friend class Evaluator;
 
 public:
     typedef enum { NONE, HIGH_CARD, PAIR, TWO_PAIRS, TREE_OF_A_KIND, STRAIGHT,
@@ -91,6 +90,7 @@ private:
     combinations_t combination;
     static const string combinations[];
     // see strings in Evaluator.cpp
+
     vector<const Card*> combination_cards;
     vector<const Card*> kicker_cards;
 };
@@ -107,10 +107,10 @@ public:
     Evaluator(const CardsOnTable *cards);
     ~Evaluator();
 
-    void get_strength(PocketCards *pocket, HandStrength *strength);
-    void get_strength(Player* player);
+    void check_strength(PocketCards *pocket, HandStrength *strength);
+    void check_strength(Player* player);
     // warning: next overloaded version DON'T clear all_cards
-    void get_strength(HandStrength *strength);
+    void check_strength(HandStrength *strength);
 
     void get_win_list(list<Player*> &players,
                       vector<vector<Player*>> &winlist);

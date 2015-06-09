@@ -18,9 +18,9 @@
 #include <QObject>
 #include <QLabel>
 #include <QApplication>
-#include <mainwindow.h>
+#include <src/mainwindow.h>
 #include <QEventLoop>
-#include "src/game.h"
+#include "src/core/game.h"
 
 class MainWindow;
 
@@ -30,7 +30,7 @@ class QGame : public Game
 public:
     explicit QGame(QLabel *pot, QLabel *bets, CardsOnTable *cards,
                    chips_t min_bet, int interval, MainWindow *main_window,
-                   QObject *parent = 0);
+                   QLabel *help_lb, SoundKeeper *sk, QObject *parent = 0);
     ~QGame();
 
     virtual void increase_min_bet();
@@ -42,6 +42,10 @@ public:
 
 private:
     MainWindow *window;
+
+    QLabel *help_label;
+
+    SoundKeeper *sound_keeper;
 
 signals:
     void update_bets(int bets);

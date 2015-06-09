@@ -1,10 +1,9 @@
 1) Add focusing while player in action
-2) Add sounds
-3) Add winner labels
-4) Add edit field for raise size
-5) Add "Press any button to continue"
+2) Add winner labels
+3) Add edit field for raise size
 --------------------------------
 run game in other thread
+add normal buttons
 --------------------------------
 AI:
     //    add check_position

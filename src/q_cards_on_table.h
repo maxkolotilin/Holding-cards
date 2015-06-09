@@ -18,7 +18,7 @@
 #include <QLabel>
 #include <QVector>
 #include <QApplication>
-#include "src/cards_on_table.h"
+#include "src/core/cards_on_table.h"
 #include "keepers.h"
 
 class QCardsOnTable : public CardsOnTable

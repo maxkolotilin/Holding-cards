@@ -13,12 +13,12 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include "src/card.h"
-#include "src/deck_of_cards.h"
-#include "src/cards_on_table.h"
-#include "src/evaluator.h"
-#include "src/pocket_cards.h"
-#include "src/poker_defs.h"
+#include "src/core/card.h"
+#include "src/core/deck_of_cards.h"
+#include "src/core/cards_on_table.h"
+#include "src/core/evaluator.h"
+#include "src/core/pocket_cards.h"
+#include "src/core/poker_defs.h"
 
 class Test
 {

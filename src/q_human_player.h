@@ -17,13 +17,15 @@
 
 #include <QObject>
 #include <QPushButton>
+#include <QPixmap>
+#include <QPalette>
 #include <QVector>
 #include <QSlider>
 #include <QLabel>
 #include <QVector>
 #include <QEventLoop>
 #include <QApplication>
-#include "src/player.h"
+#include "src/core/player.h"
 #include "keepers.h"
 
 class QHumanPlayer : public HumanPlayer
@@ -37,13 +39,14 @@ public:
                           QSlider *bet_size_slider, QWidget *bar,
                           string name, int id, chips_t stack,
                           PocketCards *hand, ImageKeeper *ik,
-                          QObject *parent = 0);
+                          SoundKeeper *sk, QObject *parent = 0);
     ~QHumanPlayer();
 
     action_t action(chips_t max_bet_in_round, chips_t raise_size);
     chips_t blind(blind_t type);
     chips_t stake(chips_t max_bet_in_round);
     void reset_player();
+    void reset_last_action();
     void set_dealer(bool switcher);
     void enable()
     {
@@ -58,6 +61,8 @@ private:
     QLabel *action_label;
     QLabel *bet_size_label;
     QLabel *puck_label;
+
+    QPixmap bar_background;
 
     QEventLoop *event_loop;
 

@@ -20,16 +20,22 @@ QComputerPlayer::QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
                                  const chips_t *total_bets,
                                  const CardsOnTable::round_t *round,
                                  Evaluator *evaluator, ImageKeeper *ik,
-                                 QObject *parent)
+                                 SoundKeeper *sk, QObject *parent)
     : ComputerPlayer(name, id, stack, pot, total_bets,round, hand, evaluator,
-                     parent)
+                     parent),
+      bar_background(*ik->get_picture(ImageKeeper::BAR_BACKGROUND))
 {
     name_label = name_lb;
     stack_label = stack_lb;
     action_label = action_lb;
     puck_label = puck_lb;
     this->bar = bar;
-    bar->hide();
+    this->bar->hide();
+
+    bar_background = bar_background.scaled(this->bar->size(),
+                                           Qt::IgnoreAspectRatio);
+
+    sound_keeper = sk;
 
     connect(this, SIGNAL(update_stack(int)),
             stack_label, SLOT(setNum(int)));
@@ -80,7 +86,16 @@ chips_t QComputerPlayer::blind(blind_t type)
 QComputerPlayer::action_t QComputerPlayer::action(chips_t max_bet_in_round,
                                                   chips_t raise_size)
 {
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    // focus on current bar
+    const QPalette old_palette = bar->palette();
+    QPalette focus_palette;
+    focus_palette.setBrush(QPalette::Background, bar_background);
+    bar->setPalette(focus_palette);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1300));
+
+    // unfocus
+    bar->setPalette(old_palette);
 
     return ComputerPlayer::action(max_bet_in_round, raise_size);
 }
@@ -94,6 +109,14 @@ void QComputerPlayer::reset_player()
     emit update_stack((int)stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
     emit clear_puck(puck_label);
+    QApplication::processEvents();
+}
+
+void QComputerPlayer::reset_last_action()
+{
+    Player::reset_last_action();
+
+    emit update_action(QString::fromStdString(action_to_string(last_action)));
     QApplication::processEvents();
 }
 
@@ -113,5 +136,29 @@ void QComputerPlayer::set_fold()
 {
     Player::set_fold();
 
+    sound_keeper->play_fold_sound();
+
     bar->setDisabled(true);
+}
+
+void QComputerPlayer::set_all_in()
+{
+    Player::set_all_in();
+
+    sound_keeper->play_all_in_sound();
+}
+
+void QComputerPlayer::set_call(chips_t max_bet_in_round)
+{
+    Player::set_call(max_bet_in_round);
+
+    sound_keeper->play_call_sound();
+}
+
+void QComputerPlayer::set_raise(chips_t max_bet_in_round,
+                                chips_t raise_size, chips_t bet)
+{
+    Player::set_raise(max_bet_in_round, raise_size, bet);
+
+    sound_keeper->play_raise_sound();
 }

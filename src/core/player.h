@@ -14,7 +14,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "src/evaluator.h"
+#include "src/core/evaluator.h"
 #include <QObject>
 
 typedef int chips_t;
@@ -82,9 +82,8 @@ public:
         hand->set_card(card);
     }
 
-    void reset_last_action();
-    string action_to_string(action_t act);
-
+    virtual void reset_last_action();
+    virtual string action_to_string(action_t act);
     virtual void set_fold();
     virtual void set_all_in();
     virtual void set_call(chips_t max_bet_in_round);

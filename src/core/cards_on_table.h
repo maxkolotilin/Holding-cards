@@ -14,7 +14,7 @@
 #ifndef CARD_ON_TABLE_H
 #define CARD_ON_TABLE_H
 
-#include "src/deck_of_cards.h"
+#include "src/core/deck_of_cards.h"
 #include <QObject>
 
 class CardsOnTable : public QObject

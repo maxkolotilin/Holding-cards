@@ -13,20 +13,20 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "src/Test.h"
-#include "QPainter"
-#include "QPicture"
-#include "QScreen"
-#include "QTimer"
+#include <QPainter>
+#include <QPicture>
+#include <QScreen>
+#include <QTimer>
 #include <QPropertyAnimation>
 #include <QBitmap>
 #include <QThread>
 #include <QMetaType>
 #include <vector>
+#include "src/core/game.h"
 
 using std::vector;
 
-#include "src/game.h"
+
 
 
 //typedef QVector<QLabel*>* type;
@@ -43,7 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->showFullScreen();
 
-    ik = new ImageKeeper(ui->centralWidget, ui->animated_card, this);
+    sk = new SoundKeeper(this);
+    ik = new ImageKeeper(ui->centralWidget, ui->animated_card, sk, this);
 
     ik->load_pictures();     // throws exception
     ik->scale_cards();
@@ -59,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      new QCardsOnTable(ui->flopcard_1, ui->flopcard_2,
                                        ui->flopcard_3, ui->turncard,
                                        ui->rivercard, ik, this),
-                     40, 10,this, this);
+                     40, 10,this, ui->label_help_text, sk, this);
 
     const int PLAYERS_POSITION = 5;
 
@@ -73,7 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_2, ui->stack_bar_2,
                                                ui->action_bar_2, ui->puck_bar_2,
@@ -85,7 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_3, ui->stack_bar_3,
                                                ui->action_bar_3, ui->puck_bar_3,
@@ -97,7 +100,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_4, ui->stack_bar_4,
                                                ui->action_bar_4, ui->puck_bar_4,
@@ -109,7 +113,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_5, ui->stack_bar_5,
                                                ui->action_bar_5, ui->puck_bar_5,
@@ -121,7 +126,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QHumanPlayer(ui->button_allin, ui->button_raise,
                                             ui->button_call, ui->button_fold,
@@ -131,7 +137,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                             ui->bar_6, "MaximKa", 6, 10000,
                                             new QPocketCards(ui->card_1_bar_6,
                                                              ui->card_2_bar_6,
-                                                             ik, this), ik, this));
+                                                             ik, this), ik,
+                                            sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_7, ui->stack_bar_7,
                                                ui->action_bar_7, ui->puck_bar_7,
@@ -143,7 +150,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_8, ui->stack_bar_8,
                                                ui->action_bar_8, ui->puck_bar_8,
@@ -155,7 +163,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_9, ui->stack_bar_9,
                                                ui->action_bar_9, ui->puck_bar_9,
@@ -167,7 +176,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     players_pool.push_back(new QComputerPlayer(ui->name_bar_10, ui->stack_bar_10,
                                                ui->action_bar_10, ui->puck_bar_10,
@@ -179,7 +189,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                                game->get_pot_ptr(),
                                                game->get_bets_ptr(),
                                                game->get_round_ptr(),
-                                               game->get_evaluator_ptr(), ik, this));
+                                               game->get_evaluator_ptr(), ik,
+                                               sk, this));
 
     game->set_human_ptr(players_pool[PLAYERS_POSITION]);
     ui->button_bar->hide();

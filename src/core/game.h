@@ -13,7 +13,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "src/player.h"
+#include "src/core/player.h"
 #include <QObject>
 
 class Game : public QObject
