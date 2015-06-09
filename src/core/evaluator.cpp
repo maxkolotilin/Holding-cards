@@ -122,21 +122,21 @@ Evaluator::~Evaluator()
 
 }
 
-void Evaluator::check_strength(PocketCards *pocket, HandStrength *strength)
+void Evaluator::determine_strength(PocketCards *pocket, HandStrength *strength)
 {
     all_cards.clear();
     copy_to_all_cards(pocket->get_hand());
     copy_to_all_cards(community_cards->get_table_cards());
 
-    check_strength(strength);
+    determine_strength(strength);
 }
 
-void Evaluator::check_strength(Player *player)
+void Evaluator::determine_strength(Player *player)
 {
-    check_strength(player->get_hand(), player->get_strength());
+    determine_strength(player->get_hand(), player->get_strength());
 }
 
-void Evaluator::check_strength(HandStrength *strength)
+void Evaluator::determine_strength(HandStrength *strength)
 {
     // sort cards descending
     std::sort(all_cards.begin(), all_cards.end(), Card::greater);

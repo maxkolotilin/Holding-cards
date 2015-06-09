@@ -1,6 +1,4 @@
-1) Add focusing while player in action
-2) Add winner labels
-3) Add edit field for raise size
+
 --------------------------------
 run game in other thread
 add normal buttons

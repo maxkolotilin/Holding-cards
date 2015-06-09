@@ -91,6 +91,7 @@ public:
                            chips_t bet);
 
     virtual action_t action(chips_t max_bet_in_round, chips_t raise_size) = 0;
+    virtual void set_winner() = 0;
     virtual void enable() = 0;
     virtual chips_t blind(blind_t type);
     virtual chips_t stake(chips_t max_bet_in_round);
@@ -136,7 +137,7 @@ protected:
     // see strings in player.cpp
 
     static chips_t min_bet;             // current minimum bet in game
-    //static const chips_t *max_bet_in_round;    // max bet in current round
+
 };
 
 class HumanPlayer: public Player

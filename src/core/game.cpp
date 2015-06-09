@@ -50,6 +50,9 @@ void Game::search_for_losers()
 {
     for (player_it it = players.begin(); it != players.end(); ++it) {
         if ((*it)->get_stack() == 0) {
+            if (*it == human) {
+                human = 0;
+            }
             --number_of_players;
             delete *it;
             it = players.erase(it);     // return next element
@@ -84,23 +87,24 @@ void Game::start_new_deal()
 
     round = cards_on_table->set_preflop();
     add_to_pot(start_trading());
+    reset_bets();
 
     // if 2 or more players - continue deal
     if (number_of_folded != number_of_players - 1) {
         round = cards_on_table->set_flop(deck);
         add_to_pot(start_trading());
-
         reset_bets();
+
         if (number_of_folded != number_of_players - 1) {
             round = cards_on_table->set_turn(deck);
             add_to_pot(start_trading());
-
             reset_bets();
+
             if (number_of_folded != number_of_players - 1) {
                 round = cards_on_table->set_river(deck);
                 add_to_pot(start_trading());
-
                 reset_bets();
+
             }
         }
     }
@@ -137,13 +141,14 @@ chips_t Game::start_trading()
          made_decision < number_of_players; ++made_decision ) {
 
         if ((*current_player)->is_player_in_game() &&
-            (*current_player)->get_last_action().action != Player::ALL_IN) {
+            (*current_player)->get_stack() != 0) {
 
             Player::action_t act = (*current_player)->action(current_max_bet,
                                                              size_of_last_raise);
             if (act.valid) {
                 add_to_bets(act.amount);
-                if (act.action == Player::RAISE || act.action == Player::BET) {
+                if (act.action == Player::RAISE || act.action == Player::BET ||
+                    act.action == Player::ALL_IN) {
                     start_player = current_player;
                     // reset betting round
                     made_decision = 0;
@@ -183,7 +188,7 @@ void Game::winners()
                 if (*player != human) {
                     (*player)->show_hand();
                 }
-                evaluator->check_strength(*player);
+                evaluator->determine_strength(*player);
             }
         }
         evaluator->get_win_list(players, winlist);
@@ -239,7 +244,9 @@ void Game::deal_cards()
         next_player(player);
     }
 
-    human->show_hand();
+    if (human) {
+        human->show_hand();
+    }
 }
 
 void Game::bet_blinds()

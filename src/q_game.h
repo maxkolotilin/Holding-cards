@@ -38,7 +38,7 @@ public:
     virtual void add_to_pot(chips_t bets_in_round);
     virtual void reset_bets();
     virtual void reset_pot();
-    virtual void winners();
+    virtual void distribute_pot_to_players();
 
 private:
     MainWindow *window;

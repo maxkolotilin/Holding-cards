@@ -26,7 +26,7 @@ ImageKeeper::ImageKeeper(QWidget *main_window, QLabel *animated_card,
     }
 
     pictures.reserve(NUMBER_OF_PICTURES);
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < NUMBER_OF_PICTURES; ++i) {
         pictures.push_back(new QPixmap);
     }
 
@@ -153,7 +153,7 @@ void ImageKeeper::deal_card_animation(QLabel *card)
 
     connect(&anim, SIGNAL(finished()), event_loop, SLOT(quit()));
     anim.start();
-    //sound_keeper->play_deal_card_sound();
+    sound_keeper->play_deal_card_sound();
     event_loop->exec();
     anim.disconnect();
 
@@ -180,63 +180,74 @@ void ImageKeeper::clear_puck(QLabel *puck)
     puck->setPixmap(*pictures[BLANK]);
 }
 
+void ImageKeeper::set_winner_image(QLabel *message)
+{
+    if (message->size() != pictures[WINNER]->size()) {
+        *pictures[WINNER] = pictures[WINNER]->scaled(message->size(),
+                                                     Qt::KeepAspectRatio);
+    }
+
+    message->setPixmap(*pictures[WINNER]);
+}
+
 //------------------------------------------
 
 SoundKeeper::SoundKeeper(QObject *parent) : QObject(parent)
 {
-    all_in_sound = new QSound(PATH + "allin.wav");
-    call_sound = new QSound(PATH + "call.wav");
-    raise_sound = new QSound(PATH + "raise.wav");
-    fold_sound = new QSound(PATH + "fold.wav");
-    increase_bet_sound = new QSound(PATH + "blinds_raises_level1.wav");
-    activate_human_sound = new QSound(PATH + "youturn.wav");
-    deal_card_sound = new QSound(PATH + "dealtwocards.wav");
+    sounds.reserve(NUMBER_OF_SOUNDS);
+    sounds << new QSound(PATH + "allin.wav") << new QSound(PATH + "call.wav")
+           << new QSound(PATH + "check.wav") << new QSound(PATH + "raise.wav")
+           << new QSound(PATH + "fold.wav")
+           << new QSound(PATH + "blinds_raises_level1.wav")
+           << new QSound(PATH + "yourturn.wav")
+           << new QSound(PATH + "dealtwocards.wav");
 }
 
 SoundKeeper::~SoundKeeper()
 {
-    delete all_in_sound;
-    delete call_sound;
-    delete raise_sound;
-    delete fold_sound;
-    delete increase_bet_sound;
-    delete activate_human_sound;
-    delete deal_card_sound;
+    foreach (QSound *sound, sounds) {
+        delete sound;
+    }
 
     disconnect();
 }
 
 void SoundKeeper::play_raise_sound()
 {
-    raise_sound->play();
+    sounds[RAISE_SOUND]->play();
 }
 
 void SoundKeeper::play_increase_bet_sound()
 {
-    increase_bet_sound->play();
+    sounds[INCREASE_BET_SOUND]->play();
 }
 
 void SoundKeeper::play_fold_sound()
 {
-    fold_sound->play();
+    sounds[FOLD_SOUND]->play();
 }
 
 void SoundKeeper::play_deal_card_sound()
 {
-    deal_card_sound->play();
+    sounds[DEAL_CARD_SOUND]->play();
 }
 
 void SoundKeeper::play_call_sound()
 {
-    call_sound->play();
+    sounds[CALL_SOUND]->play();
 }
 
 void SoundKeeper::play_all_in_sound()
 {
-    all_in_sound->play();
+    sounds[ALL_IN_SOUND]->play();
 }
 
 void SoundKeeper::play_activate_human_sound()
 {
-    activate_human_sound->play();
+    sounds[ACTIVATE_HUMAN_SOUND]->play();
+}
+
+void SoundKeeper::play_check_sound()
+{
+    sounds[CHECK_SOUND]->play();
 }

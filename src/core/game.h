@@ -75,7 +75,6 @@ protected:
     void set_next_dealer();
     void next_player(player_it &player);
     void search_for_losers();
-    void distribute_pot_to_players();
     void deal_cards();
     void reset_players();
 
@@ -84,6 +83,7 @@ protected:
     virtual void end_deal();
     virtual chips_t start_trading();
     virtual void winners();
+    virtual void distribute_pot_to_players();
 
     gameStatus_t game_status;
     CardsOnTable::round_t round;

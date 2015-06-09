@@ -75,7 +75,7 @@ void Test::check_combinations()
                                 cot.cards_on_table.push_back(deck->deck[e]);
                                 cot.cards_on_table.push_back(deck->deck[f]);
                                 cot.cards_on_table.push_back(deck->deck[g]);
-                                evaluator.check_strength(&pc, &hs);
+                                evaluator.determine_strength(&pc, &hs);
                                 ++results[hs.get_combination()];
                                 pc.reset_pocket_cards();
                                 cot.set_preflop();

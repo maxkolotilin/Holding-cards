@@ -35,6 +35,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -255,6 +258,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_9">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -475,6 +481,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_10">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -688,13 +697,16 @@
       <rect>
        <x>0</x>
        <y>-1</y>
-       <width>190</width>
+       <width>191</width>
        <height>213</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_11">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -915,6 +927,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_12">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_12">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -1135,6 +1150,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_13">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -1355,6 +1373,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_14">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -1575,6 +1596,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_15">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_15">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -1843,6 +1867,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_16">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_16">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -2090,6 +2117,9 @@
      <layout class="QVBoxLayout" name="verticalLayout_17">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_17">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
         <property name="topMargin">
          <number>2</number>
         </property>
@@ -3300,10 +3330,10 @@
    <widget class="QLabel" name="label_help_text">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>420</y>
-      <width>421</width>
-      <height>41</height>
+      <x>400</x>
+      <y>410</y>
+      <width>591</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="palette">
@@ -3312,9 +3342,9 @@
        <colorrole role="WindowText">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>194</red>
-          <green>194</green>
-          <blue>194</blue>
+          <red>255</red>
+          <green>255</green>
+          <blue>0</blue>
          </color>
         </brush>
        </colorrole>
@@ -3323,9 +3353,9 @@
        <colorrole role="WindowText">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>194</red>
-          <green>194</green>
-          <blue>194</blue>
+          <red>255</red>
+          <green>255</green>
+          <blue>0</blue>
          </color>
         </brush>
        </colorrole>
@@ -3345,8 +3375,8 @@
     </property>
     <property name="font">
      <font>
-      <family>URW Bookman L</family>
-      <pointsize>20</pointsize>
+      <family>Nimbus Mono L</family>
+      <pointsize>26</pointsize>
       <weight>75</weight>
       <italic>true</italic>
       <bold>true</bold>

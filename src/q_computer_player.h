@@ -40,12 +40,15 @@ public:
                              SoundKeeper *sk, QObject *parent = 0);
     ~QComputerPlayer();
 
+    static const int DELAY = 1333; // ms
+
     action_t action(chips_t max_bet_in_round, chips_t raise_size);
     chips_t blind(blind_t type);
     chips_t stake(chips_t max_bet_in_round);
     void set_dealer(bool switcher);
     void reset_player();
     void reset_last_action();
+    void set_winner();
     void enable()
     {
         bar->show();
@@ -66,8 +69,6 @@ private:
     QLabel *action_label;
     QLabel *puck_label;
 
-    QPixmap bar_background;
-
     SoundKeeper *sound_keeper;
 
 signals:
@@ -77,6 +78,8 @@ signals:
     void set_dealer_puck(QLabel *puck);
     void set_blind_puck(QLabel *puck, Player::blind_t blind);
     void clear_puck(QLabel *puck);
+
+    void i_am_winner(QLabel *message);
 
 public slots:
 };

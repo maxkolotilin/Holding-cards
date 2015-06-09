@@ -87,30 +87,31 @@ public slots:
     void set_dealer_puck(QLabel *puck);
     void set_blind_puck(QLabel *puck, Player::blind_t blind);
     void clear_puck(QLabel *puck);
+
+    void set_winner_image(QLabel *message);
 };
 
 class SoundKeeper : public QObject
 {
     Q_OBJECT
 public:
-    enum choice_t { VAR_1 };
+    typedef enum { VAR_1 } choice_t;
+    typedef enum { ALL_IN_SOUND, CALL_SOUND, CHECK_SOUND, RAISE_SOUND,
+                   FOLD_SOUND, INCREASE_BET_SOUND, ACTIVATE_HUMAN_SOUND,
+                   DEAL_CARD_SOUND } sounds_t;
+    static const int NUMBER_OF_SOUNDS = 8;
 
     SoundKeeper(QObject *parent = 0);
     ~SoundKeeper();
 private:
     const QString PATH = "res/sound/";
 
-    QSound *all_in_sound;
-    QSound *call_sound;
-    QSound *raise_sound;
-    QSound *fold_sound;
-    QSound *increase_bet_sound;
-    QSound *activate_human_sound;
-    QSound *deal_card_sound;
+    QVector<QSound *> sounds;
 
 public slots:
     void play_all_in_sound();
     void play_call_sound();
+    void play_check_sound();
     void play_raise_sound();
     void play_fold_sound();
     void play_increase_bet_sound();
