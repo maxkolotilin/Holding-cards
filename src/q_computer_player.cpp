@@ -25,12 +25,14 @@ QComputerPlayer::QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
                      parent)
 {
     name_label = name_lb;
+    name_label->setText(QString::fromStdString(name));
     stack_label = stack_lb;
     action_label = action_lb;
     puck_label = puck_lb;
     this->bar = bar;
     this->bar->hide();
 
+    // set background
     QPalette focus_palette;
     focus_palette.setBrush(QPalette::Background,
                            ik->get_picture(ImageKeeper::BAR_BACKGROUND)->
@@ -39,23 +41,24 @@ QComputerPlayer::QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
 
     sound_keeper = sk;
 
+    // update labels
     connect(this, SIGNAL(update_stack(int)),
             stack_label, SLOT(setNum(int)));
     connect(this, SIGNAL(update_action(QString)),
             action_label, SLOT(setText(QString)));
+    // update puck
     connect(this, SIGNAL(set_blind_puck(QLabel*, Player::blind_t)),
             ik, SLOT(set_blind_puck(QLabel*,Player::blind_t)));
     connect(this, SIGNAL(set_dealer_puck(QLabel*)),
             ik, SLOT(set_dealer_puck(QLabel*)));
     connect(this, SIGNAL(clear_puck(QLabel*)),
             ik, SLOT(clear_puck(QLabel*)));
-
+    // set winner label
     connect(this, SIGNAL(i_am_winner(QLabel*)),
             ik, SLOT(set_winner_image(QLabel*)));
 
     emit update_stack((int)stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
-    name_label->setText(QString::fromStdString(name));
     QApplication::processEvents();
 }
 

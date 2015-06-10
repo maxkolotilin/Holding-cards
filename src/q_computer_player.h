@@ -30,14 +30,12 @@ class QComputerPlayer : public ComputerPlayer
 {
     Q_OBJECT
 public:
-    explicit QComputerPlayer(QLabel *name_lb, QLabel *stack_lb,
-                             QLabel *action_lb, QLabel *puck_lb,
-                             QWidget *bar, string name, int id,
-                             chips_t stack, PocketCards *hand,
-                             const chips_t *pot, const chips_t *total_bets,
-                             const CardsOnTable::round_t *round,
-                             Evaluator *evaluator, ImageKeeper *ik,
-                             SoundKeeper *sk, QObject *parent = 0);
+    QComputerPlayer(QLabel *name_lb, QLabel *stack_lb, QLabel *action_lb,
+                    QLabel *puck_lb, QWidget *bar, string name, int id,
+                    chips_t stack, PocketCards *hand, const chips_t *pot,
+                    const chips_t *total_bets, const CardsOnTable::round_t *round,
+                    Evaluator *evaluator, ImageKeeper *ik, SoundKeeper *sk,
+                    QObject *parent = 0);
     ~QComputerPlayer();
 
     static const int DELAY = 1333; // ms

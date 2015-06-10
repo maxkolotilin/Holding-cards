@@ -44,7 +44,7 @@ ImageKeeper::~ImageKeeper()
     delete event_loop;
 }
 
-void ImageKeeper::load_pictures(choice_t choice)
+void ImageKeeper::load_pictures()
 {
     for (int face = 0; face < Card::NUMBER_OF_FACES; ++face) {
         for (int suit = 0; suit < Card::NUMBER_OF_SUITS; ++suit) {
@@ -149,7 +149,7 @@ void ImageKeeper::deal_card_animation(QLabel *card)
     anim.setDuration(ANIMATION_DURATION);
     anim.setStartValue(animated_card->pos());
     anim.setEndValue(card->mapTo(main_window, QPoint(0, 0)));
-    anim.setEasingCurve(QEasingCurve::OutCirc);
+    anim.setEasingCurve(QEasingCurve::InBack);
 
     connect(&anim, SIGNAL(finished()), event_loop, SLOT(quit()));
     anim.start();
@@ -158,7 +158,6 @@ void ImageKeeper::deal_card_animation(QLabel *card)
     anim.disconnect();
 
     animated_card->move(old_pos);
-    //QApplication::processEvents();
 }
 
 void ImageKeeper::set_dealer_puck(QLabel *puck)

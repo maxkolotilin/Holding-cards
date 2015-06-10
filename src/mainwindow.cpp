@@ -20,18 +20,10 @@
 #include <QPropertyAnimation>
 #include <QBitmap>
 #include <QThread>
-#include <QMetaType>
 #include <vector>
 #include "src/core/game.h"
 
 using std::vector;
-
-
-
-
-//typedef QVector<QLabel*>* type;
-//Q_DECLARE_METATYPE(type)
-
 
 class Game;
 
@@ -49,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ik->load_pictures();     // throws exception
     ik->scale_cards();
 
-    // set background
+    // set table background
     QPixmap bkgnd(*ik->get_picture(ImageKeeper::TABLE));
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -194,13 +186,11 @@ MainWindow::MainWindow(QWidget *parent) :
                                                sk, this));
 
     game->set_human_ptr(players_pool[PLAYERS_POSITION]);
+
     ui->button_bar->hide();
     ui->deck_bar->hide();
-
-    ui->animated_card->move(ui->deck_label->mapToGlobal(ui->deck_label->pos()));
     ui->animated_card->hide();
-
-
+    ui->animated_card->move(ui->deck_label->mapToGlobal(ui->deck_label->pos()));
 }
 
 MainWindow::~MainWindow()
@@ -229,4 +219,28 @@ void MainWindow::on_pushButton_clicked()
 //    thread->start();
 
     game->start();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *pe)
+{
+    if (pe->key() == Qt::Key_Escape) {
+        int answer = QMessageBox::warning(this, "Quit",
+                                          "Are you sure?", QMessageBox::Yes,
+                                          QMessageBox::No);
+        if (answer == QMessageBox::Yes) {
+            // kill program
+            exit(0);
+        } else {
+            this->showFullScreen();
+        }
+    } else {
+        emit any_button_pushed();
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *me)
+{
+    me->type();   // dummy
+
+    emit any_button_pushed();
 }

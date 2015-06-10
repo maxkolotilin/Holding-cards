@@ -21,12 +21,13 @@ class Game : public QObject
 public:
     typedef enum { BEGIN, CONTINUE, END } gameStatus_t;
 
+    static const int MAX_NUMBER_OF_PLAYERS = 10;
+
     Game(CardsOnTable *cards, chips_t min_bet, int interval, QObject *parent = 0);
     virtual ~Game();
 
     void add_player(Player* pl);
     void start();
-    virtual void increase_min_bet();
 
     chips_t get_min_bet() const
     {
@@ -53,6 +54,7 @@ public:
         human = player;
     }
 
+    virtual void increase_min_bet();
     virtual void add_to_bets(chips_t bet)
     {
         total_bets_in_round += bet;
@@ -77,12 +79,12 @@ protected:
     void search_for_losers();
     void deal_cards();
     void reset_players();
+    void winners();
+    void start_new_deal();
+    void bet_blinds();
+    void end_deal();
+    chips_t start_trading();
 
-    virtual void start_new_deal();
-    virtual void bet_blinds();
-    virtual void end_deal();
-    virtual chips_t start_trading();
-    virtual void winners();
     virtual void distribute_pot_to_players();
 
     gameStatus_t game_status;

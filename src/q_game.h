@@ -28,9 +28,9 @@ class QGame : public Game
 {
     Q_OBJECT
 public:
-    explicit QGame(QLabel *pot, QLabel *bets, CardsOnTable *cards,
-                   chips_t min_bet, int interval, MainWindow *main_window,
-                   QLabel *help_lb, SoundKeeper *sk, QObject *parent = 0);
+    QGame(QLabel *pot, QLabel *bets, CardsOnTable *cards, chips_t min_bet,
+          int interval, MainWindow *main_window, QLabel *help_lb,
+          SoundKeeper *sk, QObject *parent = 0);
     ~QGame();
 
     virtual void increase_min_bet();

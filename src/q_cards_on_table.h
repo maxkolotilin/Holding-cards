@@ -25,9 +25,9 @@ class QCardsOnTable : public CardsOnTable
 {
     Q_OBJECT
 public:
-    explicit QCardsOnTable(QLabel *flop_1, QLabel *flop_2, QLabel *flop_3,
-                           QLabel *turn, QLabel *river, ImageKeeper *ik,
-                           QObject *parent = 0);
+    QCardsOnTable(QLabel *flop_1, QLabel *flop_2, QLabel *flop_3,
+                  QLabel *turn, QLabel *river, ImageKeeper *ik,
+                  QObject *parent = 0);
     ~QCardsOnTable();
 
     virtual round_t set_flop(DeckOfCards *deck);

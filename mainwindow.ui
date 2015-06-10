@@ -29,7 +29,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -111,6 +111,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -166,6 +167,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -221,6 +223,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -252,7 +255,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -334,6 +337,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -389,6 +393,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -444,6 +449,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -475,7 +481,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -557,6 +563,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -612,6 +619,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -667,6 +675,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -698,7 +707,7 @@
        <x>0</x>
        <y>-1</y>
        <width>191</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -780,6 +789,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -835,6 +845,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -890,6 +901,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -921,7 +933,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1003,6 +1015,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1058,6 +1071,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1113,6 +1127,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1144,7 +1159,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -1226,6 +1241,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1281,6 +1297,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1336,6 +1353,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1367,7 +1385,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -1449,6 +1467,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1504,6 +1523,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1559,6 +1579,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1590,7 +1611,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_15">
@@ -1672,6 +1693,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1727,6 +1749,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1782,6 +1805,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -1861,7 +1885,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -1970,6 +1994,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2025,6 +2050,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2080,6 +2106,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2111,7 +2138,7 @@
        <x>0</x>
        <y>-1</y>
        <width>190</width>
-       <height>213</height>
+       <height>219</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -2193,6 +2220,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2248,6 +2276,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2303,6 +2332,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2461,6 +2491,11 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QSlider" name="slider_bet_size">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="maximum">
            <number>100</number>
           </property>
@@ -2523,6 +2558,7 @@
           <property name="font">
            <font>
             <family>URW Bookman L</family>
+            <pointsize>12</pointsize>
             <weight>75</weight>
             <italic>true</italic>
             <bold>true</bold>
@@ -2622,7 +2658,7 @@
        <x>30</x>
        <y>20</y>
        <width>92</width>
-       <height>158</height>
+       <height>160</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2687,6 +2723,7 @@
         <property name="font">
          <font>
           <family>URW Bookman L</family>
+          <pointsize>12</pointsize>
           <weight>75</weight>
           <italic>true</italic>
           <bold>true</bold>
@@ -2756,6 +2793,7 @@
           <property name="font">
            <font>
             <family>URW Bookman L</family>
+            <pointsize>12</pointsize>
             <weight>75</weight>
             <italic>true</italic>
             <bold>true</bold>
@@ -2811,6 +2849,7 @@
           <property name="font">
            <font>
             <family>URW Bookman L</family>
+            <pointsize>12</pointsize>
             <weight>75</weight>
             <italic>true</italic>
             <bold>true</bold>
@@ -2866,6 +2905,7 @@
           <property name="font">
            <font>
             <family>URW Bookman L</family>
+            <pointsize>12</pointsize>
             <weight>75</weight>
             <italic>true</italic>
             <bold>true</bold>
@@ -2921,6 +2961,7 @@
           <property name="font">
            <font>
             <family>URW Bookman L</family>
+            <pointsize>12</pointsize>
             <weight>75</weight>
             <italic>true</italic>
             <bold>true</bold>
@@ -3312,15 +3353,19 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>170</y>
-      <width>351</width>
+      <x>450</x>
+      <y>180</y>
+      <width>461</width>
       <height>161</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <family>URW Bookman L</family>
       <pointsize>100</pointsize>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -3330,9 +3375,9 @@
    <widget class="QLabel" name="label_help_text">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>450</x>
       <y>410</y>
-      <width>591</width>
+      <width>491</width>
       <height>51</height>
      </rect>
     </property>
@@ -3375,7 +3420,7 @@
     </property>
     <property name="font">
      <font>
-      <family>Nimbus Mono L</family>
+      <family>URW Bookman L</family>
       <pointsize>26</pointsize>
       <weight>75</weight>
       <italic>true</italic>
@@ -3383,7 +3428,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Press any button to end deal</string>
+     <string>Press any key to end deal</string>
     </property>
    </widget>
   </widget>

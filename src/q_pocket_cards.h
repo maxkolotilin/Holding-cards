@@ -25,8 +25,8 @@ class QPocketCards : public PocketCards
 {
     Q_OBJECT
 public:
-    explicit QPocketCards(QLabel *card_1, QLabel *card_2,
-                          ImageKeeper *ik, QObject *parent = 0);
+    QPocketCards(QLabel *card_1, QLabel *card_2, ImageKeeper *ik,
+                 QObject *parent = 0);
     ~QPocketCards();
 
     void set_card(const Card *card);

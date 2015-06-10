@@ -37,6 +37,7 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
     this->bar->hide();
     this->button_bar->setDisabled(true);
 
+    // set background
     QPalette focus_palette;
     focus_palette.setBrush(QPalette::Background,
                            ik->get_picture(ImageKeeper::BAR_BACKGROUND)->
@@ -45,11 +46,13 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
 
     event_loop = new QEventLoop();
 
+    // update labels
     connect(this, SIGNAL(update_stack(int)),
             stack_label, SLOT(setNum(int)));
     connect(this, SIGNAL(update_action(QString)),
             action_label, SLOT(setText(QString)));
 
+    // quit event loop after player click any button
     connect(all_in, SIGNAL(clicked()),
             event_loop, SLOT(quit()));
     connect(raise, SIGNAL(clicked()),
@@ -59,6 +62,7 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
     connect(fold, SIGNAL(clicked()),
             event_loop, SLOT(quit()));
 
+    // recive signals from buttons
     connect(all_in, SIGNAL(clicked()),
             this, SLOT(all_in()));
     connect(raise, SIGNAL(clicked()),
@@ -68,20 +72,13 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
     connect(fold, SIGNAL(clicked()),
             this, SLOT(fold()));
 
-//    connect(all_in, SIGNAL(clicked()),
-//            sk, SLOT(play_all_in_sound()));
-//    connect(raise, SIGNAL(clicked()),
-//            sk, SLOT(play_raise_sound()));
-//    connect(call, SIGNAL(clicked()),
-//            sk, SLOT(play_call_sound()));
-//    connect(fold, SIGNAL(clicked()),
-//            sk, SLOT(play_fold_sound()));
-
+    // update slider
     connect(bet_size_slider, SIGNAL(sliderMoved(int)),
             this, SLOT(calculate_bet_size(int)));
     connect(this, SIGNAL(send_bet_size(int)),
             bet_size_lb, SLOT(setNum(int)));
 
+    // update puck
     connect(this, SIGNAL(set_blind_puck(QLabel*, Player::blind_t)),
             ik, SLOT(set_blind_puck(QLabel*, Player::blind_t)));
     connect(this, SIGNAL(set_dealer_puck(QLabel*)),
@@ -89,12 +86,12 @@ QHumanPlayer::QHumanPlayer(QPushButton *all_in, QPushButton *raise,
     connect(this, SIGNAL(clear_puck(QLabel*)),
             ik, SLOT(clear_puck(QLabel*)));
 
+    // set winner label
     connect(this, SIGNAL(i_am_winner(QLabel*)),
             ik, SLOT(set_winner_image(QLabel*)));
 
     emit update_stack((int)stack);
     emit update_action(QString::fromStdString(action_to_string(last_action)));
-    name_label->setText(QString::fromStdString(name));
     QApplication::processEvents();
 }
 
@@ -195,7 +192,7 @@ void QHumanPlayer::raise()
     }
 }
 
-void QHumanPlayer::calculate_bet_size(int percent)  // 0 - 100
+void QHumanPlayer::calculate_bet_size(int percent)  // 0 - 99
 {
     const double FROM_PERCENTS = 100.0;
 

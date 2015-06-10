@@ -129,7 +129,7 @@ protected:
 
     action_t last_action;
 
-    bool is_in_game;     // is player in game on current deal?
+    bool is_in_game;
     bool is_dealer;
 
     static const string actions[];

@@ -22,8 +22,6 @@ Game::Game(CardsOnTable *cards, chips_t min_bet, int interval, QObject *parent)
 
     number_of_played_hands = 0;
     number_of_players = 0;
-    // current_deal = 0;
-    // current_max_bet = 0;
     game_status = BEGIN;
 
     this->min_bet = min_bet;
@@ -42,8 +40,12 @@ Game::~Game()
 
 void Game::add_player(Player *pl)
 {
-    players.push_back(pl);
-    ++number_of_players;
+    if (number_of_players < MAX_NUMBER_OF_PLAYERS) {
+        players.push_back(pl);
+        ++number_of_players;
+    } else {
+        output << "Error in Game: an attempt to add an extra player\n";
+    }
 }
 
 void Game::search_for_losers()
@@ -86,24 +88,20 @@ void Game::start_new_deal()
     deal_cards();
 
     round = cards_on_table->set_preflop();
-    add_to_pot(start_trading());
-    reset_bets();
+    add_to_pot(start_trading());    
 
     // if 2 or more players - continue deal
     if (number_of_folded != number_of_players - 1) {
         round = cards_on_table->set_flop(deck);
         add_to_pot(start_trading());
-        reset_bets();
 
         if (number_of_folded != number_of_players - 1) {
             round = cards_on_table->set_turn(deck);
             add_to_pot(start_trading());
-            reset_bets();
 
             if (number_of_folded != number_of_players - 1) {
                 round = cards_on_table->set_river(deck);
                 add_to_pot(start_trading());
-                reset_bets();
 
             }
         }
@@ -149,8 +147,8 @@ chips_t Game::start_trading()
                 add_to_bets(act.amount);
                 if (act.action == Player::RAISE || act.action == Player::BET ||
                     act.action == Player::ALL_IN) {
-                    start_player = current_player;
                     // reset betting round
+                    start_player = current_player;
                     made_decision = 0;
                     size_of_last_raise = (*current_player)->get_bets_in_round() -
                                          current_max_bet;
@@ -165,6 +163,7 @@ chips_t Game::start_trading()
         }
         next_player(current_player);
     }
+    reset_bets();
 
     return total_bets_in_round;
 }
@@ -247,6 +246,13 @@ void Game::deal_cards()
     if (human) {
         human->show_hand();
     }
+
+#ifdef DEBUG
+    // defined in poker_defs.h
+    for (player_it player = players.begin(); player != players.end(); ++player) {
+        (*player)->show_hand();
+    }
+#endif
 }
 
 void Game::bet_blinds()

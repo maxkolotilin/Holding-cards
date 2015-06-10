@@ -32,15 +32,12 @@ class QHumanPlayer : public HumanPlayer
 {
     Q_OBJECT
 public:
-    explicit QHumanPlayer(QPushButton *all_in, QPushButton *raise,
-                          QPushButton *call, QPushButton *fold,
-                          QLabel *name_lb, QLabel *stack_lb, QLabel *action_lb,
-                          QLabel *puck_lb, QLabel *bet_size_lb,
-                          QSlider *bet_size_slider,
-                          QWidget *bar, QWidget *button_bar,
-                          string name, int id, chips_t stack,
-                          PocketCards *hand, ImageKeeper *ik,
-                          SoundKeeper *sk, QObject *parent = 0);
+    QHumanPlayer(QPushButton *all_in, QPushButton *raise, QPushButton *call,
+                 QPushButton *fold, QLabel *name_lb, QLabel *stack_lb,
+                 QLabel *action_lb, QLabel *puck_lb, QLabel *bet_size_lb,
+                 QSlider *bet_size_slider, QWidget *bar, QWidget *button_bar,
+                 string name, int id, chips_t stack, PocketCards *hand,
+                 ImageKeeper *ik, SoundKeeper *sk, QObject *parent = 0);
     ~QHumanPlayer();
 
     action_t action(chips_t max_bet_in_round, chips_t raise_size);

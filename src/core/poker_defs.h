@@ -18,6 +18,8 @@
 #include <QTextStream>
 #include <iostream>
 
+// #define DEBUG
+
 #define output std::cerr  //QTextStream(stdout)   //std::cout
 
 

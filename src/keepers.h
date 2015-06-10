@@ -34,19 +34,20 @@ class ImageKeeper : public QObject
     Q_OBJECT
 public:
     // choice of deck, not implemented yet
-    typedef enum { VAR_1, VAR_2 } choice_t;
+    // typedef enum { VAR_1, VAR_2 } choice_t;
     typedef enum { BACK, BLANK, TABLE, BAR_BACKGROUND, DEALER_PUCK, BIG_BLIND_PUCK,
                    SMALL_BLIND_PUCK, WINNER } picture_index_t;
     static const int NUMBER_OF_PICTURES = 8;
     static const int ANIMATION_DURATION = 333;    // in ms
 
-    explicit ImageKeeper(QWidget *main_window, QLabel *animated_card,
+    ImageKeeper(QWidget *main_window, QLabel *animated_card,
                          SoundKeeper *sk, QObject *parent = 0);
     ~ImageKeeper();
 
-    void load_pictures(choice_t choice = VAR_1);   // throws exception
+    void load_pictures(/*choice_t choice = VAR_1*/);   // throws exception
     void scale_cards(int width = DEFAULT_CARD_WIDTH,
                         int height = DEFAULT_CARD_HEIGHT);
+
     const QPixmap* get_card_image(const Card *card) const
     {
         return cards_img[card->get_face()][card->get_suit()];
@@ -82,6 +83,7 @@ public slots:
     void flip_card(const Card *card, QLabel *card_image);
 
     void clear_cards(QVector<QLabel*> cards_images);
+
     void deal_card_animation(QLabel *card);
 
     void set_dealer_puck(QLabel *puck);
@@ -95,7 +97,6 @@ class SoundKeeper : public QObject
 {
     Q_OBJECT
 public:
-    typedef enum { VAR_1 } choice_t;
     typedef enum { ALL_IN_SOUND, CALL_SOUND, CHECK_SOUND, RAISE_SOUND,
                    FOLD_SOUND, INCREASE_BET_SOUND, ACTIVATE_HUMAN_SOUND,
                    DEAL_CARD_SOUND } sounds_t;
