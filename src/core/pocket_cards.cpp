@@ -29,12 +29,12 @@ void PocketCards::show_hand()
 
 }
 
-void PocketCards::set_card(const Card *c)
+void PocketCards::set_card(const Card *card)
 {
     if (cards_in_pocket == POCKET_SIZE) {
         output << "Error in pocket_cards: an attempt to add an extra card\n";
     } else {
-        pocket_cards.push_back(c);
+        pocket_cards.push_back(card);
         cards_in_pocket++;
     }
 }

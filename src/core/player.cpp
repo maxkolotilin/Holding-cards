@@ -525,6 +525,8 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
     const double MIN_LIMIT_ON_PREFLOP = 0.03;
     const double MAX_LIMIT_ON_POSTFLOP = 0.5;
     const double MIN_LIMIT_ON_POSTFLOP = 0.1;
+    const double MAX_RAISE_COEFFICIENT = 3;
+    const double MID_RAISE_COEFFICIENT = 2;
 
     if (is_in_game) {
         //this->max_bet_in_round = max_bet_in_round;
@@ -532,10 +534,12 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
         if(*round == CardsOnTable::PREFLOP) {
 
             if(is_hand_in_top_10()) {
-                if ((double)(max_bet_in_round + 2 * raise_size) / stack <
+                if ((double)(max_bet_in_round + MID_RAISE_COEFFICIENT *
+                             raise_size) / stack <
                         MAX_LIMIT_ON_PREFLOP) {
                     set_raise(max_bet_in_round, raise_size,
-                              max_bet_in_round + 2 * raise_size - my_bets_in_round);
+                              max_bet_in_round + MID_RAISE_COEFFICIENT *
+                              raise_size - my_bets_in_round);
                 } else if ((double)(max_bet_in_round + raise_size) / stack <
                            MAX_LIMIT_ON_PREFLOP) {
                     set_raise(max_bet_in_round, raise_size,
@@ -575,10 +579,12 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
                         // make bet
                         set_raise(max_bet_in_round, raise_size,
                                   3 * min_bet);
-                    } else if ((double)(max_bet_in_round + 3 * raise_size) / stack <
+                    } else if ((double)(max_bet_in_round + MAX_RAISE_COEFFICIENT *
+                                        raise_size) / stack <
                                MAX_LIMIT_ON_POSTFLOP) {
                         set_raise(max_bet_in_round, raise_size,
-                                  max_bet_in_round + 3 * raise_size - my_bets_in_round);
+                                  max_bet_in_round + MAX_RAISE_COEFFICIENT *
+                                  raise_size - my_bets_in_round);
                     } else if ((double)(max_bet_in_round + raise_size) / stack <
                                MAX_LIMIT_ON_POSTFLOP) {
                         set_raise(max_bet_in_round, raise_size,
@@ -620,10 +626,12 @@ Player::action_t ComputerPlayer::action(chips_t max_bet_in_round, chips_t raise_
                         // make bet
                         set_raise(max_bet_in_round, raise_size,
                                   3 * min_bet);
-                    } else if ((double)(max_bet_in_round + 3 * raise_size) / stack <
+                    } else if ((double)(max_bet_in_round + MAX_RAISE_COEFFICIENT *
+                                        raise_size) / stack <
                                MAX_LIMIT_ON_POSTFLOP) {
                         set_raise(max_bet_in_round, raise_size,
-                                  max_bet_in_round + 3 * raise_size - my_bets_in_round);
+                                  max_bet_in_round + MAX_RAISE_COEFFICIENT *
+                                  raise_size - my_bets_in_round);
                     } else if ((double)(max_bet_in_round + raise_size) / stack <
                                MAX_LIMIT_ON_POSTFLOP) {
                         set_raise(max_bet_in_round, raise_size,

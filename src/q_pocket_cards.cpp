@@ -52,4 +52,3 @@ void QPocketCards::show_hand()
     emit flip_cards(pocket_cards, hand_images);
     QApplication::processEvents();
 }
-

@@ -15,7 +15,8 @@
 #-------------------------------------------------
 
 QT       += core gui\
-            multimedia
+            multimedia\
+            declarative
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -59,6 +60,9 @@ HEADERS  += src/mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-CONFIG += console
+#CONFIG += console
 
 QMAKE_CXXFLAGS += -std=c++11
+
+DISTFILES += \
+    res/qml/flip.qml

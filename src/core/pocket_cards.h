@@ -25,7 +25,7 @@ public:
     PocketCards(QObject *parent = 0);
     virtual ~PocketCards();
 
-    virtual void set_card(const Card *c);
+    virtual void set_card(const Card *card);
     virtual void reset_pocket_cards();
     virtual void show_hand();
 

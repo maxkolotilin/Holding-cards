@@ -88,20 +88,24 @@ void Game::start_new_deal()
     deal_cards();
 
     round = cards_on_table->set_preflop();
-    add_to_pot(start_trading());    
+    add_to_pot(start_trading());
+    reset_bets();
 
     // if 2 or more players - continue deal
     if (number_of_folded != number_of_players - 1) {
         round = cards_on_table->set_flop(deck);
         add_to_pot(start_trading());
+        reset_bets();
 
         if (number_of_folded != number_of_players - 1) {
             round = cards_on_table->set_turn(deck);
             add_to_pot(start_trading());
+            reset_bets();
 
             if (number_of_folded != number_of_players - 1) {
                 round = cards_on_table->set_river(deck);
                 add_to_pot(start_trading());
+                reset_bets();
 
             }
         }
@@ -163,7 +167,6 @@ chips_t Game::start_trading()
         }
         next_player(current_player);
     }
-    reset_bets();
 
     return total_bets_in_round;
 }

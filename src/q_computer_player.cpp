@@ -100,7 +100,13 @@ QComputerPlayer::action_t QComputerPlayer::action(chips_t max_bet_in_round,
     bar->setAutoFillBackground(true);
     QApplication::processEvents();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(DELAY));
+    // delay
+    QTimer timer;
+    QEventLoop event_loop;
+    connect(&timer, SIGNAL(timeout()), &event_loop, SLOT(quit()));
+    timer.start(DELAY);
+    event_loop.exec();
+    disconnect(&timer, SIGNAL(timeout()), &event_loop, SLOT(quit()));
 
     // unfocus
     bar->setAutoFillBackground(false);

@@ -54,17 +54,17 @@ public:
         return get_face_name() + " of " + get_suit_name();
     }
 
-    bool operator < (const Card &c) const
+    bool operator < (const Card &card) const
     {
-        return get_face() < c.get_face();
+        return get_face() < card.get_face();
     }
-    bool operator > (const Card &c) const
+    bool operator > (const Card &card) const
     {
-        return get_face() > c.get_face();
+        return get_face() > card.get_face();
     }
-    bool operator == (const Card &c) const
+    bool operator == (const Card &card) const
     {
-        return get_face() == c.get_face();
+        return get_face() == card.get_face();
     }
 
     // next function is required for std::sort()

@@ -20,16 +20,21 @@
 #include <QVector>
 #include <QPixmap>
 #include <QSound>
-#include <QPainter>
 #include <QEventLoop>
 #include <QPropertyAnimation>
 #include <QApplication>
+#include <QDeclarativeImageProvider>
+#include <QDeclarativeView>
+#include <QDeclarativeContext>
+#include <QDeclarativeEngine>
+#include <QTimer>
+
 #include <exception>
 #include "src/core/evaluator.h"
 
 class SoundKeeper;
 
-class ImageKeeper : public QObject
+class ImageKeeper : public QObject, QDeclarativeImageProvider
 {
     Q_OBJECT
 public:
@@ -38,15 +43,18 @@ public:
     typedef enum { BACK, BLANK, TABLE, BAR_BACKGROUND, DEALER_PUCK, BIG_BLIND_PUCK,
                    SMALL_BLIND_PUCK, WINNER } picture_index_t;
     static const int NUMBER_OF_PICTURES = 8;
-    static const int ANIMATION_DURATION = 333;    // in ms
+    static const int DEAL_ANIMATION_DURATION = 333;    // in ms
+    static const int FLIP_ANIMATION_DURATION = 333;    // in ms
+    static const int DEFAULT_CARD_HEIGHT = 130;
+    static const int DEFAULT_CARD_WIDTH = 90;
 
-    ImageKeeper(QWidget *main_window, QLabel *animated_card,
-                         SoundKeeper *sk, QObject *parent = 0);
+    ImageKeeper(QWidget *main_window, QLabel *animated_card, SoundKeeper *sk,
+                QObject *parent = 0);
     ~ImageKeeper();
 
     void load_pictures(/*choice_t choice = VAR_1*/);   // throws exception
     void scale_cards(int width = DEFAULT_CARD_WIDTH,
-                        int height = DEFAULT_CARD_HEIGHT);
+                     int height = DEFAULT_CARD_HEIGHT);
 
     const QPixmap* get_card_image(const Card *card) const
     {
@@ -57,13 +65,18 @@ public:
         return pictures[index];
     }
 
+    // method from QDeclarativeImageProvider
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+
 private:
     QVector<QVector<QPixmap *>> cards_img;  // [face][suit]
     QVector<QPixmap *> pictures;
 
     const QString PATH = "res/pic/";
-    static const int DEFAULT_CARD_HEIGHT = 130;
-    static const int DEFAULT_CARD_WIDTH = 90;
+    const QString PATH_TO_QML = "res/qml/flip.qml";
+
+    int card_height;
+    int card_width;
 
     QEventLoop *event_loop;
     QLabel *animated_card;
@@ -71,6 +84,8 @@ private:
     QWidget *main_window;
 
     SoundKeeper *sound_keeper;
+
+    void prepare_view(QDeclarativeView *view, const Card *card);
 
 signals:
     void deal_card(QLabel *card);

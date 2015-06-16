@@ -20,9 +20,8 @@
 #include <QPalette>
 #include <QLabel>
 #include <QTimer>
-#include <thread>
-#include <chrono>
 #include <QApplication>
+#include <QEventLoop>
 #include "src/core/player.h"
 #include "keepers.h"
 
