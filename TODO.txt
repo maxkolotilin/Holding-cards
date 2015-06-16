@@ -3,7 +3,6 @@
 run game in other thread
 add normal buttons
 add customization
-add flip animation
 --------------------------------
 AI:
     //    add check_position
