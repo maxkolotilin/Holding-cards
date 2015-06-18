@@ -91,7 +91,7 @@ chips_t QComputerPlayer::blind(blind_t type)
     return blind;
 }
 
-const int QComputerPlayer::DELAY;
+int QComputerPlayer::delay;
 
 QComputerPlayer::action_t QComputerPlayer::action(chips_t max_bet_in_round,
                                                   chips_t raise_size)
@@ -104,7 +104,7 @@ QComputerPlayer::action_t QComputerPlayer::action(chips_t max_bet_in_round,
     QTimer timer;
     QEventLoop event_loop;
     connect(&timer, SIGNAL(timeout()), &event_loop, SLOT(quit()));
-    timer.start(DELAY);
+    timer.start(delay);
     event_loop.exec();
     disconnect(&timer, SIGNAL(timeout()), &event_loop, SLOT(quit()));
 

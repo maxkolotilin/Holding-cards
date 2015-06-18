@@ -37,7 +37,10 @@ public:
                     QObject *parent = 0);
     ~QComputerPlayer();
 
-    static const int DELAY = 1333; // ms
+    static const int MIN_DELAY = 250; // ms
+    static void update_delay(int new_delay) {
+        delay = new_delay;
+    }
 
     action_t action(chips_t max_bet_in_round, chips_t raise_size);
     chips_t blind(blind_t type);
@@ -67,6 +70,8 @@ private:
     QLabel *puck_label;
 
     SoundKeeper *sound_keeper;
+
+    static int delay;
 
 signals:
     void update_stack(int amount);

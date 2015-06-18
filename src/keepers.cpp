@@ -39,6 +39,8 @@ ImageKeeper::ImageKeeper(QWidget *main_window, QLabel *animated_card,
 
     card_width = DEFAULT_CARD_WIDTH;
     card_height = DEFAULT_CARD_HEIGHT;
+    deal_animation_duration = MIN_DEAL_ANIMATION_DURATION;
+    flip_animation_duration = MIN_FLIP_ANIMATION_DURATION;
 }
 
 ImageKeeper::~ImageKeeper()
@@ -176,7 +178,7 @@ void ImageKeeper::flip_cards(vector<const Card *> &cards,
             flip_animation_views[i]->rootContext()->setContextProperty("switcher",
                                                                        flip_switcher);
         }
-        timer.start(FLIP_ANIMATION_DURATION);
+        timer.start(flip_animation_duration);
         event_loop->exec();
 
         foreach (QDeclarativeView *view, flip_animation_views) {
@@ -211,7 +213,7 @@ void ImageKeeper::flip_card(const Card *card, QLabel *card_image)
     bool flip_switcher = true;
     flip_animation_view->rootContext()->setContextProperty("switcher",
                                                           flip_switcher);
-    timer.start(FLIP_ANIMATION_DURATION);
+    timer.start(flip_animation_duration);
     event_loop->exec();
 
     card_image->setPixmap(*get_card_image(card));
@@ -228,7 +230,7 @@ void ImageKeeper::deal_card_animation(QLabel *card)
 
     const QPoint old_pos = animated_card->pos();
 
-    anim.setDuration(DEAL_ANIMATION_DURATION);
+    anim.setDuration(deal_animation_duration);
     anim.setStartValue(animated_card->pos());
     anim.setEndValue(card->mapTo(main_window, QPoint(0, 0)));
     anim.setEasingCurve(QEasingCurve::InBack);
@@ -236,7 +238,7 @@ void ImageKeeper::deal_card_animation(QLabel *card)
     connect(&anim, SIGNAL(finished()), event_loop, SLOT(quit()));
     anim.start();
     sound_keeper->play_deal_card_sound();
-    event_loop->exec();
+    event_loop->exec();    
     anim.disconnect();
 
     animated_card->move(old_pos);
@@ -269,6 +271,16 @@ void ImageKeeper::set_winner_image(QLabel *message)
     }
 
     message->setPixmap(*pictures[WINNER]);
+}
+
+void ImageKeeper::update_deal_animation_duration(int new_duration)
+{
+    deal_animation_duration = new_duration;
+}
+
+void ImageKeeper::update_flip_animation_duration(int new_duration)
+{
+    flip_animation_duration = new_duration;
 }
 
 //------------------------------------------

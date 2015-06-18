@@ -43,8 +43,8 @@ public:
     typedef enum { BACK, BLANK, TABLE, BAR_BACKGROUND, DEALER_PUCK, BIG_BLIND_PUCK,
                    SMALL_BLIND_PUCK, WINNER } picture_index_t;
     static const int NUMBER_OF_PICTURES = 8;
-    static const int DEAL_ANIMATION_DURATION = 333;    // in ms
-    static const int FLIP_ANIMATION_DURATION = 333;    // in ms
+    static const int MIN_DEAL_ANIMATION_DURATION = 80;    // in ms
+    static const int MIN_FLIP_ANIMATION_DURATION = 100;    // in ms
     static const int DEFAULT_CARD_HEIGHT = 130;
     static const int DEFAULT_CARD_WIDTH = 90;
 
@@ -77,6 +77,8 @@ private:
 
     int card_height;
     int card_width;
+    int deal_animation_duration;
+    int flip_animation_duration;
 
     QEventLoop *event_loop;
     QLabel *animated_card;
@@ -106,6 +108,9 @@ public slots:
     void clear_puck(QLabel *puck);
 
     void set_winner_image(QLabel *message);
+
+    void update_flip_animation_duration(int new_duration);
+    void update_deal_animation_duration(int new_duration);
 };
 
 class SoundKeeper : public QObject

@@ -54,6 +54,7 @@ signals:
 
 private slots:
     void on_pushButton_clicked();
+    void update_speed(int slider_position);
     void keyPressEvent(QKeyEvent *pe);
     void mousePressEvent(QMouseEvent *me);
 };

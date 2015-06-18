@@ -190,14 +190,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->button_bar->hide();
     ui->deck_bar->hide();
     ui->animated_card->hide();
+    ui->speed_bar->hide();
+
     ui->animated_card->move(ui->deck_label->mapToGlobal(ui->deck_label->pos()));
+
+    connect(ui->speed_slider, SIGNAL(valueChanged(int)),
+            this, SLOT(update_speed(int)));
+
+    update_speed(ui->speed_slider->value());
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    disconnect();
     delete ik;
+    delete sk;
     delete game;
+    delete ui;
 }
 
 
@@ -206,6 +215,7 @@ void MainWindow::on_pushButton_clicked()
     ui->pushButton->hide();
     ui->button_bar->show();
     ui->deck_bar->show();
+    ui->speed_bar->show();
     foreach (Player *player, players_pool) {
         player->enable();
         game->add_player(player);
@@ -243,4 +253,20 @@ void MainWindow::mousePressEvent(QMouseEvent *me)
     me->type();   // dummy
 
     emit any_button_pushed();
+}
+
+void MainWindow::update_speed(int slider_position)
+{
+    const int DEAL_DURATION_STEP = 80;
+    const int FLIP_DURATION_STEP = 100;
+    const int DELAY_STEP = 200;
+
+    ik->update_deal_animation_duration(ImageKeeper::MIN_DEAL_ANIMATION_DURATION +
+                                       slider_position * DEAL_DURATION_STEP);
+    ik->update_flip_animation_duration(ImageKeeper::MIN_FLIP_ANIMATION_DURATION +
+                                       slider_position * FLIP_DURATION_STEP);
+    QComputerPlayer::update_delay(QComputerPlayer::MIN_DELAY +
+                                  slider_position * DELAY_STEP);
+
+    QApplication::processEvents();
 }
