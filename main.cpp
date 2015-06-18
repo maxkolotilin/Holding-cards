@@ -14,13 +14,12 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
+    
     try {
-        QApplication app(argc, argv);
         MainWindow window;
 
         window.show();
-
-        return app.exec();
     }
     catch(std::exception *exception) {
         QMessageBox::warning(new QWidget(), "Error",
@@ -28,4 +27,6 @@ int main(int argc, char *argv[])
                              " to the folder with executable file.");
         return 1;
     }
+    
+    return app.exec();
 }
